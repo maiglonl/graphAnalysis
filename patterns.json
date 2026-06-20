@@ -1228,6 +1228,275 @@
         "stop": "Dentro do retângulo oposto ao rompimento",
         "alvo": "Projeção da altura do retângulo a partir do rompimento"
       }
+    },
+    {
+      "id": "gap_ruptura",
+      "nome": "Gap de Ruptura",
+      "nome_en": "Breakaway Gap",
+      "tipo": "gap",
+      "categoria": "reversão",
+      "descricao": "Gap que ocorre no rompimento de uma zona de consolidação ou padrão gráfico. Marca o início de uma nova tendência com forte convicção direcional.",
+      "formula": "Abertura do candle atual completamente fora do range do candle anterior; ocorre em rompimento de suporte/resistência ou padrão gráfico; volume muito acima da média",
+      "pre_condicao": "Zona de consolidação, suporte ou resistência precedendo o gap",
+      "tendencia_anterior": "lateral",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de início de tendência; mais relevante em D1",
+      "timeframes_recomendados": [
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Raro em mercados 24h (forex, cripto) por ausência de sessões definidas",
+        "Gaps preenchidos invalidam o padrão — monitorar reteste"
+      ],
+      "confirmacao": "Volume muito acima da média; gap não preenchido nas sessões seguintes",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da abertura do gap (para alta) ou abaixo do fechamento anterior (para baixa)",
+        "stop": "Abaixo do topo do gap (para compra) para evitar preenchimento total",
+        "alvo": "Próxima resistência relevante; trailing stop recomendado"
+      }
+    },
+    {
+      "id": "gap_continuacao",
+      "nome": "Gap de Continuação",
+      "nome_en": "Runaway Gap",
+      "tipo": "gap",
+      "categoria": "continuação",
+      "descricao": "Gap que ocorre no meio de uma tendência estabelecida, confirmando sua continuação. Também chamado de Gap de Medição — seu ponto marca aproximadamente metade do movimento total.",
+      "formula": "Gap no meio de tendência definida; volume moderado (menor que Gap de Ruptura); ocorre longe de resistências/suportes relevantes",
+      "pre_condicao": "Tendência definida e ativa sem sinais de exaustão",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de meio de tendência; útil para projeção de alvo",
+      "timeframes_recomendados": [
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Difícil distinguir do Gap de Exaustão sem contexto adicional",
+        "Menos relevante em mercados 24h"
+      ],
+      "confirmacao": "Tendência continua sem preenchimento imediato do gap",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Na direção da tendência após abertura do gap",
+        "stop": "Abaixo do gap (para compra); preenchimento total invalida o padrão",
+        "alvo": "Projeção: distância percorrida até o gap replicada a partir do gap"
+      }
+    },
+    {
+      "id": "gap_exaustao",
+      "nome": "Gap de Exaustão",
+      "nome_en": "Exhaustion Gap",
+      "tipo": "gap",
+      "categoria": "reversão",
+      "descricao": "Gap que ocorre no final de uma tendência prolongada, representando o último esforço dos compradores (em alta) ou vendedores (em baixa). Geralmente seguido de reversão ou preenchimento.",
+      "formula": "Gap no final de tendência longa; volume muito alto; preço rapidamente reverte e preenche o gap nos dias seguintes",
+      "pre_condicao": "Tendência prolongada em estágio avançado; sinais de sobrecompra/sobrevenda",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de exaustão de tendência",
+      "timeframes_recomendados": [
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Semelhante ao Gap de Continuação — confirmação vem apenas com preenchimento posterior",
+        "Requer monitoramento nas sessões seguintes para confirmar"
+      ],
+      "confirmacao": "Preenchimento do gap nas sessões seguintes; volume decrescente após o gap",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Apenas após confirmação do preenchimento do gap; operar na direção reversa",
+        "stop": "Acima do ponto mais alto do gap (para venda)",
+        "alvo": "Retorno ao nível anterior ao gap"
+      }
+    },
+    {
+      "id": "ilha_reversao",
+      "nome": "Ilha de Reversão",
+      "nome_en": "Island Reversal",
+      "tipo": "gap",
+      "categoria": "reversão",
+      "descricao": "Padrão formado por dois gaps em sentidos opostos isolando uma região de preço (a 'ilha'). O segundo gap reverte a direção do primeiro, sinalizando reversão forte.",
+      "formula": "Gap de alta seguido de consolidação em nível elevado seguido de Gap de baixa abaixo do primeiro gap; a região isolada é a 'ilha'",
+      "pre_condicao": "Tendência de alta ou baixa em estágio avançado",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal raro de reversão forte; extremamente confiável quando ocorre",
+      "timeframes_recomendados": [
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Muito raro — formação pode levar dias a semanas para completar",
+        "Irrelevante em mercados 24h sem sessões definidas"
+      ],
+      "confirmacao": "Segundo gap oposto fechando abaixo/acima do primeiro gap",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "No fechamento do segundo gap ou abertura da sessão seguinte",
+        "stop": "Acima do topo da ilha",
+        "alvo": "Projeção equivalente à altura da ilha a partir do segundo gap"
+      }
+    },
+    {
+      "id": "climax_volume",
+      "nome": "Clímax de Volume",
+      "nome_en": "Volume Climax",
+      "tipo": "volume",
+      "categoria": "reversão",
+      "descricao": "Spike de volume extremamente acima da média coincidindo com movimento brusco de preço. Indica exaustão dos participantes e possível reversão iminente.",
+      "formula": "Volume ≥ 3× média dos últimos 20 períodos; candle de movimento expressivo; frequentemente acompanha topos ou fundos de mercado",
+      "pre_condicao": "Tendência prolongada; preço em zona extrema (sobrecompra/sobrevenda)",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Sinal de alerta de exaustão; confirmar com padrão de candle ou reversão",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Pode ocorrer no meio de tendências fortes sem reversão",
+        "Requer contexto técnico para interpretar — isolado, tem baixa precisão"
+      ],
+      "confirmacao": "Candle de reversão no período seguinte; preço fechando na direção oposta ao movimento do clímax",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Após confirmação direcional no candle seguinte ao clímax",
+        "stop": "Abaixo da mínima (para compra) ou acima da máxima (para venda) do candle de clímax",
+        "alvo": "Próximo nível de suporte/resistência relevante"
+      }
+    },
+    {
+      "id": "volume_seco",
+      "nome": "Volume Seco",
+      "nome_en": "Dry-Up Volume",
+      "tipo": "volume",
+      "categoria": "indefinição",
+      "descricao": "Volume progressivamente decrescente durante consolidação ou correção, indicando ausência de pressão vendedora/compradora. Frequentemente precede rompimento na direção da tendência anterior.",
+      "formula": "Volume médio dos últimos 5 períodos ≤ 50% da média de 20 períodos; preço em range estreito ou em correção suave",
+      "pre_condicao": "Após tendência definida ou rompimento; preço em zona de consolidação",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Indicador de contexto — não opera isoladamente; confirma padrões gráficos",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Menos relevante em cripto e forex (volume nem sempre confiável nesses mercados)",
+        "Isoladamente não define direção; requer padrão gráfico para operação"
+      ],
+      "confirmacao": "Rompimento do range de consolidação com retorno de volume acima da média",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Após rompimento do range com aumento de volume",
+        "stop": "Dentro da zona de consolidação",
+        "alvo": "Projeção baseada no padrão gráfico associado"
+      }
+    },
+    {
+      "id": "obv_pattern",
+      "nome": "Padrão OBV",
+      "nome_en": "On-Balance Volume Pattern",
+      "tipo": "volume",
+      "categoria": "continuação",
+      "descricao": "O OBV (On-Balance Volume) acumula volume positivo em dias de alta e negativo em dias de baixa. Quando o OBV diverge do preço ou confirma novos topos/fundos, gera sinais de força ou fraqueza.",
+      "formula": "OBV = OBV_anterior + Volume (se Fechamento > Fechamento_anterior) ou - Volume (se Fechamento < Fechamento_anterior); OBV fazendo novos topos junto com preço = confirmação; OBV não confirmando novo topo = divergência baixista",
+      "pre_condicao": "Qualquer tendência; OBV deve ser analisado em conjunto com o preço",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Indicador de confirmação de tendência e divergência",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Dados de volume em forex e cripto são menos confiáveis",
+        "OBV é um indicador derivado — não substitui análise do preço"
+      ],
+      "confirmacao": "OBV confirmando direção do preço (novos topos/fundos simultâneos)",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Operar na direção da divergência confirmada; divergência baixista = venda; divergência altista = compra",
+        "stop": "Acima do último topo (para venda) ou abaixo do último fundo (para compra)",
+        "alvo": "Próximo nível de suporte/resistência relevante"
+      }
+    },
+    {
+      "id": "divergencia_volume",
+      "nome": "Divergência de Volume",
+      "nome_en": "Volume Divergence",
+      "tipo": "volume",
+      "categoria": "reversão",
+      "descricao": "Ocorre quando o preço atinge novo topo/fundo mas o volume é menor que no movimento anterior, indicando falta de convicção e possível reversão.",
+      "formula": "Novo topo de preço com volume < volume do topo anterior (divergência baixista); ou novo fundo com volume < volume do fundo anterior (divergência altista)",
+      "pre_condicao": "Tendência definida com ao menos dois topos ou fundos comparáveis",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Sinal de alerta; requer confirmação por padrão de candle ou rompimento",
+      "timeframes_recomendados": [
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Volume em forex e cripto descentralizado pode não refletir realidade",
+        "Divergência pode persistir por vários períodos antes da reversão"
+      ],
+      "confirmacao": "Padrão de reversão de candle ou rompimento de suporte/resistência confirmando a divergência",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Após candle de reversão confirmando a divergência",
+        "stop": "Além do extremo que gerou a divergência",
+        "alvo": "Retração de Fibonacci 50-61.8% do movimento analisado"
+      }
     }
   ]
 }
