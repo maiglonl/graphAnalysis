@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["patterns"],
+  "properties": {
+    "patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "nome", "nome_en", "tipo", "categoria", "descricao",
+          "formula", "pre_condicao", "tendencia_anterior", "tendencia_resultante",
+          "escopo", "timeframes_recomendados", "mercados", "confiabilidade",
+          "limitacoes", "confirmacao", "sugestao"
+        ],
+        "properties": {
+          "id":                    { "type": "string", "pattern": "^[a-z0-9_]+$" },
+          "nome":                  { "type": "string", "minLength": 1 },
+          "nome_en":               { "type": "string", "minLength": 1 },
+          "tipo":                  { "type": "string", "enum": ["candlestick", "grafico", "gap", "volume"] },
+          "categoria":             { "type": "string", "enum": ["reversão", "continuação", "indefinição", "bilateral"] },
+          "descricao":             { "type": "string", "minLength": 1 },
+          "formula":               { "type": "string", "minLength": 1 },
+          "pre_condicao":          { "type": "string", "minLength": 1 },
+          "tendencia_anterior":    { "type": "string", "enum": ["alta", "baixa", "lateral", "qualquer"] },
+          "tendencia_resultante":  { "type": "string", "enum": ["alta", "baixa", "lateral", "indefinida"] },
+          "escopo":                { "type": "string", "minLength": 1 },
+          "timeframes_recomendados": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "enum": ["M1", "M5", "M15", "M30", "H1", "H4", "D1", "W1", "MN"] }
+          },
+          "mercados": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "enum": ["acoes", "forex", "futuros", "cripto"] }
+          },
+          "confiabilidade": { "type": "string", "enum": ["baixa", "média", "alta"] },
+          "limitacoes": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+          "confirmacao": { "type": "string", "minLength": 1 },
+          "sugestao": {
+            "type": "object",
+            "required": ["acao", "entrada", "stop", "alvo"],
+            "properties": {
+              "acao":   { "type": "string", "enum": ["compra", "venda", "aguardar"] },
+              "entrada": { "type": "string", "minLength": 1 },
+              "stop":    { "type": "string", "minLength": 1 },
+              "alvo":    { "type": "string", "minLength": 1 }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
