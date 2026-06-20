@@ -1,1 +1,654 @@
-{"patterns": []}
+{
+  "patterns": [
+    {
+      "id": "doji",
+      "nome": "Doji",
+      "nome_en": "Doji",
+      "tipo": "candlestick",
+      "categoria": "indefinição",
+      "descricao": "Candle com abertura e fechamento praticamente iguais, formando um corpo muito pequeno ou inexistente. Reflete equilíbrio entre compradores e vendedores.",
+      "formula": "abs(Fechamento - Abertura) ≤ 0.1% do range (Máxima - Mínima)",
+      "pre_condicao": "Pode aparecer em qualquer tendência; mais relevante após movimento prolongado",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Sinal de curto prazo; confirmar com candle seguinte",
+      "timeframes_recomendados": [
+        "M15",
+        "M30",
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Isoladamente não define direção — requer confirmação no candle seguinte",
+        "Em mercados laterais perde relevância pois aparece com frequência"
+      ],
+      "confirmacao": "Candle seguinte com fechamento claro em uma direção, preferencialmente com volume acima da média",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Após confirmação direcional no candle seguinte",
+        "stop": "Abaixo da mínima (para compra) ou acima da máxima (para venda) do Doji",
+        "alvo": "Próximo nível de suporte/resistência relevante"
+      }
+    },
+    {
+      "id": "martelo",
+      "nome": "Martelo",
+      "nome_en": "Hammer",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Candle com corpo pequeno no topo e sombra inferior longa (ao menos 2x o corpo), indicando que vendedores pressionaram o preço mas compradores retomaram o controle.",
+      "formula": "Sombra inferior ≥ 2× corpo; sombra superior ≤ 10% do corpo; aparece em fundo de tendência de baixa",
+      "pre_condicao": "Tendência de baixa prévia consolidada",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Requer confirmação no candle seguinte",
+        "Menos confiável sem suporte próximo abaixo"
+      ],
+      "confirmacao": "Candle seguinte de alta fechando acima do corpo do martelo, com volume elevado",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do martelo, após confirmação",
+        "stop": "Abaixo da mínima do martelo",
+        "alvo": "Próxima resistência relevante; relação risco/retorno mínima de 1:2"
+      }
+    },
+    {
+      "id": "homem_enforcado",
+      "nome": "Homem Enforcado",
+      "nome_en": "Hanging Man",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Visualmente idêntico ao Martelo, mas aparece no topo de uma tendência de alta. Indica que vendedores começaram a pressionar, sinalizando possível reversão de baixa.",
+      "formula": "Sombra inferior ≥ 2× corpo; sombra superior ≤ 10% do corpo; aparece em topo de tendência de alta",
+      "pre_condicao": "Tendência de alta prévia consolidada",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Requer confirmação obrigatória — isoladamente tem baixa precisão",
+        "Confundido facilmente com o Martelo se o contexto não for avaliado"
+      ],
+      "confirmacao": "Candle seguinte de baixa fechando abaixo do corpo, com volume elevado",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do candle de confirmação",
+        "stop": "Acima da máxima do Homem Enforcado",
+        "alvo": "Próximo suporte relevante"
+      }
+    },
+    {
+      "id": "estrela_cadente",
+      "nome": "Estrela Cadente",
+      "nome_en": "Shooting Star",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Candle com corpo pequeno na base e longa sombra superior, indicando que compradores empurraram o preço mas vendedores dominaram o fechamento.",
+      "formula": "Sombra superior ≥ 2× corpo; sombra inferior ≤ 10% do corpo; aparece em topo de tendência de alta",
+      "pre_condicao": "Tendência de alta prévia; idealmente próximo a resistência",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de curto prazo",
+      "timeframes_recomendados": [
+        "M30",
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Mais confiável próximo a resistências históricas",
+        "Requer confirmação com candle de baixa subsequente"
+      ],
+      "confirmacao": "Candle seguinte de baixa com fechamento abaixo do corpo da Estrela Cadente",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do candle de confirmação",
+        "stop": "Acima da máxima da Estrela Cadente",
+        "alvo": "Próximo suporte relevante"
+      }
+    },
+    {
+      "id": "martelo_invertido",
+      "nome": "Martelo Invertido",
+      "nome_en": "Inverted Hammer",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Candle com sombra superior longa e corpo pequeno na base, aparecendo em fundo de tendência de baixa. Indica tentativa dos compradores de retomar controle.",
+      "formula": "Sombra superior ≥ 2× corpo; sombra inferior ≤ 10% do corpo; aparece em fundo de tendência de baixa",
+      "pre_condicao": "Tendência de baixa prévia; idealmente próximo a suporte",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de curto prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Sinal mais fraco que o Martelo; requer confirmação obrigatória",
+        "Menor confiabilidade sem suporte técnico abaixo"
+      ],
+      "confirmacao": "Candle seguinte de alta com fechamento acima do corpo do Martelo Invertido e volume acima da média",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do candle de confirmação",
+        "stop": "Abaixo da mínima do Martelo Invertido",
+        "alvo": "Próxima resistência relevante"
+      }
+    },
+    {
+      "id": "marubozu",
+      "nome": "Marubozu",
+      "nome_en": "Marubozu",
+      "tipo": "candlestick",
+      "categoria": "continuação",
+      "descricao": "Candle sem sombras (ou sombras mínimas), indicando domínio total de compradores (Marubozu de Alta) ou vendedores (Marubozu de Baixa) durante todo o período.",
+      "formula": "Sombra superior ≤ 0.1% e Sombra inferior ≤ 0.1% do corpo total",
+      "pre_condicao": "Funciona em qualquer tendência; mais poderoso após consolidação ou rompimento",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de força direcional imediata; confirma tendência vigente",
+      "timeframes_recomendados": [
+        "M5",
+        "M15",
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Em mercados de baixa liquidez pode aparecer por falta de negociações e não por força direcional",
+        "Não indica duração da tendência, apenas força pontual"
+      ],
+      "confirmacao": "Volume acima da média e sem reversão imediata no candle seguinte",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "No fechamento do Marubozu de Alta ou abertura do próximo candle",
+        "stop": "Abaixo da mínima do Marubozu",
+        "alvo": "Próxima resistência relevante; trailing stop recomendado"
+      }
+    },
+    {
+      "id": "spinning_top",
+      "nome": "Pião",
+      "nome_en": "Spinning Top",
+      "tipo": "candlestick",
+      "categoria": "indefinição",
+      "descricao": "Candle com corpo pequeno centralizado e sombras superior e inferior longas e aproximadamente iguais. Indica indecisão e equilíbrio entre compradores e vendedores.",
+      "formula": "Corpo ≤ 30% do range total; sombras superior e inferior ambas presentes e significativas",
+      "pre_condicao": "Mais relevante após tendência prolongada ou em zona de suporte/resistência",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Sinal de alerta de possível reversão ou pausa na tendência",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "baixa",
+      "limitacoes": [
+        "Isoladamente tem baixo valor preditivo",
+        "Em tendências fortes pode ser apenas pausa sem significado de reversão"
+      ],
+      "confirmacao": "Candle seguinte com fechamento claro acima ou abaixo do corpo do Spinning Top",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Apenas após confirmação direcional no candle seguinte",
+        "stop": "Abaixo da mínima ou acima da máxima do Spinning Top conforme direção",
+        "alvo": "Próximo nível de suporte ou resistência"
+      }
+    },
+    {
+      "id": "engolfo_alta",
+      "nome": "Engolfo de Alta",
+      "nome_en": "Bullish Engulfing",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de dois candles: primeiro candle de baixa seguido de candle de alta cujo corpo engloba completamente o corpo do candle anterior. Sinaliza reversão de queda para alta.",
+      "formula": "Abertura[2] < Fechamento[1] E Fechamento[2] > Abertura[1]; candle[2] é de alta",
+      "pre_condicao": "Tendência de baixa prévia; idealmente em zona de suporte",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de médio prazo; mais confiável em D1 ou acima",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Menor eficácia em timeframes muito baixos (M1, M5) por ruído",
+        "Requer volume crescente no candle de engolfo para validação"
+      ],
+      "confirmacao": "Volume do segundo candle superior ao do primeiro; preço mantendo-se acima da abertura do segundo candle",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do candle engolfo",
+        "stop": "Abaixo da mínima do candle engolfo",
+        "alvo": "Próxima resistência relevante; relação risco/retorno mínima 1:2"
+      }
+    },
+    {
+      "id": "engolfo_baixa",
+      "nome": "Engolfo de Baixa",
+      "nome_en": "Bearish Engulfing",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de dois candles: primeiro candle de alta seguido de candle de baixa cujo corpo engloba completamente o corpo do candle anterior. Sinaliza reversão de alta para queda.",
+      "formula": "Abertura[2] > Fechamento[1] E Fechamento[2] < Abertura[1]; candle[2] é de baixa",
+      "pre_condicao": "Tendência de alta prévia; idealmente em zona de resistência",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de médio prazo; mais confiável em D1 ou acima",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Menor eficácia em timeframes muito baixos por ruído",
+        "Requer volume crescente no candle de engolfo para validação"
+      ],
+      "confirmacao": "Volume do segundo candle superior ao do primeiro; preço mantendo-se abaixo da abertura do segundo candle",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do candle engolfo",
+        "stop": "Acima da máxima do candle engolfo",
+        "alvo": "Próximo suporte relevante"
+      }
+    },
+    {
+      "id": "harami_alta",
+      "nome": "Harami de Alta",
+      "nome_en": "Bullish Harami",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de dois candles: grande candle de baixa seguido de pequeno candle de alta cujo corpo está contido dentro do corpo do candle anterior. Indica desaceleração da queda.",
+      "formula": "Corpo do candle[2] contido dentro do corpo do candle[1]; candle[1] de baixa, candle[2] de alta",
+      "pre_condicao": "Tendência de baixa; preferencialmente em suporte",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de curto prazo; mais confirmação necessária que o Engolfo",
+      "timeframes_recomendados": [
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Sinal mais fraco que o Engolfo; requer confirmação adicional",
+        "Quanto menor o segundo candle, mais incerteza"
+      ],
+      "confirmacao": "Terceiro candle de alta fechando acima da máxima do segundo candle",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do segundo candle após confirmação",
+        "stop": "Abaixo da mínima do primeiro candle",
+        "alvo": "Próxima resistência relevante"
+      }
+    },
+    {
+      "id": "harami_baixa",
+      "nome": "Harami de Baixa",
+      "nome_en": "Bearish Harami",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de dois candles: grande candle de alta seguido de pequeno candle de baixa cujo corpo está contido dentro do corpo do candle anterior. Indica desaceleração da alta.",
+      "formula": "Corpo do candle[2] contido dentro do corpo do candle[1]; candle[1] de alta, candle[2] de baixa",
+      "pre_condicao": "Tendência de alta; preferencialmente em resistência",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de curto prazo",
+      "timeframes_recomendados": [
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Requer confirmação; isoladamente pouco confiável",
+        "Eficácia reduzida em mercados com tendência muito forte"
+      ],
+      "confirmacao": "Terceiro candle de baixa fechando abaixo da mínima do segundo candle",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do segundo candle após confirmação",
+        "stop": "Acima da máxima do primeiro candle",
+        "alvo": "Próximo suporte relevante"
+      }
+    },
+    {
+      "id": "estrela_manha",
+      "nome": "Estrela da Manhã",
+      "nome_en": "Morning Star",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de três candles: grande candle de baixa, pequeno candle de indecisão (gap abaixo) e grande candle de alta. Sinaliza reversão de fundo.",
+      "formula": "Candle[1] de baixa forte; Candle[2] pequeno com gap de baixa; Candle[3] de alta fechando acima do meio do Candle[1]",
+      "pre_condicao": "Tendência de baixa consolidada; idealmente em suporte relevante",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de médio prazo; muito confiável em D1 e W1",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Gaps podem não aparecer em mercados 24h (cripto, forex) — corpo pequeno substitui",
+        "Requer volume crescente no terceiro candle"
+      ],
+      "confirmacao": "Terceiro candle fechando acima de 50% do primeiro candle, com volume acima da média",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do terceiro candle",
+        "stop": "Abaixo da mínima do segundo candle",
+        "alvo": "Próxima resistência relevante; relação risco/retorno mínima 1:2"
+      }
+    },
+    {
+      "id": "estrela_tarde",
+      "nome": "Estrela da Tarde",
+      "nome_en": "Evening Star",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de três candles: grande candle de alta, pequeno candle de indecisão (gap acima) e grande candle de baixa. Sinaliza reversão de topo.",
+      "formula": "Candle[1] de alta forte; Candle[2] pequeno com gap de alta; Candle[3] de baixa fechando abaixo do meio do Candle[1]",
+      "pre_condicao": "Tendência de alta consolidada; idealmente em resistência relevante",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de médio prazo",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Gaps podem não aparecer em mercados 24h — corpo pequeno substitui",
+        "Requer volume crescente no terceiro candle"
+      ],
+      "confirmacao": "Terceiro candle fechando abaixo de 50% do primeiro candle, com volume acima da média",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do terceiro candle",
+        "stop": "Acima da máxima do segundo candle",
+        "alvo": "Próximo suporte relevante"
+      }
+    },
+    {
+      "id": "tres_soldados_brancos",
+      "nome": "Três Soldados Brancos",
+      "nome_en": "Three White Soldiers",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Três candles consecutivos de alta com corpos longos, cada um abrindo dentro do corpo anterior e fechando progressivamente mais alto. Indica reversão forte de fundo.",
+      "formula": "Três candles de alta consecutivos; cada abertura ≥ corpo anterior; fechamentos progressivamente mais altos; sombras superiores pequenas",
+      "pre_condicao": "Após tendência de baixa ou período de consolidação",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de médio a longo prazo",
+      "timeframes_recomendados": [
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Aparecimento raro; quando ocorre após alta prolongada pode indicar exaustão e não reversão",
+        "Volume decrescente nos três candles enfraquece o sinal"
+      ],
+      "confirmacao": "Volume crescente nos três candles; sem sombras superiores longas",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do terceiro candle ou pullback ao topo do segundo candle",
+        "stop": "Abaixo da mínima do primeiro candle",
+        "alvo": "Projeção de Fibonacci ou próxima resistência histórica"
+      }
+    },
+    {
+      "id": "tres_corvos_negros",
+      "nome": "Três Corvos Negros",
+      "nome_en": "Three Black Crows",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Três candles consecutivos de baixa com corpos longos, cada um abrindo dentro do corpo anterior e fechando progressivamente mais baixo. Indica reversão forte de topo.",
+      "formula": "Três candles de baixa consecutivos; cada abertura ≤ corpo anterior; fechamentos progressivamente mais baixos; sombras inferiores pequenas",
+      "pre_condicao": "Após tendência de alta ou período de topo",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de médio a longo prazo",
+      "timeframes_recomendados": [
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Após queda prolongada pode indicar exaustão vendedora",
+        "Volume decrescente enfraquece o sinal"
+      ],
+      "confirmacao": "Volume crescente nos três candles; sombras inferiores pequenas",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do terceiro candle ou pullback à base do segundo candle",
+        "stop": "Acima da máxima do primeiro candle",
+        "alvo": "Projeção de Fibonacci ou próximo suporte histórico"
+      }
+    },
+    {
+      "id": "tweezer_top",
+      "nome": "Tweezer Top",
+      "nome_en": "Tweezer Top",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Dois candles consecutivos com máximas praticamente idênticas em topo de tendência de alta. Indica dupla rejeição no mesmo nível de resistência.",
+      "formula": "Máxima[1] ≈ Máxima[2] (diferença ≤ 0.1%); candle[1] de alta, candle[2] de baixa; ocorre em topo de tendência",
+      "pre_condicao": "Tendência de alta prévia; máximas em zona de resistência relevante",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Sinal de reversão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Mais confiável quando as máximas coincidem com resistência histórica",
+        "Pouco eficaz em mercados sem respeito a níveis técnicos"
+      ],
+      "confirmacao": "Terceiro candle de baixa confirmando o movimento; volume crescente no segundo candle",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Abaixo da mínima do segundo candle",
+        "stop": "Acima da máxima compartilhada pelos dois candles",
+        "alvo": "Próximo suporte relevante"
+      }
+    },
+    {
+      "id": "tweezer_bottom",
+      "nome": "Tweezer Bottom",
+      "nome_en": "Tweezer Bottom",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Dois candles consecutivos com mínimas praticamente idênticas em fundo de tendência de baixa. Indica dupla rejeição no mesmo nível de suporte.",
+      "formula": "Mínima[1] ≈ Mínima[2] (diferença ≤ 0.1%); candle[1] de baixa, candle[2] de alta; ocorre em fundo de tendência",
+      "pre_condicao": "Tendência de baixa prévia; mínimas em zona de suporte relevante",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Mais confiável quando as mínimas coincidem com suporte histórico",
+        "Eficácia reduzida sem confirmação de volume"
+      ],
+      "confirmacao": "Terceiro candle de alta confirmando o movimento; volume crescente no segundo candle",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do segundo candle",
+        "stop": "Abaixo da mínima compartilhada pelos dois candles",
+        "alvo": "Próxima resistência relevante"
+      }
+    },
+    {
+      "id": "linha_perfurante",
+      "nome": "Linha Perfurante",
+      "nome_en": "Piercing Line",
+      "tipo": "candlestick",
+      "categoria": "reversão",
+      "descricao": "Padrão de dois candles: grande candle de baixa seguido de candle de alta que abre abaixo da mínima anterior e fecha acima do meio do corpo do primeiro candle.",
+      "formula": "Candle[2] abre abaixo de Mínima[1]; Fechamento[2] > (Abertura[1] + Fechamento[1]) / 2",
+      "pre_condicao": "Tendência de baixa; idealmente próximo a suporte",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Sinal de reversão de curto a médio prazo; versão menos forte que o Engolfo de Alta",
+      "timeframes_recomendados": [
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Quanto mais perto de 50% o fechamento, mais fraco o sinal",
+        "Requer confirmação no candle seguinte"
+      ],
+      "confirmacao": "Candle seguinte de alta fechando acima do segundo candle, com volume crescente",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Acima da máxima do segundo candle após confirmação",
+        "stop": "Abaixo da mínima do segundo candle",
+        "alvo": "Próxima resistência relevante"
+      }
+    }
+  ]
+}
