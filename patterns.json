@@ -649,6 +649,585 @@
         "stop": "Abaixo da mínima do segundo candle",
         "alvo": "Próxima resistência relevante"
       }
+    },
+    {
+      "id": "oco",
+      "nome": "Ombro-Cabeça-Ombro",
+      "nome_en": "Head and Shoulders",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Formação com três topos onde o central (cabeça) é mais alto que os laterais (ombros), com neckline conectando os fundos. Sinaliza reversão de alta para baixa.",
+      "formula": "Topo_esquerdo < Topo_central > Topo_direito; linha de pescoço conecta mínimas entre topos; rompimento abaixo da neckline confirma",
+      "pre_condicao": "Tendência de alta consolidada precedendo a formação",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Macro — padrão de médio a longo prazo; confiável a partir de H4",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Requer rompimento com volume abaixo da neckline para confirmação",
+        "O ombro direito mais alto que o esquerdo enfraquece o padrão",
+        "Falsos rompimentos comuns em mercados de alta liquidez"
+      ],
+      "confirmacao": "Fechamento abaixo da neckline com volume acima da média; reteste da neckline como resistência",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Rompimento abaixo da neckline ou reteste da neckline após rompimento",
+        "stop": "Acima da máxima do ombro direito",
+        "alvo": "Projeção da altura da cabeça (do topo ao neckline) a partir do ponto de rompimento"
+      }
+    },
+    {
+      "id": "oco_invertido",
+      "nome": "OCO Invertido",
+      "nome_en": "Inverse Head and Shoulders",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Espelho do OCO: três fundos onde o central (cabeça) é mais baixo que os laterais (ombros). Sinaliza reversão de baixa para alta.",
+      "formula": "Fundo_esquerdo > Fundo_central < Fundo_direito; neckline conecta topos entre fundos; rompimento acima confirma",
+      "pre_condicao": "Tendência de baixa consolidada precedendo a formação",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Macro — padrão de médio a longo prazo",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Requer rompimento com volume acima da neckline",
+        "Ombro direito mais baixo que o esquerdo enfraquece o padrão"
+      ],
+      "confirmacao": "Fechamento acima da neckline com volume acima da média",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima da neckline ou reteste como suporte",
+        "stop": "Abaixo da mínima do ombro direito",
+        "alvo": "Projeção da altura da cabeça a partir do rompimento"
+      }
+    },
+    {
+      "id": "topo_duplo",
+      "nome": "Topo Duplo",
+      "nome_en": "Double Top",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Dois topos em nível similar de preço separados por um vale, formando um 'M'. Indica falha dos compradores em superar resistência duas vezes, sinalizando reversão de baixa.",
+      "formula": "Topo1 ≈ Topo2 (diferença ≤ 3%); vale entre os topos; rompimento abaixo do vale confirma",
+      "pre_condicao": "Tendência de alta prévia; topos em zona de resistência relevante",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Padrão de médio prazo; válido a partir de H1",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Topos muito próximos no tempo podem ser apenas consolidação",
+        "Requer rompimento do vale com volume para confirmação"
+      ],
+      "confirmacao": "Fechamento abaixo do vale entre os dois topos, com volume crescente",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Rompimento abaixo do vale ou reteste do vale como resistência",
+        "stop": "Acima da máxima dos topos",
+        "alvo": "Projeção da altura do padrão (do topo ao vale) a partir do rompimento"
+      }
+    },
+    {
+      "id": "fundo_duplo",
+      "nome": "Fundo Duplo",
+      "nome_en": "Double Bottom",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Dois fundos em nível similar separados por um pico, formando um 'W'. Indica falha dos vendedores em superar suporte, sinalizando reversão de alta.",
+      "formula": "Fundo1 ≈ Fundo2 (diferença ≤ 3%); pico entre os fundos; rompimento acima do pico confirma",
+      "pre_condicao": "Tendência de baixa prévia; fundos em zona de suporte relevante",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Fundos muito próximos no tempo podem ser apenas lateralização",
+        "Requer rompimento do pico com volume"
+      ],
+      "confirmacao": "Fechamento acima do pico entre os dois fundos, com volume crescente",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima do pico ou reteste do pico como suporte",
+        "stop": "Abaixo da mínima dos fundos",
+        "alvo": "Projeção da altura do padrão a partir do rompimento"
+      }
+    },
+    {
+      "id": "topo_triplo",
+      "nome": "Topo Triplo",
+      "nome_en": "Triple Top",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Três topos em nível similar, com duas correções entre eles. Variação mais rara e mais confiável que o Topo Duplo. Indica forte resistência e reversão iminente.",
+      "formula": "Topo1 ≈ Topo2 ≈ Topo3 (diferença ≤ 3%); dois vales entre os topos; rompimento abaixo do vale mais baixo confirma",
+      "pre_condicao": "Tendência de alta prévia",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Padrão de médio a longo prazo; mais eficaz em D1 e acima",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Formação demorada — exige paciência para completar os três topos",
+        "Menos comum em criptoativos por volatilidade elevada"
+      ],
+      "confirmacao": "Rompimento abaixo do suporte (vale mais baixo) com volume expressivo",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Rompimento abaixo do suporte dos vales",
+        "stop": "Acima da máxima dos três topos",
+        "alvo": "Projeção da altura do padrão a partir do rompimento"
+      }
+    },
+    {
+      "id": "fundo_triplo",
+      "nome": "Fundo Triplo",
+      "nome_en": "Triple Bottom",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Três fundos em nível similar com dois picos entre eles. Indica forte suporte e reversão de alta iminente.",
+      "formula": "Fundo1 ≈ Fundo2 ≈ Fundo3 (diferença ≤ 3%); dois picos entre os fundos; rompimento acima do pico mais alto confirma",
+      "pre_condicao": "Tendência de baixa prévia",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de médio a longo prazo",
+      "timeframes_recomendados": [
+        "H4",
+        "D1",
+        "W1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Formação demorada",
+        "Menos comum em criptoativos"
+      ],
+      "confirmacao": "Rompimento acima da resistência (pico mais alto) com volume expressivo",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima da resistência dos picos",
+        "stop": "Abaixo da mínima dos três fundos",
+        "alvo": "Projeção da altura do padrão a partir do rompimento"
+      }
+    },
+    {
+      "id": "triangulo_ascendente",
+      "nome": "Triângulo Ascendente",
+      "nome_en": "Ascending Triangle",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Formação com resistência horizontal plana e linha de suporte ascendente. Compradores fazem fundos progressivamente mais altos enquanto testam a mesma resistência. Indica acumulação e rompimento de alta provável.",
+      "formula": "Topos horizontais em mesmo nível (resistência plana); fundos progressivamente mais altos; rompimento acima da resistência confirma",
+      "pre_condicao": "Tendência de alta prévia; consolidação em resistência relevante",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de médio prazo; eficaz em H1 a D1",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Rompimento de baixa (falso) ocorre em ~25% dos casos",
+        "Volume deve aumentar no rompimento para confirmar"
+      ],
+      "confirmacao": "Rompimento acima da resistência horizontal com volume acima da média",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima da resistência horizontal",
+        "stop": "Abaixo do último fundo ascendente",
+        "alvo": "Projeção da altura máxima do triângulo a partir do rompimento"
+      }
+    },
+    {
+      "id": "triangulo_descendente",
+      "nome": "Triângulo Descendente",
+      "nome_en": "Descending Triangle",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Formação com suporte horizontal plano e linha de resistência descendente. Vendedores fazem topos progressivamente mais baixos testando o mesmo suporte. Indica distribuição e rompimento de baixa provável.",
+      "formula": "Fundos horizontais em mesmo nível (suporte plano); topos progressivamente mais baixos; rompimento abaixo do suporte confirma",
+      "pre_condicao": "Tendência de baixa prévia; consolidação em suporte relevante",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "baixa",
+      "escopo": "Padrão de médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Rompimento de alta (falso) ocorre em ~25% dos casos",
+        "Volume deve aumentar no rompimento para confirmar"
+      ],
+      "confirmacao": "Rompimento abaixo do suporte horizontal com volume acima da média",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Rompimento abaixo do suporte horizontal",
+        "stop": "Acima do último topo descendente",
+        "alvo": "Projeção da altura máxima do triângulo a partir do rompimento"
+      }
+    },
+    {
+      "id": "triangulo_simetrico",
+      "nome": "Triângulo Simétrico",
+      "nome_en": "Symmetrical Triangle",
+      "tipo": "grafico",
+      "categoria": "bilateral",
+      "descricao": "Formação com topos descendentes e fundos ascendentes convergindo para um ponto. Indica compressão de volatilidade e iminente rompimento direcional — direção indefinida a priori.",
+      "formula": "Topos progressivamente mais baixos E fundos progressivamente mais altos; linhas convergentes; rompimento em qualquer direção confirma",
+      "pre_condicao": "Qualquer tendência anterior; comum após movimento direcional forte",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Padrão de médio prazo; direcional após confirmação",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Direção do rompimento não é previsível com antecedência",
+        "Rompimentos falsos são comuns; aguardar fechamento fora do triângulo"
+      ],
+      "confirmacao": "Fechamento fora da linha do triângulo com volume acima da média",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Após rompimento confirmado: compra acima da linha superior ou venda abaixo da inferior",
+        "stop": "Dentro do triângulo, oposto ao rompimento",
+        "alvo": "Projeção da altura máxima do triângulo a partir do rompimento"
+      }
+    },
+    {
+      "id": "bandeira_alta",
+      "nome": "Bandeira de Alta",
+      "nome_en": "Bull Flag",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Padrão de continuação: movimento de alta forte (mastro) seguido de consolidação em canal levemente descendente (bandeira). Indica pausa antes da continuação da alta.",
+      "formula": "Mastro: movimento de alta expressivo (>5% em curto período); Bandeira: canal de correção descendente contido com volume decrescente; rompimento acima da bandeira confirma",
+      "pre_condicao": "Tendência de alta; mastro formado por movimento impulsivo",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de curto a médio prazo; muito eficaz em day trade",
+      "timeframes_recomendados": [
+        "M15",
+        "M30",
+        "H1",
+        "H4"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Bandeira muito longa (mais de 50% do tempo do mastro) enfraquece o padrão",
+        "Correção além de 50% do mastro invalida o padrão"
+      ],
+      "confirmacao": "Rompimento acima da linha superior da bandeira com volume crescente",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima da linha superior da bandeira",
+        "stop": "Abaixo da linha inferior da bandeira",
+        "alvo": "Projeção do comprimento do mastro a partir do rompimento"
+      }
+    },
+    {
+      "id": "bandeira_baixa",
+      "nome": "Bandeira de Baixa",
+      "nome_en": "Bear Flag",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Padrão de continuação: movimento de baixa forte (mastro) seguido de consolidação em canal levemente ascendente (bandeira). Indica pausa antes da continuação da queda.",
+      "formula": "Mastro: movimento de baixa expressivo; Bandeira: canal de correção ascendente contido com volume decrescente; rompimento abaixo da bandeira confirma",
+      "pre_condicao": "Tendência de baixa; mastro formado por movimento impulsivo de queda",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "baixa",
+      "escopo": "Padrão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "M15",
+        "M30",
+        "H1",
+        "H4"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Correção além de 50% do mastro invalida o padrão",
+        "Bandeira muito longa enfraquece a confiabilidade"
+      ],
+      "confirmacao": "Rompimento abaixo da linha inferior da bandeira com volume crescente",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Rompimento abaixo da linha inferior da bandeira",
+        "stop": "Acima da linha superior da bandeira",
+        "alvo": "Projeção do comprimento do mastro a partir do rompimento"
+      }
+    },
+    {
+      "id": "flamula",
+      "nome": "Flâmula",
+      "nome_en": "Pennant",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Similar à Bandeira, mas a consolidação forma um triângulo simétrico (flâmula) em vez de canal paralelo. Indica compressão de volatilidade antes da continuação.",
+      "formula": "Mastro impulsivo seguido de triângulo simétrico convergente com volume decrescente; rompimento na direção do mastro confirma",
+      "pre_condicao": "Movimento direcional forte (mastro) precedendo a consolidação",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "M15",
+        "H1",
+        "H4"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Flâmula não deve durar mais que 3 semanas",
+        "Rompimento na direção oposta ao mastro invalida o padrão"
+      ],
+      "confirmacao": "Rompimento na direção do mastro com volume acima da média",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento na direção do mastro",
+        "stop": "Abaixo da mínima da flâmula (para compra) ou acima da máxima (para venda)",
+        "alvo": "Projeção do comprimento do mastro a partir do rompimento"
+      }
+    },
+    {
+      "id": "cunha_alta",
+      "nome": "Cunha de Alta",
+      "nome_en": "Rising Wedge",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Canal ascendente convergente onde tanto a linha de suporte quanto a de resistência sobem, mas a de suporte sobe mais rápido. Indica enfraquecimento da alta e reversão de baixa iminente.",
+      "formula": "Topos e fundos progressivamente mais altos, mas fundos sobem mais rápido que os topos; canal convergente; rompimento abaixo da linha de suporte confirma",
+      "pre_condicao": "Tendência de alta ou como correção em tendência de baixa",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "baixa",
+      "escopo": "Padrão de médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Em tendência de baixa funciona como padrão de continuação (correção)",
+        "Volume decrescente ao longo da formação reforça o padrão"
+      ],
+      "confirmacao": "Rompimento abaixo da linha de suporte do canal com volume crescente",
+      "sugestao": {
+        "acao": "venda",
+        "entrada": "Rompimento abaixo da linha de suporte da cunha",
+        "stop": "Acima do último topo dentro da cunha",
+        "alvo": "Projeção da altura da cunha no ponto mais largo a partir do rompimento"
+      }
+    },
+    {
+      "id": "cunha_baixa",
+      "nome": "Cunha de Baixa",
+      "nome_en": "Falling Wedge",
+      "tipo": "grafico",
+      "categoria": "reversão",
+      "descricao": "Canal descendente convergente onde tanto a resistência quanto o suporte caem, mas a resistência cai mais rápido. Indica enfraquecimento da baixa e reversão de alta iminente.",
+      "formula": "Topos e fundos progressivamente mais baixos, mas topos caem mais rápido que os fundos; canal convergente; rompimento acima da linha de resistência confirma",
+      "pre_condicao": "Tendência de baixa ou como correção em tendência de alta",
+      "tendencia_anterior": "baixa",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de médio prazo",
+      "timeframes_recomendados": [
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Em tendência de alta funciona como padrão de continuação (correção)",
+        "Volume decrescente ao longo da formação reforça o padrão"
+      ],
+      "confirmacao": "Rompimento acima da linha de resistência com volume crescente",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima da linha de resistência da cunha",
+        "stop": "Abaixo do último fundo dentro da cunha",
+        "alvo": "Projeção da altura da cunha no ponto mais largo a partir do rompimento"
+      }
+    },
+    {
+      "id": "cup_and_handle",
+      "nome": "Xícara com Alça",
+      "nome_en": "Cup and Handle",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Padrão em formato de xícara (fundo arredondado) seguido de pequena consolidação descendente (alça). Indica acumulação prolongada antes de rompimento de alta.",
+      "formula": "Fundo arredondado em 'U' (não em 'V'); alça: correção de 30-50% da xícara; rompimento acima da borda direita da xícara confirma",
+      "pre_condicao": "Tendência de alta prévia; formação leva semanas a meses",
+      "tendencia_anterior": "alta",
+      "tendencia_resultante": "alta",
+      "escopo": "Padrão de longo prazo; mais confiável em D1 e W1",
+      "timeframes_recomendados": [
+        "D1",
+        "W1",
+        "MN"
+      ],
+      "mercados": [
+        "acoes",
+        "futuros"
+      ],
+      "confiabilidade": "alta",
+      "limitacoes": [
+        "Formação muito demorada (semanas a meses)",
+        "Menos eficaz em cripto e forex por volatilidade",
+        "Alça com correção > 50% do copo enfraquece o padrão"
+      ],
+      "confirmacao": "Rompimento acima da borda da xícara com volume expressivo",
+      "sugestao": {
+        "acao": "compra",
+        "entrada": "Rompimento acima da borda direita da xícara",
+        "stop": "Abaixo da mínima da alça",
+        "alvo": "Projeção da profundidade da xícara a partir do rompimento"
+      }
+    },
+    {
+      "id": "retangulo",
+      "nome": "Retângulo",
+      "nome_en": "Rectangle",
+      "tipo": "grafico",
+      "categoria": "continuação",
+      "descricao": "Preço oscila entre suporte e resistência horizontais paralelos. Indica consolidação com equilíbrio entre compradores e vendedores antes de rompimento.",
+      "formula": "Suporte horizontal + resistência horizontal paralela; ao menos dois toques em cada; rompimento em qualquer lado confirma",
+      "pre_condicao": "Após tendência definida; funciona como pausa ou acumulação/distribuição",
+      "tendencia_anterior": "qualquer",
+      "tendencia_resultante": "indefinida",
+      "escopo": "Padrão de curto a médio prazo",
+      "timeframes_recomendados": [
+        "M30",
+        "H1",
+        "H4",
+        "D1"
+      ],
+      "mercados": [
+        "acoes",
+        "forex",
+        "futuros",
+        "cripto"
+      ],
+      "confiabilidade": "média",
+      "limitacoes": [
+        "Direção do rompimento não previsível a priori",
+        "Múltiplos falsos rompimentos são comuns dentro do retângulo"
+      ],
+      "confirmacao": "Fechamento fora do retângulo com volume acima da média",
+      "sugestao": {
+        "acao": "aguardar",
+        "entrada": "Após rompimento confirmado na direção relevante",
+        "stop": "Dentro do retângulo oposto ao rompimento",
+        "alvo": "Projeção da altura do retângulo a partir do rompimento"
+      }
     }
   ]
 }
