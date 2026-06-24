@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import type { AnalyzeResponse } from "#shared/types/market";
-
 const symbol = ref("BTCUSDT");
 const interval = ref("1h");
-const result = ref<AnalyzeResponse | null>(null);
+const result = ref<any>(null);
 const loading = ref(false);
 const error = ref("");
 
@@ -13,73 +11,158 @@ async function analyze() {
 
   try {
     result.value = await $fetch("/api/analyze", {
-      query: {
-        symbol: symbol.value,
-        interval: interval.value,
-      },
+      query: { symbol: symbol.value, interval: interval.value },
     });
   } catch (err: any) {
-    error.value = err?.message || "Erro ao analisar ativo.";
+    error.value =
+      err?.data?.message || err?.message || "Erro ao analisar ativo.";
   } finally {
     loading.value = false;
   }
 }
+
+onMounted(() => {
+  analyze();
+});
 </script>
 
 <template>
-  <main style="max-width: 960px; margin: 0 auto; padding: 32px">
-    <h1>Scanner Técnico</h1>
+  <main class="min-h-screen bg-slate-50 text-slate-900 p-8">
+    <section class="max-w-6xl mx-auto">
+      <header class="mb-6">
+        <h1 class="text-4xl m-0">Scanner Técnico</h1>
 
-    <section style="display: flex; gap: 12px; margin: 24px 0">
-      <input v-model="symbol" placeholder="BTCUSDT" />
-
-      <select v-model="interval">
-        <option value="15m">15m</option>
-        <option value="1h">1h</option>
-        <option value="4h">4h</option>
-        <option value="1d">1d</option>
-      </select>
-
-      <button :disabled="loading" @click="analyze">
-        {{ loading ? "Analisando..." : "Analisar" }}
-      </button>
-    </section>
-
-    <p v-if="error" style="color: red">
-      {{ error }}
-    </p>
-
-    <section
-      v-if="result"
-      style="border: 1px solid #ddd; border-radius: 16px; padding: 24px"
-    >
-      <h2>{{ result.symbol }} · {{ result.interval }}</h2>
-      <p>Preço atual: {{ result.price }}</p>
-
-      <h3>{{ result.suggestion.label }}</h3>
-      <p>Confiança: {{ result.suggestion.confidence }}%</p>
-
-      <div v-if="result.suggestion.entry">
-        <p>Entrada: {{ result.suggestion.entry }}</p>
-        <p>Stop: {{ result.suggestion.stop }}</p>
-
-        <p>
-          Alvos:
-          {{ result.suggestion.targets?.join(", ") }}
+        <p class="text-slate-500 mt-2">
+          Sugestões automáticas baseadas em padrões técnicos, estrutura e price
+          action.
         </p>
-      </div>
+      </header>
 
-      <h4>Padrões detectados</h4>
+      <section
+        class="bg-white border border-slate-200 rounded-2xl p-4 flex gap-3 items-center flex-wrap mb-5"
+      >
+        <input
+          v-model="symbol"
+          placeholder="BTCUSDT"
+          class="h-10 px-3 border border-slate-300 rounded-xl"
+        />
 
-      <ul v-if="result.patterns.length">
-        <li v-for="pattern in result.patterns" :key="pattern.id">
-          <strong>{{ pattern.name }}</strong> — {{ pattern.reason }}
-        </li>
-      </ul>
+        <select
+          v-model="interval"
+          class="h-10 px-3 border border-slate-300 rounded-xl"
+        >
+          <option value="15m">15m</option>
+          <option value="1h">1h</option>
+          <option value="4h">4h</option>
+          <option value="1d">1d</option>
+        </select>
 
-      <p v-else>Nenhum padrão relevante detectado no candle atual.</p>
+        <button
+          :disabled="loading"
+          class="h-10 px-4 border-0 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-50"
+          @click="analyze"
+        >
+          {{ loading ? "Analisando..." : "Analisar" }}
+        </button>
+      </section>
 
-      <small>{{ result.disclaimer }}</small>
+      <p
+        v-if="error"
+        class="bg-red-100 text-red-800 p-3 rounded-xl"
+      >
+        {{ error }}
+      </p>
+
+      <section
+        v-if="result"
+        class="flex gap-5 items-start"
+      >
+        <div
+          class="flex-1 min-w-0 bg-white border border-slate-200 rounded-2xl p-4"
+        >
+          <div class="flex justify-between items-center mb-3">
+            <div>
+              <h2 class="m-0">
+                {{ result.symbol }} · {{ result.interval }}
+              </h2>
+
+              <p class="mt-1 mb-0 text-slate-500">
+                Preço atual: {{ result.price }}
+              </p>
+            </div>
+
+            <span
+              class="px-3 py-2 rounded-full font-bold"
+              :class="getActionClass(result.suggestion.action)"
+            >
+              {{ result.suggestion.label }}
+            </span>
+          </div>
+
+          <PriceChart :candles="result.candles" :patterns="result.patterns" />
+        </div>
+
+        <aside
+          class="w-80 shrink-0 bg-white border border-slate-200 rounded-2xl p-5"
+        >
+          <h3 class="mt-0">Plano da operação</h3>
+
+          <div class="text-5xl font-extrabold mb-1">
+            {{ result.suggestion.confidence }}%
+          </div>
+
+          <p class="text-slate-500 mt-0">Confiança estimada</p>
+
+          <div v-if="result.suggestion.entry" class="grid gap-2.5">
+            <div>
+              <small>Entrada</small>
+              <strong class="block">
+                {{ result.suggestion.entry }}
+              </strong>
+            </div>
+
+            <div>
+              <small>Stop</small>
+              <strong class="block">
+                {{ result.suggestion.stop }}
+              </strong>
+            </div>
+
+            <div>
+              <small>Alvos</small>
+              <strong class="block">
+                {{ result.suggestion.targets?.join(" · ") }}
+              </strong>
+            </div>
+          </div>
+
+          <hr class="border-0 border-t border-slate-200 my-5" />
+
+          <h4>Padrões detectados</h4>
+
+          <ul v-if="result.patterns.length" class="pl-4">
+            <li
+              v-for="pattern in result.patterns"
+              :key="pattern.id"
+              class="mb-2.5"
+            >
+              <strong>{{ pattern.name }}</strong>
+              <br />
+              <span class="text-slate-500">
+                {{ pattern.reason }}
+              </span>
+            </li>
+          </ul>
+
+          <p v-else class="text-slate-500">
+            Nenhum padrão relevante detectado no candle atual.
+          </p>
+
+          <small class="block text-slate-400 mt-5">
+            {{ result.disclaimer }}
+          </small>
+        </aside>
+      </section>
     </section>
   </main>
 </template>
