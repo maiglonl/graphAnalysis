@@ -1,10 +1,6 @@
-import { TradeActionEnum } from '#shared/types/market'
+import { TradeActionEnum } from "#shared/types/market";
+import { ACTION_CLASSES } from "#shared/utils/colors";
 
 export function getActionClass(action?: string): string {
-  switch (action) {
-    case TradeActionEnum.Buy:  return 'bg-green-100 text-green-800'
-    case TradeActionEnum.Sell: return 'bg-red-100 text-red-800'
-    case TradeActionEnum.Wait: return 'bg-yellow-100 text-yellow-800'
-    default:                   return 'bg-slate-100 text-slate-700'
-  }
+  return ACTION_CLASSES[action as TradeActionEnum] ?? ACTION_CLASSES[TradeActionEnum.None];
 }

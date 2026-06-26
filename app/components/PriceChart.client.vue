@@ -16,6 +16,7 @@ import {
   type Candle,
   type PatternSignal,
 } from "#shared/types/market";
+import { CHART_COLORS, directionColor, actionColor } from "#shared/utils/colors";
 
 const props = defineProps<{
   candles: Candle[];
@@ -46,7 +47,7 @@ function buildMarkers(): SeriesMarker<UTCTimestamp>[] {
       time: toChartTime(last.time),
       position: isBullish ? "belowBar" : "aboveBar",
       shape: isBullish ? "arrowUp" : isBearish ? "arrowDown" : "circle",
-      color: isBullish ? "#16a34a" : isBearish ? "#dc2626" : "#64748b",
+      color: directionColor(pattern.direction),
       text: pattern.name,
     };
   });
@@ -60,7 +61,7 @@ function addTradePlanLines() {
   if (entry) {
     candleSeries.createPriceLine({
       price: entry,
-      color: action === "sell" ? "#dc2626" : "#16a34a",
+      color: actionColor(action),
       lineWidth: 2,
       lineStyle: LineStyle.Solid,
       axisLabelVisible: true,
@@ -71,7 +72,7 @@ function addTradePlanLines() {
   if (stop) {
     candleSeries.createPriceLine({
       price: stop,
-      color: "#ef4444",
+      color: CHART_COLORS.stop,
       lineWidth: 2,
       lineStyle: LineStyle.Dashed,
       axisLabelVisible: true,
@@ -82,7 +83,7 @@ function addTradePlanLines() {
   targets?.forEach((target, index) => {
     candleSeries?.createPriceLine({
       price: target,
-      color: "#2563eb",
+      color: CHART_COLORS.target,
       lineWidth: 1,
       lineStyle: LineStyle.Dotted,
       axisLabelVisible: true,
@@ -100,16 +101,16 @@ function renderChart() {
     height: 420,
     layout: {
       background: {
-        color: "#ffffff",
+        color: CHART_COLORS.background,
       },
-      textColor: "#111827",
+      textColor: CHART_COLORS.text,
     },
     grid: {
       vertLines: {
-        color: "#f1f5f9",
+        color: CHART_COLORS.grid,
       },
       horzLines: {
-        color: "#f1f5f9",
+        color: CHART_COLORS.grid,
       },
     },
     rightPriceScale: {
@@ -123,11 +124,11 @@ function renderChart() {
   });
 
   candleSeries = chart.addSeries(CandlestickSeries, {
-    upColor: "#16a34a",
-    downColor: "#dc2626",
+    upColor: CHART_COLORS.bullish,
+    downColor: CHART_COLORS.bearish,
     borderVisible: false,
-    wickUpColor: "#16a34a",
-    wickDownColor: "#dc2626",
+    wickUpColor: CHART_COLORS.bullish,
+    wickDownColor: CHART_COLORS.bearish,
     priceLineVisible: false,
     lastValueVisible: true,
   });
