@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     ? (query.interval as IntervalEnum)
     : DEFAULT_INTERVAL;
 
-  const response = await $fetch<{ candles: Candle[] }>("/api/candles", {
+  const response = await $fetch<{ symbol: string; candles: Candle[] }>("/api/candles", {
     query: {
       symbol,
       interval,
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
   const suggestion = buildSuggestion(candles, patterns);
 
   return {
-    symbol,
+    symbol: response.symbol,
     interval,
     price: last?.close ?? null,
     updatedAt: last?.time ?? null,
