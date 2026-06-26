@@ -1,6 +1,7 @@
-import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from '#shared/types/market';
+import { MarketDataErrorCodeEnum, DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from '#shared/types/market';
 import { API } from '#shared/utils/detectors/constants';
 import { createCandleCacheKey, getCachedCandles, setCachedCandles } from '../utils/candleCache';
+import { isMarketDataProviderError } from '../utils/marketData/MarketDataProviderError';
 import { marketDataProvider } from '../utils/marketData';
 
 const ALLOWED_INTERVALS = new Set<string>(Object.values(IntervalEnum));
@@ -20,11 +21,11 @@ export default defineEventHandler(async (event) => {
     .replace(/[^A-Z0-9]/g, '');
 
   if (!symbol) {
-    throw createError({ statusCode: 400, message: 'errors.invalidSymbol' });
+    throw createError({ statusCode: 400, message: `errors.${MarketDataErrorCodeEnum.InvalidSymbol}` });
   }
 
   if (!interval) {
-    throw createError({ statusCode: 400, message: 'errors.invalidInterval' });
+    throw createError({ statusCode: 400, message: `errors.${MarketDataErrorCodeEnum.InvalidInterval}` });
   }
 
   const cacheKey = createCandleCacheKey(symbol, interval, limit);
@@ -34,8 +35,19 @@ export default defineEventHandler(async (event) => {
     return { symbol, interval, candles: cachedCandles };
   }
 
-  const candles = await marketDataProvider.getCandles({ symbol, interval, limit });
-  setCachedCandles(cacheKey, interval, candles);
+  try {
+    const candles = await marketDataProvider.getCandles({ symbol, interval, limit });
+    setCachedCandles(cacheKey, interval, candles);
 
-  return { symbol, interval, candles };
+    return { symbol, interval, candles };
+  } catch (error: unknown) {
+    if (isMarketDataProviderError(error)) {
+      throw createError({ statusCode: error.statusCode, message: `errors.${error.code}` });
+    }
+
+    throw createError({
+      statusCode: 502,
+      message: `errors.${MarketDataErrorCodeEnum.ProviderUnavailable}`,
+    });
+  }
 });
