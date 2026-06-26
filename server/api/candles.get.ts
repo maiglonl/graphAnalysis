@@ -1,21 +1,7 @@
-import type { Candle } from "#shared/types/market";
-import { DEFAULT_SYMBOL, IntervalEnum } from "#shared/types/market";
-import { API } from "#shared/utils/detectors/constants";
-
-type BinanceKline = [
-  number,
-  string,
-  string,
-  string,
-  string,
-  string,
-  number,
-  string,
-  number,
-  string,
-  string,
-  string,
-];
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from '#shared/types/market';
+import { API } from '#shared/utils/detectors/constants';
+import { createCandleCacheKey, getCachedCandles, setCachedCandles } from '../utils/candleCache';
+import { marketDataProvider } from '../utils/marketData';
 
 const ALLOWED_INTERVALS = new Set<string>(Object.values(IntervalEnum));
 
@@ -27,30 +13,29 @@ export default defineEventHandler(async (event) => {
     ? Math.min(Math.max(rawLimit, API.candleLimitMin), API.candleLimitMax)
     : API.candleLimit;
 
-  const interval = String(query.interval || IntervalEnum.OneHour);
+  const rawInterval = String(query.interval || DEFAULT_INTERVAL);
+  const interval = ALLOWED_INTERVALS.has(rawInterval) ? (rawInterval as IntervalEnum) : null;
   const symbol = String(query.symbol || DEFAULT_SYMBOL)
     .toUpperCase()
-    .replace(/[^A-Z0-9]/g, "");
+    .replace(/[^A-Z0-9]/g, '');
 
   if (!symbol) {
-    throw createError({ statusCode: 400, message: "errors.invalidSymbol" });
+    throw createError({ statusCode: 400, message: 'errors.invalidSymbol' });
   }
 
-  if (!ALLOWED_INTERVALS.has(interval)) {
-    throw createError({ statusCode: 400, message: "errors.invalidInterval" });
+  if (!interval) {
+    throw createError({ statusCode: 400, message: 'errors.invalidInterval' });
   }
 
-  const url = `https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${interval}&limit=${limit}`;
-  const raw = await $fetch<BinanceKline[]>(url);
+  const cacheKey = createCandleCacheKey(symbol, interval, limit);
+  const cachedCandles = getCachedCandles(cacheKey);
 
-  const candles: Candle[] = raw.map((item) => ({
-    time: Number(item[0]),
-    open: Number(item[1]),
-    high: Number(item[2]),
-    low: Number(item[3]),
-    close: Number(item[4]),
-    volume: Number(item[5]),
-  }));
+  if (cachedCandles) {
+    return { symbol, interval, candles: cachedCandles };
+  }
+
+  const candles = await marketDataProvider.getCandles({ symbol, interval, limit });
+  setCachedCandles(cacheKey, interval, candles);
 
   return { symbol, interval, candles };
 });
