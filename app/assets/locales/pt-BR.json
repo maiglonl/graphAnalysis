@@ -2,6 +2,10 @@
   "errors": {
     "invalidSymbol": "Ativo inválido.",
     "invalidInterval": "Timeframe inválido.",
+    "rateLimited": "Limite de requisições atingido no provedor de mercado. Tente novamente em instantes.",
+    "timeout": "Tempo limite atingido ao consultar o provedor de mercado.",
+    "emptyResponse": "O provedor de mercado não retornou candles para este ativo.",
+    "providerUnavailable": "Provedor de mercado indisponível no momento.",
     "analyzeDefault": "Erro ao analisar ativo."
   },
   "common": {
@@ -12,113 +16,35 @@
     "analyzing": "Analisando...",
     "disclaimer": "Isto não é recomendação financeira. É uma leitura automatizada baseada em padrões técnicos."
   },
-  "analysisForm": {
-    "symbolPlaceholder": "Símbolo",
-    "analyze": "Analisar"
-  },
+  "analysisForm": { "symbolPlaceholder": "Símbolo", "analyze": "Analisar" },
   "chart": {
-    "targetLine": "Alvo {n}",
-    "fvgStart": "Início FVG",
-    "fvgEnd": "Fim FVG",
-    "brokenLevel": "Nível rompido",
-    "fvgZone": "Zona FVG",
-    "swingHigh": "SH",
-    "swingLow": "SL",
-    "higherHigh": "HH",
-    "higherLow": "HL",
-    "lowerHigh": "LH",
-    "lowerLow": "LL"
+    "targetLine": "Alvo {n}", "fvgStart": "Início FVG", "fvgEnd": "Fim FVG", "brokenLevel": "Nível rompido", "fvgZone": "Zona FVG", "swingHigh": "SH", "swingLow": "SL", "higherHigh": "HH", "higherLow": "HL", "lowerHigh": "LH", "lowerLow": "LL"
   },
-  "scanner": {
-    "title": "Scanner Técnico",
-    "subtitle": "Sugestões automáticas baseadas em padrões técnicos, estrutura e price action.",
-    "currentPrice": "Preço atual: {price}"
-  },
+  "scanner": { "title": "Scanner Técnico", "subtitle": "Sugestões automáticas baseadas em padrões técnicos, estrutura e price action.", "currentPrice": "Preço atual: {price}" },
   "suggestion": {
     "title": "Plano da operação",
     "reasons": "Motivos",
-    "scoreBreakdown": {
-      "title": "Composição da confiança",
-      "patternScore": "Padrões",
-      "structureScore": "Estrutura",
-      "trendScore": "Tendência",
-      "volumeScore": "Volume",
-      "confluenceBonus": "Confluência",
-      "conflictPenalty": "Conflito"
-    }
+    "scoreBreakdown": { "title": "Composição da confiança", "patternScore": "Padrões", "structureScore": "Estrutura", "trendScore": "Tendência", "volumeScore": "Volume", "confluenceBonus": "Confluência", "conflictPenalty": "Conflito" }
   },
   "patterns": {
     "title": "Padrões detectados",
     "empty": "Nenhum padrão relevante detectado no candle atual.",
-    "hammer": {
-      "name": "Hammer",
-      "reason": "Hammer após tendência de baixa, com sombra inferior longa e rejeição vendedora."
-    },
-    "shootingStar": {
-      "name": "Shooting Star",
-      "reason": "Estrela cadente após tendência de alta, com rejeição compradora no topo."
-    },
-    "doji": {
-      "name": "Doji",
-      "reason": "Abertura e fechamento praticamente iguais, indicando indecisão."
-    },
-    "bullishEngulfing": {
-      "name": "Bullish Engulfing",
-      "reason": "Engolfo de alta após queda, com candle comprador englobando o corpo anterior."
-    },
-    "bearishEngulfing": {
-      "name": "Bearish Engulfing",
-      "reason": "Engolfo de baixa após alta, com candle vendedor englobando o corpo anterior."
-    },
-    "insideBar": {
-      "name": "Inside Bar",
-      "reason": "Candle atual contido dentro do anterior, indicando compressão antes de rompimento."
-    },
-    "bullishFvg": {
-      "name": "Bullish FVG",
-      "reason": "Ineficiência altista entre três candles: mínima do terceiro acima da máxima do primeiro."
-    },
-    "bearishFvg": {
-      "name": "Bearish FVG",
-      "reason": "Ineficiência baixista entre três candles: máxima do terceiro abaixo da mínima do primeiro."
-    },
-    "bullishBos": {
-      "name": "Bullish BOS",
-      "reason": "Fechamento rompeu o último swing high confirmado, indicando quebra de estrutura altista."
-    },
-    "bearishBos": {
-      "name": "Bearish BOS",
-      "reason": "Fechamento rompeu o último swing low confirmado, indicando quebra de estrutura baixista."
-    },
-    "bullishChoch": {
-      "name": "Bullish CHOCH",
-      "reason": "Mudança de caráter: estrutura baixista reverteu ao romper um topo relevante."
-    },
-    "bearishChoch": {
-      "name": "Bearish CHOCH",
-      "reason": "Mudança de caráter: estrutura altista reverteu ao romper um fundo relevante."
-    },
-    "higherHigh": {
-      "name": "Higher High",
-      "reason": "Topo mais alto que o anterior, confirmando estrutura de alta."
-    },
-    "higherLow": {
-      "name": "Higher Low",
-      "reason": "Fundo mais alto que o anterior, sustentando a tendência de alta."
-    },
-    "lowerHigh": {
-      "name": "Lower High",
-      "reason": "Topo mais baixo que o anterior, confirmando estrutura de baixa."
-    },
-    "lowerLow": {
-      "name": "Lower Low",
-      "reason": "Fundo mais baixo que o anterior, sustentando a tendência de baixa."
-    }
+    "hammer": { "name": "Hammer", "reason": "Hammer após tendência de baixa, com sombra inferior longa e rejeição vendedora." },
+    "shootingStar": { "name": "Shooting Star", "reason": "Estrela cadente após tendência de alta, com rejeição compradora no topo." },
+    "doji": { "name": "Doji", "reason": "Abertura e fechamento praticamente iguais, indicando indecisão." },
+    "bullishEngulfing": { "name": "Bullish Engulfing", "reason": "Engolfo de alta após queda, com candle comprador englobando o corpo anterior." },
+    "bearishEngulfing": { "name": "Bearish Engulfing", "reason": "Engolfo de baixa após alta, com candle vendedor englobando o corpo anterior." },
+    "insideBar": { "name": "Inside Bar", "reason": "Candle atual contido dentro do anterior, indicando compressão antes de rompimento." },
+    "bullishFvg": { "name": "Bullish FVG", "reason": "Ineficiência altista entre três candles: mínima do terceiro acima da máxima do primeiro." },
+    "bearishFvg": { "name": "Bearish FVG", "reason": "Ineficiência baixista entre três candles: máxima do terceiro abaixo da mínima do primeiro." },
+    "bullishBos": { "name": "Bullish BOS", "reason": "Fechamento rompeu o último swing high confirmado, indicando quebra de estrutura altista." },
+    "bearishBos": { "name": "Bearish BOS", "reason": "Fechamento rompeu o último swing low confirmado, indicando quebra de estrutura baixista." },
+    "bullishChoch": { "name": "Bullish CHOCH", "reason": "Mudança de caráter: estrutura baixista reverteu ao romper um topo relevante." },
+    "bearishChoch": { "name": "Bearish CHOCH", "reason": "Mudança de caráter: estrutura altista reverteu ao romper um fundo relevante." },
+    "higherHigh": { "name": "Higher High", "reason": "Topo mais alto que o anterior, confirmando estrutura de alta." },
+    "higherLow": { "name": "Higher Low", "reason": "Fundo mais alto que o anterior, sustentando a tendência de alta." },
+    "lowerHigh": { "name": "Lower High", "reason": "Topo mais baixo que o anterior, confirmando estrutura de baixa." },
+    "lowerLow": { "name": "Lower Low", "reason": "Fundo mais baixo que o anterior, sustentando a tendência de baixa." }
   },
-  "actions": {
-    "buy": "Comprar",
-    "sell": "Vender",
-    "wait": "Aguardar",
-    "none": "Neutro"
-  }
+  "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }
 }
