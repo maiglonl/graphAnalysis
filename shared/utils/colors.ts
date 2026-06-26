@@ -18,6 +18,11 @@ export const ACTION_CLASSES: Record<TradeActionEnum, string> = {
   [TradeActionEnum.None]: "bg-slate-100 text-slate-700",
 };
 
+export const LOCALE_SWITCHER_CLASSES = {
+  active: 'bg-blue-600 text-white',
+  inactive: 'text-slate-500 hover:bg-slate-100',
+} as const;
+
 export function directionColor(direction: PatternDirectionEnum): string {
   switch (direction) {
     case PatternDirectionEnum.Bullish:
