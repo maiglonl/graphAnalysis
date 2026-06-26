@@ -1,6 +1,6 @@
 import type { Candle } from '#shared/types/market';
 import { StructureTrendEnum } from '#shared/types/market';
-import { atr, ema, getTrend } from '#shared/utils/indicators';
+import { atr, ema, getTrend, relativeVolume } from '#shared/utils/indicators';
 
 export class ScanContext {
   readonly candles: Candle[];
@@ -8,6 +8,7 @@ export class ScanContext {
   readonly ema20: number[];
   readonly ema50: number[];
   readonly atr14: number[];
+  readonly relativeVolume20: number[];
 
   constructor(candles: Candle[]) {
     const closes = candles.map((c) => c.close);
@@ -16,6 +17,7 @@ export class ScanContext {
     this.ema20 = ema(closes, 20);
     this.ema50 = ema(closes, 50);
     this.atr14 = atr(candles, 14);
+    this.relativeVolume20 = relativeVolume(candles, 20);
   }
 
   get currentCandle(): Candle | undefined {
@@ -24,6 +26,11 @@ export class ScanContext {
 
   get currentAtr(): number {
     return this.atr14[this.index] ?? 0;
+  }
+
+  get currentRelativeVolume(): number {
+    const value = this.relativeVolume20[this.index];
+    return value && Number.isFinite(value) ? value : 0;
   }
 
   trend(): StructureTrendEnum {
