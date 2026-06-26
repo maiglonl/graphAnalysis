@@ -21,7 +21,13 @@
     "fvgStart": "Início FVG",
     "fvgEnd": "Fim FVG",
     "brokenLevel": "Nível rompido",
-    "fvgZone": "Zona FVG"
+    "fvgZone": "Zona FVG",
+    "swingHigh": "SH",
+    "swingLow": "SL",
+    "higherHigh": "HH",
+    "higherLow": "HL",
+    "lowerHigh": "LH",
+    "lowerLow": "LL"
   },
   "scanner": {
     "title": "Scanner Técnico",
