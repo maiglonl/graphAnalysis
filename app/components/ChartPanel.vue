@@ -22,6 +22,11 @@ defineProps<{
       </span>
     </div>
 
-    <PriceChart :candles="result.candles" :patterns="result.patterns" :suggestion="result.suggestion" />
+    <PriceChart
+      :candles="result.candles"
+      :patterns="result.patterns"
+      :structure="result.structure"
+      :suggestion="result.suggestion"
+    />
   </section>
 </template>
