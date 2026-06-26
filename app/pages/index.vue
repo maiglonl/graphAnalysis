@@ -6,7 +6,8 @@ const { t } = useI18n();
 
 const symbol = ref(DEFAULT_SYMBOL);
 const interval = ref<IntervalEnum>(DEFAULT_INTERVAL);
-const intervals = Object.values(IntervalEnum);
+const intervals = Object.values(IntervalEnum) as IntervalEnum[];
+
 const result = ref<AnalyzeResponse | null>(null);
 const loading = ref(false);
 const error = ref('');
@@ -16,9 +17,16 @@ async function analyze() {
   error.value = '';
 
   try {
-    result.value = await $fetch('/api/analyze', { query: { symbol: symbol.value, interval: interval.value } });
+    result.value = await $fetch<AnalyzeResponse>('/api/analyze', {
+      query: {
+        symbol: symbol.value,
+        interval: interval.value,
+      },
+    });
   } catch (err: any) {
-    error.value = err?.data?.message || err?.message || t('errors.analyzeDefault');
+    const messageKey = err?.data?.message || err?.message;
+
+    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
   } finally {
     loading.value = false;
   }
@@ -30,11 +38,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900 p-8">
+  <main class="min-h-screen bg-slate-50 text-slate-900 p-8 max-md:p-4">
     <section class="max-w-6xl mx-auto">
-      <header class="mb-6 flex justify-between items-start">
+      <header class="mb-6 flex justify-between items-start gap-4 max-md:flex-col">
         <div>
-          <h1 class="text-4xl m-0">{{ $t('scanner.title') }}</h1>
+          <h1 class="text-4xl m-0">
+            {{ $t('scanner.title') }}
+          </h1>
 
           <p class="text-slate-500 mt-2">
             {{ $t('scanner.subtitle') }}
@@ -44,101 +54,26 @@ onMounted(() => {
         <LocaleSwitcher />
       </header>
 
-      <section class="bg-white border border-slate-200 rounded-2xl p-4 flex gap-3 items-center flex-wrap mb-5">
-        <input
-          v-model="symbol"
-          :placeholder="$t('analysisForm.symbolPlaceholder')"
-          class="h-10 px-3 border border-slate-300 rounded-xl"
-        />
+      <AnalysisForm
+        v-model:symbol="symbol"
+        v-model:interval="interval"
+        :loading="loading"
+        :intervals="intervals"
+        @analyze="analyze"
+      />
 
-        <select v-model="interval" class="h-10 px-3 border border-slate-300 rounded-xl">
-          <option v-for="iv in intervals" :key="iv" :value="iv">{{ iv }}</option>
-        </select>
-
-        <button
-          :disabled="loading"
-          class="h-10 px-4 border-0 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-50"
-          @click="analyze"
-        >
-          {{ loading ? $t('common.analyzing') : $t('analysisForm.analyze') }}
-        </button>
-      </section>
-
-      <p v-if="error" class="bg-red-100 text-red-800 p-3 rounded-xl">
+      <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
         {{ error }}
       </p>
 
-      <section v-if="result" class="flex gap-5 items-start">
-        <div class="flex-1 min-w-0 bg-white border border-slate-200 rounded-2xl p-4">
-          <div class="flex justify-between items-center mb-3">
-            <div>
-              <h2 class="m-0">{{ result.symbol }} · {{ result.interval }}</h2>
+      <section v-if="result" class="flex gap-5 items-start max-lg:flex-col">
+        <div class="flex-1 min-w-0 grid gap-5 max-lg:w-full">
+          <ChartPanel :result="result" />
 
-              <p class="mt-1 mb-0 text-slate-500">
-                {{ $t('scanner.currentPrice', { price: result.price }) }}
-              </p>
-            </div>
-
-            <span class="px-3 py-2 rounded-full font-bold uppercase" :class="getActionClass(result.suggestion.action)">
-              {{ $t(`actions.${result.suggestion.action}`) }}
-            </span>
-          </div>
-
-          <PriceChart :candles="result.candles" :patterns="result.patterns" :suggestion="result.suggestion" />
+          <DetectedPatterns :patterns="result.patterns" />
         </div>
 
-        <aside class="w-80 shrink-0 bg-white border border-slate-200 rounded-2xl p-5">
-          <h3 class="mt-0">{{ $t('suggestion.title') }}</h3>
-
-          <div class="text-5xl font-extrabold mb-1">{{ result.suggestion.confidence }}%</div>
-
-          <p class="text-slate-500 mt-0">{{ $t('common.confidence') }}</p>
-
-          <div v-if="result.suggestion.entry" class="grid gap-2.5">
-            <div>
-              <small>{{ $t('common.entry') }}</small>
-              <strong class="block">
-                {{ result.suggestion.entry }}
-              </strong>
-            </div>
-
-            <div>
-              <small>{{ $t('common.stop') }}</small>
-              <strong class="block">
-                {{ result.suggestion.stop }}
-              </strong>
-            </div>
-
-            <div>
-              <small>{{ $t('common.targets') }}</small>
-              <strong class="block">
-                {{ result.suggestion.targets?.join(' · ') }}
-              </strong>
-            </div>
-          </div>
-
-          <hr class="border-0 border-t border-slate-200 my-5" />
-
-          <h4>{{ $t('patterns.title') }}</h4>
-
-          <ul v-if="result.patterns.length" class="pl-4">
-            <li v-for="pattern in result.patterns" :key="pattern.id" class="mb-2.5">
-              <strong>{{ $t(`patterns.${pattern.id}.name`) }}</strong>
-              <br />
-              <span class="text-slate-500">
-                {{ $t(`patterns.${pattern.id}.reason`) }}
-              </span>
-            </li>
-          </ul>
-
-          <p v-else class="text-slate-500">
-            {{ $t('patterns.empty') }}
-          </p>
-
-          <small class="block text-slate-400 mt-5">
-            {{ $t(result.disclaimer) }}
-          </small>
-        </aside>
+        <SuggestionCard :result="result" />
       </section>
     </section>
   </main>

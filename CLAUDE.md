@@ -9,7 +9,7 @@ Siga estas convenções rigorosamente. Se uma mudança exigir violar algum padr�
 
 - **Nuxt 4** + **Vue 3** + **TypeScript** (strict)
 - **Tailwind CSS v4** via `@tailwindcss/vite`
-- **`@nuxtjs/i18n` v9** (lazy loading, browser detection, fallback en-US)
+- **`@nuxtjs/i18n` v10** (lazy loading, browser detection, fallback en-US)
 - **`lightweight-charts`** para o gráfico de candles
 
 ---

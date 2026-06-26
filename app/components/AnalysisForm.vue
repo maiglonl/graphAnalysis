@@ -1,28 +1,30 @@
 <script setup lang="ts">
-import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from "#shared/types/market";
+import type { IntervalEnum } from '#shared/types/market';
 
-const props = defineProps<{
-  loading?: boolean;
+defineProps<{
+  loading: boolean;
+  intervals: IntervalEnum[];
 }>();
 
 const emit = defineEmits<{
-  analyze: [payload: { symbol: string; interval: IntervalEnum }];
+  analyze: [];
 }>();
 
-const symbol = defineModel<string>("symbol", { default: DEFAULT_SYMBOL });
-const interval = defineModel<IntervalEnum>("interval", { default: DEFAULT_INTERVAL });
+const symbol = defineModel<string>('symbol', {
+  required: true,
+});
 
-const intervals = Object.values(IntervalEnum);
+const interval = defineModel<IntervalEnum>('interval', {
+  required: true,
+});
 
 function submit() {
-  emit("analyze", { symbol: symbol.value, interval: interval.value });
+  emit('analyze');
 }
 </script>
 
 <template>
-  <section
-    class="bg-white border border-slate-200 rounded-2xl p-4 mb-5 flex gap-3 items-center flex-wrap"
-  >
+  <section class="bg-white border border-slate-200 rounded-2xl p-4 flex gap-3 items-center flex-wrap mb-5">
     <input
       v-model="symbol"
       :placeholder="$t('analysisForm.symbolPlaceholder')"
@@ -31,15 +33,17 @@ function submit() {
     />
 
     <select v-model="interval" class="h-10 px-3 border border-slate-300 rounded-xl">
-      <option v-for="iv in intervals" :key="iv" :value="iv">{{ iv }}</option>
+      <option v-for="iv in intervals" :key="iv" :value="iv">
+        {{ iv }}
+      </option>
     </select>
 
     <button
-      :disabled="props.loading"
-      class="h-10 px-4 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+      :disabled="loading"
+      class="h-10 px-4 border-0 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-50"
       @click="submit"
     >
-      {{ props.loading ? $t('common.analyzing') : $t('analysisForm.analyze') }}
+      {{ loading ? $t('common.analyzing') : $t('analysisForm.analyze') }}
     </button>
   </section>
 </template>
