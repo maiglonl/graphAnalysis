@@ -43,10 +43,14 @@ defineProps<{
     <h4>{{ $t('suggestion.reasons') }}</h4>
 
     <ul v-if="result.suggestion.reasons.length" class="pl-4">
-      <li v-for="reason in result.suggestion.reasons" :key="reason" class="mb-2">
-        {{ $t(reason) }}
+      <li v-for="id in result.suggestion.reasons" :key="id" class="mb-2">
+        {{ $t(`patterns.${id}.reason`) }}
       </li>
     </ul>
+
+    <p v-else class="text-slate-500">
+      {{ $t('patterns.empty') }}
+    </p>
 
     <small class="block text-slate-400 mt-5">
       {{ $t(result.disclaimer) }}

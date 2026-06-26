@@ -123,10 +123,10 @@ onMounted(() => {
 
           <ul v-if="result.patterns.length" class="pl-4">
             <li v-for="pattern in result.patterns" :key="pattern.id" class="mb-2.5">
-              <strong>{{ $t(pattern.name) }}</strong>
+              <strong>{{ $t(`patterns.${pattern.id}.name`) }}</strong>
               <br />
               <span class="text-slate-500">
-                {{ $t(pattern.reason) }}
+                {{ $t(`patterns.${pattern.id}.reason`) }}
               </span>
             </li>
           </ul>

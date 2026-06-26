@@ -13,16 +13,27 @@ export enum PatternDirectionEnum {
   Neutral = 'neutral',
 }
 
+export enum PatternIdEnum {
+  Hammer = 'hammer',
+  ShootingStar = 'shootingStar',
+  Doji = 'doji',
+  BullishEngulfing = 'bullishEngulfing',
+  BearishEngulfing = 'bearishEngulfing',
+  InsideBar = 'insideBar',
+  BullishFvg = 'bullishFvg',
+  BearishFvg = 'bearishFvg',
+  BullishBos = 'bullishBos',
+  BearishBos = 'bearishBos',
+}
+
 export type PatternSignal = {
-  id: string;
-  name: string;
+  id: PatternIdEnum;
   direction: PatternDirectionEnum;
   confidence: number;
   price?: number;
   entry?: number;
   stop?: number;
   targets?: number[];
-  reason: string;
   meta?: Record<string, unknown>;
 };
 
@@ -49,7 +60,7 @@ export type TradeSuggestion = {
   entry?: number;
   stop?: number;
   targets?: number[];
-  reasons: string[];
+  reasons: PatternIdEnum[];
 };
 
 export type AnalyzeResponse = {

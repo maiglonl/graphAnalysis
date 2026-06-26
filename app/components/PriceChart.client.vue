@@ -50,7 +50,7 @@ function buildMarkers(): SeriesMarker<UTCTimestamp>[] {
       position: isBullish ? "belowBar" : "aboveBar",
       shape: isBullish ? "arrowUp" : isBearish ? "arrowDown" : "circle",
       color: directionColor(pattern.direction),
-      text: pattern.name,
+      text: t(`patterns.${pattern.id}.name`),
     };
   });
 }

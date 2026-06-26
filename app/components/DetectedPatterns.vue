@@ -17,11 +17,11 @@ defineProps<{
         class="border-b border-slate-200 py-3 last:border-b-0"
       >
         <div class="flex justify-between gap-3">
-          <strong>{{ $t(pattern.name) }}</strong>
+          <strong>{{ $t(`patterns.${pattern.id}.name`) }}</strong>
           <span>{{ pattern.confidence }}%</span>
         </div>
 
-        <p class="text-slate-500 mt-1.5 mb-0">{{ $t(pattern.reason) }}</p>
+        <p class="text-slate-500 mt-1.5 mb-0">{{ $t(`patterns.${pattern.id}.reason`) }}</p>
       </li>
     </ul>
 
