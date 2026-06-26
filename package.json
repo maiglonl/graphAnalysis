@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@nuxtjs/i18n": "^10.4.0",
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.1",
+    "vitest": "^4.0.16",
     "vue-tsc": "^3.3.5"
   },
   "allowScripts": {
