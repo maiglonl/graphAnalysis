@@ -80,6 +80,7 @@ export type AnalyzeResponse = {
   candles: Candle[];
   suggestion: TradeSuggestion;
   patterns: PatternSignal[];
+  structure: MarketStructure;
   disclaimer: string;
 };
 
