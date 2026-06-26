@@ -1,7 +1,8 @@
 {
   "errors": {
     "invalidSymbol": "Invalid asset.",
-    "invalidInterval": "Invalid timeframe."
+    "invalidInterval": "Invalid timeframe.",
+    "analyzeDefault": "Error analyzing asset."
   },
   "common": {
     "entry": "Entry",
@@ -16,7 +17,10 @@
     "analyze": "Analyze"
   },
   "chart": {
-    "targetLine": "Target {n}"
+    "targetLine": "Target {n}",
+    "fvgStart": "FVG start",
+    "fvgEnd": "FVG end",
+    "brokenLevel": "Broken level"
   },
   "scanner": {
     "title": "Technical Scanner",
@@ -100,8 +104,5 @@
     "sell": "Sell",
     "wait": "Wait",
     "none": "Neutral"
-  },
-  "errors": {
-    "analyzeDefault": "Error analyzing asset."
   }
 }
