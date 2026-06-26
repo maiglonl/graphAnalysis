@@ -2,17 +2,17 @@ import type { Candle, PatternSignal, TradeSuggestion } from '#shared/types/marke
 import { PatternDirectionEnum, TradeActionEnum } from '#shared/types/market';
 import { createScanContext } from '#shared/utils/scanContext';
 import type { PatternDetector } from '#shared/utils/detectors/base';
-import {
-  HammerDetector,
-  ShootingStarDetector,
-  DojiDetector,
-  BullishEngulfingDetector,
-  BearishEngulfingDetector,
-  InsideBarDetector,
-  BullishFvgDetector,
-  BearishFvgDetector,
-} from '#shared/utils/detectors/candleDetectors';
-import { MarketStructureDetector, BosDetector, ChochDetector } from '#shared/utils/detectors/structureDetectors';
+import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
+import { ShootingStarDetector } from '#shared/utils/detectors/candle/shootingStar';
+import { DojiDetector } from '#shared/utils/detectors/candle/doji';
+import { BullishEngulfingDetector } from '#shared/utils/detectors/candle/bullishEngulfing';
+import { BearishEngulfingDetector } from '#shared/utils/detectors/candle/bearishEngulfing';
+import { InsideBarDetector } from '#shared/utils/detectors/candle/insideBar';
+import { BullishFvgDetector } from '#shared/utils/detectors/candle/bullishFvg';
+import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
+import { MarketStructureDetector } from '#shared/utils/detectors/structure/marketStructure';
+import { BosDetector } from '#shared/utils/detectors/structure/bos';
+import { ChochDetector } from '#shared/utils/detectors/structure/choch';
 
 const DETECTORS: PatternDetector[] = [
   new HammerDetector(),
