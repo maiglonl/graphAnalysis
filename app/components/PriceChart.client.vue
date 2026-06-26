@@ -11,8 +11,15 @@ import {
 } from 'lightweight-charts';
 
 import { PatternDirectionEnum, type TradeSuggestion, type Candle, type PatternSignal } from '#shared/types/market';
-
-import { MARKET_COLORS, directionColor, actionColor } from '#shared/utils/colors';
+import { MARKET_COLORS, actionColor, directionColor } from '#shared/utils/colors';
+import {
+  ChartPriceLineKindEnum,
+  buildPatternMarkers,
+  buildPatternPriceLines,
+  buildTradePlanLines,
+  type ChartPatternMarker,
+  type ChartPriceLine,
+} from '~/utils/chartAnnotations';
 
 const { t } = useI18n();
 
@@ -31,63 +38,83 @@ function toChartTime(time: number): UTCTimestamp {
   return Math.floor(time / 1000) as UTCTimestamp;
 }
 
-function buildMarkers(): SeriesMarker<UTCTimestamp>[] {
-  if (!props.patterns?.length || !props.candles.length) return [];
+function toSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTimestamp> {
+  const isBullish = marker.direction === PatternDirectionEnum.Bullish;
+  const isBearish = marker.direction === PatternDirectionEnum.Bearish;
 
-  const last = props.candles.at(-1);
-  if (!last) return [];
+  return {
+    time: toChartTime(marker.time),
+    position: isBullish ? 'belowBar' : 'aboveBar',
+    shape: isBullish ? 'arrowUp' : isBearish ? 'arrowDown' : 'circle',
+    color: directionColor(marker.direction),
+    text: t(`patterns.${marker.patternId}.name`),
+  };
+}
 
-  return props.patterns.map((pattern) => {
-    const isBullish = pattern.direction === PatternDirectionEnum.Bullish;
-    const isBearish = pattern.direction === PatternDirectionEnum.Bearish;
+function getLineColor(line: ChartPriceLine): string {
+  if (line.kind === ChartPriceLineKindEnum.Stop) {
+    return MARKET_COLORS.stop;
+  }
 
-    return {
-      time: toChartTime(last.time),
-      position: isBullish ? 'belowBar' : 'aboveBar',
-      shape: isBullish ? 'arrowUp' : isBearish ? 'arrowDown' : 'circle',
-      color: directionColor(pattern.direction),
-      text: t(`patterns.${pattern.id}.name`),
-    };
+  if (line.kind === ChartPriceLineKindEnum.Target) {
+    return MARKET_COLORS.target;
+  }
+
+  if (line.direction) {
+    return directionColor(line.direction);
+  }
+
+  if (props.suggestion) {
+    return actionColor(props.suggestion.action);
+  }
+
+  return MARKET_COLORS.neutral;
+}
+
+function getLineStyle(line: ChartPriceLine): LineStyle {
+  if (line.kind === ChartPriceLineKindEnum.Entry) {
+    return LineStyle.Solid;
+  }
+
+  if (line.kind === ChartPriceLineKindEnum.Stop) {
+    return LineStyle.Dashed;
+  }
+
+  return LineStyle.Dotted;
+}
+
+function getLineWidth(line: ChartPriceLine): 1 | 2 | 3 | 4 {
+  if (line.kind === ChartPriceLineKindEnum.Entry || line.kind === ChartPriceLineKindEnum.Stop) {
+    return 2;
+  }
+
+  return 1;
+}
+
+function addPriceLine(line: ChartPriceLine) {
+  if (!candleSeries) return;
+
+  candleSeries.createPriceLine({
+    price: line.price,
+    color: getLineColor(line),
+    lineWidth: getLineWidth(line),
+    lineStyle: getLineStyle(line),
+    axisLabelVisible: true,
+    title: t(line.titleKey, line.titleParams ?? {}),
   });
 }
 
-function addTradePlanLines() {
-  if (!candleSeries || !props.suggestion) return;
+function addChartAnnotations() {
+  if (!candleSeries) return;
 
-  const { entry, stop, targets, action } = props.suggestion;
+  const patternMarkers = buildPatternMarkers(props.candles, props.patterns ?? []);
 
-  if (entry) {
-    candleSeries.createPriceLine({
-      price: entry,
-      color: actionColor(action),
-      lineWidth: 2,
-      lineStyle: LineStyle.Solid,
-      axisLabelVisible: true,
-      title: t('common.entry'),
-    });
-  }
+  createSeriesMarkers(candleSeries, patternMarkers.map(toSeriesMarker));
 
-  if (stop) {
-    candleSeries.createPriceLine({
-      price: stop,
-      color: MARKET_COLORS.stop,
-      lineWidth: 2,
-      lineStyle: LineStyle.Dashed,
-      axisLabelVisible: true,
-      title: t('common.stop'),
-    });
-  }
+  const tradePlanLines = buildTradePlanLines(props.suggestion);
+  const patternPriceLines = buildPatternPriceLines(props.patterns ?? []);
 
-  targets?.forEach((target, index) => {
-    candleSeries?.createPriceLine({
-      price: target,
-      color: MARKET_COLORS.target,
-      lineWidth: 1,
-      lineStyle: LineStyle.Dotted,
-      axisLabelVisible: true,
-      title: t('chart.targetLine', { n: index + 1 }),
-    });
-  });
+  [...tradePlanLines, ...patternPriceLines].forEach(addPriceLine);
 }
 
 function renderChart() {
@@ -98,12 +125,12 @@ function renderChart() {
   chart = createChart(chartEl.value, {
     height: 420,
     layout: {
-      background: { color: MARKET_COLORS.chartBackground },
-      textColor: MARKET_COLORS.chartText,
+      background: { color: '#ffffff' },
+      textColor: '#111827',
     },
     grid: {
-      vertLines: { color: MARKET_COLORS.chartGrid },
-      horzLines: { color: MARKET_COLORS.chartGrid },
+      vertLines: { color: '#f1f5f9' },
+      horzLines: { color: '#f1f5f9' },
     },
     rightPriceScale: {
       borderVisible: false,
@@ -135,8 +162,7 @@ function renderChart() {
     }))
   );
 
-  createSeriesMarkers(candleSeries, buildMarkers());
-  addTradePlanLines();
+  addChartAnnotations();
 
   chart.timeScale().fitContent();
   resizeChart();
