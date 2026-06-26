@@ -36,7 +36,16 @@
   },
   "suggestion": {
     "title": "Trade plan",
-    "reasons": "Reasons"
+    "reasons": "Reasons",
+    "scoreBreakdown": {
+      "title": "Confidence breakdown",
+      "patternScore": "Patterns",
+      "structureScore": "Structure",
+      "trendScore": "Trend",
+      "volumeScore": "Volume",
+      "confluenceBonus": "Confluence",
+      "conflictPenalty": "Conflict"
+    }
   },
   "patterns": {
     "title": "Detected patterns",
