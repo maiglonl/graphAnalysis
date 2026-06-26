@@ -1,5 +1,5 @@
 import type { Candle, PatternSignal, TradeSuggestion } from '#shared/types/market';
-import { PatternDirectionEnum, TradeActionEnum } from '#shared/types/market';
+import { PatternDirectionEnum, PatternIdEnum, TradeActionEnum } from '#shared/types/market';
 import { ScanContext } from '#shared/utils/scanContext';
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
 import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
@@ -25,7 +25,23 @@ export class Scanner {
   scan(candles: Candle[]): PatternSignal[] {
     if (!this.isValidInput(candles)) return [];
     const ctx = new ScanContext(candles);
-    return this.detectors.flatMap((detector) => detector.detect(ctx));
+    const raw = this.detectors.flatMap((detector) => detector.detect(ctx));
+    return this.deduplicateStructureBreaks(raw);
+  }
+
+  // CHOCH é uma especialização de BOS: se ambos dispararem na mesma direção,
+  // suprime o BOS para evitar dupla contagem que infla a confluência.
+  private deduplicateStructureBreaks(patterns: PatternSignal[]): PatternSignal[] {
+    const hasBullishChoch = patterns.some((p) => p.id === PatternIdEnum.BullishChoch);
+    const hasBearishChoch = patterns.some((p) => p.id === PatternIdEnum.BearishChoch);
+
+    if (!hasBullishChoch && !hasBearishChoch) return patterns;
+
+    return patterns.filter((p) => {
+      if (hasBullishChoch && p.id === PatternIdEnum.BullishBos) return false;
+      if (hasBearishChoch && p.id === PatternIdEnum.BearishBos) return false;
+      return true;
+    });
   }
 
   private isValidInput(candles: Candle[]): boolean {
