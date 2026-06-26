@@ -42,13 +42,19 @@ export const SCANNER = {
   confluenceBonusStep: 5,
 } as const;
 
+export const VOLUME = {
+  highRelativeVolume: 1.5,
+  lowRelativeVolume: 0.7,
+} as const;
+
 export const SCORING = {
   structureBreakScore: 10,
   marketStructureScore: 6,
   trendAlignmentBonus: 8,
   trendConflictPenalty: 8,
   conflictPenalty: 10,
-  volumeScore: 0,
+  highVolumeBonus: 6,
+  lowVolumePenalty: 4,
 } as const;
 
 export const API = {
