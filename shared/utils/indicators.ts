@@ -112,12 +112,7 @@ export function isSwingLow(
 
 export function getLastSwingHigh(candles: Candle[], beforeIndex: number) {
   for (let i = beforeIndex - 2; i >= 2; i--) {
-    if (isSwingHigh(candles, i)) {
-      return {
-        index: i,
-        price: candles[i].high,
-      };
-    }
+    if (isSwingHigh(candles, i)) return { index: i, price: candles[i].high };
   }
 
   return null;
@@ -125,12 +120,7 @@ export function getLastSwingHigh(candles: Candle[], beforeIndex: number) {
 
 export function getLastSwingLow(candles: Candle[], beforeIndex: number) {
   for (let i = beforeIndex - 2; i >= 2; i--) {
-    if (isSwingLow(candles, i)) {
-      return {
-        index: i,
-        price: candles[i].low,
-      };
-    }
+    if (isSwingLow(candles, i)) return { index: i, price: candles[i].low };
   }
 
   return null;

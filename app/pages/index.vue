@@ -1,9 +1,25 @@
 <script setup lang="ts">
+import type { AnalyzeResponse } from "#shared/types/market";
+import { TradeActionEnum } from "#shared/types/market";
+
 const symbol = ref("BTCUSDT");
 const interval = ref("1h");
-const result = ref<any>(null);
+const result = ref<AnalyzeResponse | null>(null);
 const loading = ref(false);
 const error = ref("");
+
+function getActionClass(action: TradeActionEnum) {
+  switch (action) {
+    case TradeActionEnum.Buy:
+      return "bg-green-100 text-green-800";
+    case TradeActionEnum.Sell:
+      return "bg-red-100 text-red-800";
+    case TradeActionEnum.Wait:
+      return "bg-yellow-100 text-yellow-800";
+    default:
+      return "bg-slate-100 text-slate-700";
+  }
+}
 
 async function analyze() {
   loading.value = true;
@@ -66,25 +82,17 @@ onMounted(() => {
         </button>
       </section>
 
-      <p
-        v-if="error"
-        class="bg-red-100 text-red-800 p-3 rounded-xl"
-      >
+      <p v-if="error" class="bg-red-100 text-red-800 p-3 rounded-xl">
         {{ error }}
       </p>
 
-      <section
-        v-if="result"
-        class="flex gap-5 items-start"
-      >
+      <section v-if="result" class="flex gap-5 items-start">
         <div
           class="flex-1 min-w-0 bg-white border border-slate-200 rounded-2xl p-4"
         >
           <div class="flex justify-between items-center mb-3">
             <div>
-              <h2 class="m-0">
-                {{ result.symbol }} · {{ result.interval }}
-              </h2>
+              <h2 class="m-0">{{ result.symbol }} · {{ result.interval }}</h2>
 
               <p class="mt-1 mb-0 text-slate-500">
                 Preço atual: {{ result.price }}
@@ -99,7 +107,11 @@ onMounted(() => {
             </span>
           </div>
 
-          <PriceChart :candles="result.candles" :patterns="result.patterns" />
+          <PriceChart
+            :candles="result.candles"
+            :patterns="result.patterns"
+            :suggestion="result.suggestion"
+          />
         </div>
 
         <aside

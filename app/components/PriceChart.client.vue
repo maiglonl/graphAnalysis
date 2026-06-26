@@ -10,10 +10,11 @@ import {
   type UTCTimestamp,
 } from "lightweight-charts";
 
-import type {
-  Candle,
-  PatternSignal,
-  TradeSuggestion,
+import {
+  PatternDirectionEnum,
+  type TradeSuggestion,
+  type Candle,
+  type PatternSignal,
 } from "#shared/types/market";
 
 const props = defineProps<{
@@ -38,8 +39,8 @@ function buildMarkers(): SeriesMarker<UTCTimestamp>[] {
   if (!last) return [];
 
   return props.patterns.map((pattern) => {
-    const isBullish = pattern.direction === "bullish";
-    const isBearish = pattern.direction === "bearish";
+    const isBullish = pattern.direction === PatternDirectionEnum.Bullish;
+    const isBearish = pattern.direction === PatternDirectionEnum.Bearish;
 
     return {
       time: toChartTime(last.time),
