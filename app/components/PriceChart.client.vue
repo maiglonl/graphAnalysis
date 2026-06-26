@@ -14,11 +14,13 @@ import { PatternDirectionEnum, type TradeSuggestion, type Candle, type PatternSi
 import { MARKET_COLORS, actionColor, directionColor } from '#shared/utils/colors';
 import {
   ChartPriceLineKindEnum,
+  buildFvgZones,
   buildPatternMarkers,
   buildPatternPriceLines,
   buildTradePlanLines,
   type ChartPatternMarker,
   type ChartPriceLine,
+  type ChartZone,
 } from '~/utils/chartAnnotations';
 
 const { t } = useI18n();
@@ -30,6 +32,7 @@ const props = defineProps<{
 }>();
 
 const chartEl = ref<HTMLDivElement | null>(null);
+const renderedZones = ref<RenderedChartZone[]>([]);
 
 let chart: IChartApi | null = null;
 let candleSeries: ISeriesApi<'Candlestick'> | null = null;
@@ -37,6 +40,17 @@ let candleSeries: ISeriesApi<'Candlestick'> | null = null;
 function toChartTime(time: number): UTCTimestamp {
   return Math.floor(time / 1000) as UTCTimestamp;
 }
+
+type RenderedChartZone = {
+  id: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  backgroundColor: string;
+  borderColor: string;
+  label: string;
+};
 
 function toSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTimestamp> {
   const isBullish = marker.direction === PatternDirectionEnum.Bullish;
@@ -49,6 +63,15 @@ function toSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTimestamp> 
     color: directionColor(marker.direction),
     text: t(`patterns.${marker.patternId}.name`),
   };
+}
+
+function colorWithAlpha(hex: string, alpha: number): string {
+  const normalized = hex.replace('#', '');
+  const red = Number.parseInt(normalized.slice(0, 2), 16);
+  const green = Number.parseInt(normalized.slice(2, 4), 16);
+  const blue = Number.parseInt(normalized.slice(4, 6), 16);
+
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 }
 
 function getLineColor(line: ChartPriceLine): string {
@@ -117,10 +140,59 @@ function addChartAnnotations() {
   [...tradePlanLines, ...patternPriceLines].forEach(addPriceLine);
 }
 
+function toRenderedZone(zone: ChartZone): RenderedChartZone | null {
+  if (!chart || !candleSeries) return null;
+
+  const fromCoordinate = chart.timeScale().timeToCoordinate(toChartTime(zone.fromTime));
+  const toCoordinate = chart.timeScale().timeToCoordinate(toChartTime(zone.toTime));
+  const topCoordinate = candleSeries.priceToCoordinate(zone.top);
+  const bottomCoordinate = candleSeries.priceToCoordinate(zone.bottom);
+
+  if (fromCoordinate == null || toCoordinate == null || topCoordinate == null || bottomCoordinate == null) {
+    return null;
+  }
+
+  const color = directionColor(zone.direction);
+  const left = Math.min(fromCoordinate, toCoordinate);
+  const right = Math.max(fromCoordinate, toCoordinate);
+  const top = Math.min(topCoordinate, bottomCoordinate);
+  const bottom = Math.max(topCoordinate, bottomCoordinate);
+
+  return {
+    id: zone.id,
+    left,
+    top,
+    width: Math.max(6, right - left),
+    height: Math.max(4, bottom - top),
+    backgroundColor: colorWithAlpha(color, 0.12),
+    borderColor: colorWithAlpha(color, 0.42),
+    label: t('chart.fvgZone'),
+  };
+}
+
+function updateRenderedZones() {
+  const zones = buildFvgZones(props.candles, props.patterns ?? []);
+  renderedZones.value = zones.map(toRenderedZone).filter(Boolean) as RenderedChartZone[];
+}
+
+function handleVisibleTimeRangeChange() {
+  updateRenderedZones();
+}
+
+function cleanupChart() {
+  if (!chart) return;
+
+  chart.timeScale().unsubscribeVisibleTimeRangeChange(handleVisibleTimeRangeChange);
+  chart.remove();
+  chart = null;
+  candleSeries = null;
+  renderedZones.value = [];
+}
+
 function renderChart() {
   if (!chartEl.value || !props.candles.length) return;
 
-  chart?.remove();
+  cleanupChart();
 
   chart = createChart(chartEl.value, {
     height: 420,
@@ -164,8 +236,10 @@ function renderChart() {
 
   addChartAnnotations();
 
+  chart.timeScale().subscribeVisibleTimeRangeChange(handleVisibleTimeRangeChange);
   chart.timeScale().fitContent();
   resizeChart();
+  updateRenderedZones();
 }
 
 function resizeChart() {
@@ -174,6 +248,8 @@ function resizeChart() {
   chart.applyOptions({
     width: chartEl.value.clientWidth,
   });
+
+  updateRenderedZones();
 }
 
 onMounted(() => {
@@ -183,7 +259,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', resizeChart);
-  chart?.remove();
+  cleanupChart();
 });
 
 watch(
@@ -194,5 +270,27 @@ watch(
 </script>
 
 <template>
-  <div ref="chartEl" class="flex w-full min-h-96" />
+  <div class="relative w-full">
+    <div ref="chartEl" class="flex w-full min-h-96" />
+
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div
+        v-for="zone in renderedZones"
+        :key="zone.id"
+        class="absolute rounded border text-xs font-semibold px-1 py-0.5"
+        :style="{
+          left: `${zone.left}px`,
+          top: `${zone.top}px`,
+          width: `${zone.width}px`,
+          height: `${zone.height}px`,
+          backgroundColor: zone.backgroundColor,
+          borderColor: zone.borderColor,
+        }"
+      >
+        <span class="text-slate-700">
+          {{ zone.label }}
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
