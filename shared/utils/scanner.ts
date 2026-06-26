@@ -1,5 +1,5 @@
-import type { Candle, PatternSignal, TradeSuggestion } from '#shared/types/market';
-import { PatternDirectionEnum, PatternIdEnum, TradeActionEnum } from '#shared/types/market';
+import type { Candle, PatternSignal, SuggestionScoreBreakdown, TradeSuggestion } from '#shared/types/market';
+import { PatternDirectionEnum, PatternIdEnum, StructureTrendEnum, TradeActionEnum } from '#shared/types/market';
 import { ScanContext } from '#shared/utils/scanContext';
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
 import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
@@ -13,7 +13,16 @@ import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
 import { MarketStructureDetector } from '#shared/utils/detectors/structure/marketStructure';
 import { BosDetector } from '#shared/utils/detectors/structure/bos';
 import { ChochDetector } from '#shared/utils/detectors/structure/choch';
-import { SCANNER } from '#shared/utils/detectors/constants';
+import { SCANNER, SCORING } from '#shared/utils/detectors/constants';
+
+const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
+  patternScore: 0,
+  structureScore: 0,
+  trendScore: 0,
+  volumeScore: SCORING.volumeScore,
+  confluenceBonus: 0,
+  conflictPenalty: 0,
+};
 
 export class Scanner {
   private readonly detectors: PatternDetector[];
@@ -53,7 +62,12 @@ export class Scanner {
 export class SuggestionBuilder {
   build(candles: Candle[], patterns: PatternSignal[]): TradeSuggestion {
     if (candles.length === 0 || patterns.length === 0) {
-      return { action: TradeActionEnum.None, confidence: 0, reasons: [] };
+      return {
+        action: TradeActionEnum.None,
+        confidence: 0,
+        reasons: [],
+        scoreBreakdown: EMPTY_SCORE_BREAKDOWN,
+      };
     }
 
     const bullish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bullish);
@@ -69,22 +83,31 @@ export class SuggestionBuilder {
           : PatternDirectionEnum.Neutral;
 
     if (direction === PatternDirectionEnum.Neutral) {
-      return { action: TradeActionEnum.Wait, confidence: SCANNER.waitConfidence, reasons: patterns.map((p) => p.id) };
+      return {
+        action: TradeActionEnum.Wait,
+        confidence: SCANNER.waitConfidence,
+        reasons: patterns.map((p) => p.id),
+        scoreBreakdown: {
+          ...EMPTY_SCORE_BREAKDOWN,
+          conflictPenalty: this.calculateConflictPenalty(bullish, bearish),
+        },
+      };
     }
 
     const selectedPatterns = direction === PatternDirectionEnum.Bullish ? bullish : bearish;
-    const strongestPattern = selectedPatterns.sort((a, b) => b.confidence - a.confidence)[0];
+    const strongestPattern = [...selectedPatterns].sort((a, b) => b.confidence - a.confidence)[0];
 
     if (!strongestPattern) {
-      return { action: TradeActionEnum.Wait, confidence: SCANNER.waitConfidence, reasons: patterns.map((p) => p.id) };
+      return {
+        action: TradeActionEnum.Wait,
+        confidence: SCANNER.waitConfidence,
+        reasons: patterns.map((p) => p.id),
+        scoreBreakdown: EMPTY_SCORE_BREAKDOWN,
+      };
     }
 
-    const averageConfidence = selectedPatterns.reduce((sum, p) => sum + p.confidence, 0) / selectedPatterns.length;
-    const confluenceBonus = Math.min(
-      SCANNER.maxConfluenceBonus,
-      Math.max(0, selectedPatterns.length - 1) * SCANNER.confluenceBonusStep,
-    );
-    const confidence = Math.min(SCANNER.maxConfidence, Math.round(averageConfidence + confluenceBonus));
+    const scoreBreakdown = this.buildScoreBreakdown(candles, selectedPatterns, bullish, bearish, direction);
+    const confidence = this.calculateConfidence(scoreBreakdown);
     const action = direction === PatternDirectionEnum.Bullish ? TradeActionEnum.Buy : TradeActionEnum.Sell;
 
     return {
@@ -94,7 +117,102 @@ export class SuggestionBuilder {
       stop: strongestPattern.stop,
       targets: strongestPattern.targets,
       reasons: selectedPatterns.map((p) => p.id),
+      scoreBreakdown,
     };
+  }
+
+  private buildScoreBreakdown(
+    candles: Candle[],
+    selectedPatterns: PatternSignal[],
+    bullish: PatternSignal[],
+    bearish: PatternSignal[],
+    direction: PatternDirectionEnum,
+  ): SuggestionScoreBreakdown {
+    const patternScore = this.calculatePatternScore(selectedPatterns);
+    const confluenceBonus = this.calculateConfluenceBonus(selectedPatterns);
+    const structureScore = this.calculateStructureScore(selectedPatterns);
+    const trendScore = this.calculateTrendScore(candles, direction);
+    const conflictPenalty = this.calculateConflictPenalty(bullish, bearish);
+
+    return {
+      patternScore,
+      structureScore,
+      trendScore,
+      volumeScore: SCORING.volumeScore,
+      confluenceBonus,
+      conflictPenalty,
+    };
+  }
+
+  private calculatePatternScore(patterns: PatternSignal[]): number {
+    if (patterns.length === 0) return 0;
+
+    return Math.round(patterns.reduce((sum, p) => sum + p.confidence, 0) / patterns.length);
+  }
+
+  private calculateConfluenceBonus(patterns: PatternSignal[]): number {
+    return Math.min(
+      SCANNER.maxConfluenceBonus,
+      Math.max(0, patterns.length - 1) * SCANNER.confluenceBonusStep,
+    );
+  }
+
+  private calculateStructureScore(patterns: PatternSignal[]): number {
+    if (patterns.some((pattern) => this.isStructureBreakPattern(pattern))) {
+      return SCORING.structureBreakScore;
+    }
+
+    if (patterns.some((pattern) => this.isMarketStructurePattern(pattern))) {
+      return SCORING.marketStructureScore;
+    }
+
+    return 0;
+  }
+
+  private calculateTrendScore(candles: Candle[], direction: PatternDirectionEnum): number {
+    const trend = new ScanContext(candles).trend();
+
+    if (trend === StructureTrendEnum.Neutral) return 0;
+    if (trend === StructureTrendEnum.Bullish && direction === PatternDirectionEnum.Bullish) return SCORING.trendAlignmentBonus;
+    if (trend === StructureTrendEnum.Bearish && direction === PatternDirectionEnum.Bearish) return SCORING.trendAlignmentBonus;
+
+    return -SCORING.trendConflictPenalty;
+  }
+
+  private calculateConflictPenalty(bullish: PatternSignal[], bearish: PatternSignal[]): number {
+    if (bullish.length === 0 || bearish.length === 0) return 0;
+
+    return SCORING.conflictPenalty;
+  }
+
+  private calculateConfidence(scoreBreakdown: SuggestionScoreBreakdown): number {
+    const confidence =
+      scoreBreakdown.patternScore +
+      scoreBreakdown.structureScore +
+      scoreBreakdown.trendScore +
+      scoreBreakdown.volumeScore +
+      scoreBreakdown.confluenceBonus -
+      scoreBreakdown.conflictPenalty;
+
+    return Math.min(SCANNER.maxConfidence, Math.max(SCANNER.waitConfidence, Math.round(confidence)));
+  }
+
+  private isStructureBreakPattern(pattern: PatternSignal): boolean {
+    return (
+      pattern.id === PatternIdEnum.BullishBos ||
+      pattern.id === PatternIdEnum.BearishBos ||
+      pattern.id === PatternIdEnum.BullishChoch ||
+      pattern.id === PatternIdEnum.BearishChoch
+    );
+  }
+
+  private isMarketStructurePattern(pattern: PatternSignal): boolean {
+    return (
+      pattern.id === PatternIdEnum.HigherHigh ||
+      pattern.id === PatternIdEnum.HigherLow ||
+      pattern.id === PatternIdEnum.LowerHigh ||
+      pattern.id === PatternIdEnum.LowerLow
+    );
   }
 }
 
