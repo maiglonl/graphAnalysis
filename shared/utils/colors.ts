@@ -6,9 +6,6 @@ export const MARKET_COLORS = {
   neutral: '#64748b',
   stop: '#ef4444',
   target: '#2563eb',
-  chartBackground: '#ffffff',
-  chartText: '#111827',
-  chartGrid: '#f1f5f9',
 } as const;
 
 export const ACTION_CLASSES: Record<TradeActionEnum, string> = {
