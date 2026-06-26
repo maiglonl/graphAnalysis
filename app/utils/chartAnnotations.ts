@@ -14,6 +14,10 @@ export enum ChartPriceLineKindEnum {
   BrokenLevel = 'brokenLevel',
 }
 
+export enum ChartZoneKindEnum {
+  FairValueGap = 'fairValueGap',
+}
+
 export type ChartPatternMarker = {
   id: string;
   time: number;
@@ -28,6 +32,16 @@ export type ChartPriceLine = {
   titleKey: string;
   titleParams?: Record<string, unknown>;
   direction?: PatternDirectionEnum;
+};
+
+export type ChartZone = {
+  id: string;
+  fromTime: number;
+  toTime: number;
+  top: number;
+  bottom: number;
+  direction: PatternDirectionEnum;
+  kind: ChartZoneKindEnum;
 };
 
 function getMetaNumber(pattern: PatternSignal, key: string): number | null {
@@ -145,6 +159,35 @@ export function buildPatternPriceLines(patterns: PatternSignal[]): ChartPriceLin
   });
 
   return dedupePriceLines(lines);
+}
+
+export function buildFvgZones(candles: Candle[], patterns: PatternSignal[]): ChartZone[] {
+  const last = candles.at(-1);
+
+  if (!last) return [];
+
+  return patterns.flatMap((pattern) => {
+    if (!isFvgPattern(pattern)) return [];
+
+    const gapStart = getMetaNumber(pattern, 'gapStart');
+    const gapEnd = getMetaNumber(pattern, 'gapEnd');
+    const fromTime = getMetaNumber(pattern, 'fromTime');
+    const toTime = getMetaNumber(pattern, 'toTime') ?? last.time;
+
+    if (gapStart == null || gapEnd == null || fromTime == null) return [];
+
+    return [
+      {
+        id: `${pattern.id}-zone-${fromTime}`,
+        fromTime,
+        toTime: Math.max(toTime, last.time),
+        top: Math.max(gapStart, gapEnd),
+        bottom: Math.min(gapStart, gapEnd),
+        direction: pattern.direction,
+        kind: ChartZoneKindEnum.FairValueGap,
+      },
+    ];
+  });
 }
 
 function dedupePriceLines(lines: ChartPriceLine[]): ChartPriceLine[] {
