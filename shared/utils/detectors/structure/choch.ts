@@ -1,60 +1,19 @@
-import type { PatternSignal } from '#shared/types/market';
-import { PatternDirectionEnum, PatternIdEnum, StructureTrendEnum } from '#shared/types/market';
-import { getMarketStructure } from '#shared/utils/marketStructure';
-import type { ScanContext } from '#shared/utils/scanContext';
-import { PatternDetector } from '../PatternDetector';
-import { round } from '../helpers';
+import type { MarketStructure } from '#shared/types/market';
+import { PatternIdEnum, StructureTrendEnum } from '#shared/types/market';
+import { StructureBreakDetector } from './StructureBreakDetector';
+import { CONFIDENCE } from '../constants';
 
-export class ChochDetector extends PatternDetector {
-  override detect(ctx: ScanContext): PatternSignal[] {
-    const { candles, index, atr14 } = ctx;
-    const current = candles[index];
-    if (!current) return [];
+export class ChochDetector extends StructureBreakDetector {
+  protected override readonly bullishId = PatternIdEnum.BullishChoch;
+  protected override readonly bearishId = PatternIdEnum.BearishChoch;
+  protected override readonly confidence = CONFIDENCE.choch;
 
-    const atrValue = atr14[index] ?? 0;
-    const buffer = atrValue * 0.05;
-    const structure = getMarketStructure(candles, index, atrValue);
+  // CHOCH exige trend oposto — ruptura contrária à tendência vigente.
+  protected override allowsBullish(structure: MarketStructure): boolean {
+    return structure.trend === StructureTrendEnum.Bearish;
+  }
 
-    if (structure.trend === StructureTrendEnum.Bearish && structure.lastHigh && current.close > structure.lastHigh.price + buffer) {
-      return [
-        {
-          id: PatternIdEnum.BullishChoch,
-          direction: PatternDirectionEnum.Bullish,
-          confidence: 72,
-          price: current.close,
-          entry: current.close,
-          stop: structure.lastLow?.price,
-          targets: structure.lastLow
-            ? [
-                round(current.close + (current.close - structure.lastLow.price) * 2),
-                round(current.close + (current.close - structure.lastLow.price) * 3),
-              ]
-            : undefined,
-          meta: { brokenLevel: structure.lastHigh.price, structure },
-        },
-      ];
-    }
-
-    if (structure.trend === StructureTrendEnum.Bullish && structure.lastLow && current.close < structure.lastLow.price - buffer) {
-      return [
-        {
-          id: PatternIdEnum.BearishChoch,
-          direction: PatternDirectionEnum.Bearish,
-          confidence: 72,
-          price: current.close,
-          entry: current.close,
-          stop: structure.lastHigh?.price,
-          targets: structure.lastHigh
-            ? [
-                round(current.close - (structure.lastHigh.price - current.close) * 2),
-                round(current.close - (structure.lastHigh.price - current.close) * 3),
-              ]
-            : undefined,
-          meta: { brokenLevel: structure.lastLow.price, structure },
-        },
-      ];
-    }
-
-    return [];
+  protected override allowsBearish(structure: MarketStructure): boolean {
+    return structure.trend === StructureTrendEnum.Bullish;
   }
 }

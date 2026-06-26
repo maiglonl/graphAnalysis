@@ -3,7 +3,7 @@ import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import type { ScanContext } from '#shared/utils/scanContext';
 import { PatternDetector } from './PatternDetector';
 
-type MatchResult = {
+export type MatchResult = {
   price?: number;
   entry?: number;
   stop?: number;
@@ -12,19 +12,19 @@ type MatchResult = {
 };
 
 /**
- * Base for patterns that examine a fixed candle window and always produce
- * a single signal of a known direction and confidence.
- * Subclasses implement only the matching logic via `match`.
+ * Base para padrões que examinam uma janela fixa de candles e produzem
+ * exatamente um sinal de direção e confiança conhecidos de antemão.
+ * Subclasses implementam apenas a lógica de detecção em match().
  */
 export abstract class CandlePatternDetector extends PatternDetector {
   abstract readonly id: PatternIdEnum;
   abstract readonly direction: PatternDirectionEnum;
   abstract readonly baseConfidence: number;
 
-  protected abstract match(candles: Candle[], index: number): MatchResult | null;
+  protected abstract match(candles: Candle[], index: number, ctx: ScanContext): MatchResult | null;
 
   override detect(ctx: ScanContext): PatternSignal[] {
-    const result = this.match(ctx.candles, ctx.index);
+    const result = this.match(ctx.candles, ctx.index, ctx);
     if (!result) return [];
     return [{ id: this.id, direction: this.direction, confidence: this.baseConfidence, ...result }];
   }

@@ -1,6 +1,7 @@
 import type { Candle } from "#shared/types/market";
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from "#shared/types/market";
 import { buildSuggestion, scanPatterns } from "#shared/utils/scanner";
+import { API } from "#shared/utils/detectors/constants";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
     query: {
       symbol,
       interval,
-      limit: 500,
+      limit: API.candleLimit,
     },
   });
 

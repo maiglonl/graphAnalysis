@@ -1,6 +1,6 @@
 import type { Candle, PatternSignal, TradeSuggestion } from '#shared/types/market';
 import { PatternDirectionEnum, TradeActionEnum } from '#shared/types/market';
-import { createScanContext } from '#shared/utils/scanContext';
+import { ScanContext } from '#shared/utils/scanContext';
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
 import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
 import { ShootingStarDetector } from '#shared/utils/detectors/candle/shootingStar';
@@ -13,8 +13,76 @@ import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
 import { MarketStructureDetector } from '#shared/utils/detectors/structure/marketStructure';
 import { BosDetector } from '#shared/utils/detectors/structure/bos';
 import { ChochDetector } from '#shared/utils/detectors/structure/choch';
+import { SCANNER } from '#shared/utils/detectors/constants';
 
-const DETECTORS: PatternDetector[] = [
+export class Scanner {
+  private readonly detectors: PatternDetector[];
+
+  constructor(detectors: PatternDetector[]) {
+    this.detectors = detectors;
+  }
+
+  scan(candles: Candle[]): PatternSignal[] {
+    if (!this.isValidInput(candles)) return [];
+    const ctx = new ScanContext(candles);
+    return this.detectors.flatMap((detector) => detector.detect(ctx));
+  }
+
+  private isValidInput(candles: Candle[]): boolean {
+    if (candles.length < SCANNER.minCandles) return false;
+    return candles.every((c) => c.high >= c.low && c.close >= 0 && c.open >= 0);
+  }
+}
+
+export class SuggestionBuilder {
+  build(candles: Candle[], patterns: PatternSignal[]): TradeSuggestion {
+    if (candles.length === 0 || patterns.length === 0) {
+      return { action: TradeActionEnum.None, confidence: 0, reasons: [] };
+    }
+
+    const bullish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bullish);
+    const bearish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bearish);
+    const bullishScore = bullish.reduce((sum, p) => sum + p.confidence, 0);
+    const bearishScore = bearish.reduce((sum, p) => sum + p.confidence, 0);
+
+    const direction =
+      bullishScore > bearishScore
+        ? PatternDirectionEnum.Bullish
+        : bearishScore > bullishScore
+          ? PatternDirectionEnum.Bearish
+          : PatternDirectionEnum.Neutral;
+
+    if (direction === PatternDirectionEnum.Neutral) {
+      return { action: TradeActionEnum.Wait, confidence: SCANNER.waitConfidence, reasons: patterns.map((p) => p.id) };
+    }
+
+    const selectedPatterns = direction === PatternDirectionEnum.Bullish ? bullish : bearish;
+    const strongestPattern = selectedPatterns.sort((a, b) => b.confidence - a.confidence)[0];
+
+    if (!strongestPattern) {
+      return { action: TradeActionEnum.Wait, confidence: SCANNER.waitConfidence, reasons: patterns.map((p) => p.id) };
+    }
+
+    const averageConfidence = selectedPatterns.reduce((sum, p) => sum + p.confidence, 0) / selectedPatterns.length;
+    const confluenceBonus = Math.min(
+      SCANNER.maxConfluenceBonus,
+      Math.max(0, selectedPatterns.length - 1) * SCANNER.confluenceBonusStep,
+    );
+    const confidence = Math.min(SCANNER.maxConfidence, Math.round(averageConfidence + confluenceBonus));
+    const action = direction === PatternDirectionEnum.Bullish ? TradeActionEnum.Buy : TradeActionEnum.Sell;
+
+    return {
+      action,
+      confidence,
+      entry: strongestPattern.entry,
+      stop: strongestPattern.stop,
+      targets: strongestPattern.targets,
+      reasons: selectedPatterns.map((p) => p.id),
+    };
+  }
+}
+
+const defaultScanner = new Scanner([
   new HammerDetector(),
   new ShootingStarDetector(),
   new DojiDetector(),
@@ -26,50 +94,14 @@ const DETECTORS: PatternDetector[] = [
   new MarketStructureDetector(),
   new BosDetector(),
   new ChochDetector(),
-];
+]);
+
+const defaultSuggestionBuilder = new SuggestionBuilder();
 
 export function scanPatterns(candles: Candle[]): PatternSignal[] {
-  if (candles.length < 50) return [];
-  const ctx = createScanContext(candles);
-  return DETECTORS.flatMap((detector) => detector.detect(ctx));
+  return defaultScanner.scan(candles);
 }
 
 export function buildSuggestion(candles: Candle[], patterns: PatternSignal[]): TradeSuggestion {
-  const last = candles.at(-1);
-
-  if (!last || patterns.length === 0) {
-    return { action: TradeActionEnum.None, confidence: 0, reasons: [] };
-  }
-
-  const bullish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bullish);
-  const bearish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bearish);
-  const bullishScore = bullish.reduce((sum, p) => sum + p.confidence, 0);
-  const bearishScore = bearish.reduce((sum, p) => sum + p.confidence, 0);
-
-  const direction =
-    bullishScore > bearishScore
-      ? PatternDirectionEnum.Bullish
-      : bearishScore > bullishScore
-        ? PatternDirectionEnum.Bearish
-        : PatternDirectionEnum.Neutral;
-
-  if (direction === PatternDirectionEnum.Neutral) {
-    return { action: TradeActionEnum.Wait, confidence: 45, reasons: patterns.map((p) => p.id) };
-  }
-
-  const selectedPatterns = direction === PatternDirectionEnum.Bullish ? bullish : bearish;
-  const best = selectedPatterns.sort((a, b) => b.confidence - a.confidence)[0]!;
-  const averageConfidence = selectedPatterns.reduce((sum, p) => sum + p.confidence, 0) / selectedPatterns.length;
-  const confluenceBonus = Math.min(15, Math.max(0, selectedPatterns.length - 1) * 5);
-  const confidence = Math.min(95, Math.round(averageConfidence + confluenceBonus));
-  const action = direction === PatternDirectionEnum.Bullish ? TradeActionEnum.Buy : TradeActionEnum.Sell;
-
-  return {
-    action,
-    confidence,
-    entry: best.entry,
-    stop: best.stop,
-    targets: best.targets,
-    reasons: selectedPatterns.map((p) => p.id),
-  };
+  return defaultSuggestionBuilder.build(candles, patterns);
 }

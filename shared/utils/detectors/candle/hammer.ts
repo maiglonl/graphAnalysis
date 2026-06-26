@@ -1,34 +1,37 @@
 import type { Candle } from '#shared/types/market';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
-import { isDowntrend } from '#shared/utils/indicators';
+import { StructureTrendEnum } from '#shared/types/market';
+import type { ScanContext } from '#shared/utils/scanContext';
 import { CandlePatternDetector } from '../CandlePatternDetector';
-import { candleParts, round } from '../helpers';
+import { candleParts, calculateTargets } from '../helpers';
+import { CONFIDENCE, THRESHOLDS } from '../constants';
 
 export class HammerDetector extends CandlePatternDetector {
   override readonly id = PatternIdEnum.Hammer;
   override readonly direction = PatternDirectionEnum.Bullish;
-  override readonly baseConfidence = 68;
+  override readonly baseConfidence = CONFIDENCE.hammer;
 
-  protected override match(candles: Candle[], index: number) {
+  protected override match(candles: Candle[], index: number, ctx: ScanContext) {
     const candle = candles[index];
     if (!candle) return null;
-    const p = candleParts(candle);
+    if (ctx.trend() !== StructureTrendEnum.Bearish) return null;
+
+    const parts = candleParts(candle);
     const valid =
-      isDowntrend(candles, index) &&
-      p.range > 0 &&
-      p.bodyPct <= 0.35 &&
-      p.lowerShadow >= p.body * 2 &&
-      p.upperShadow <= p.body * 0.25 &&
-      p.closePosition >= 0.55;
+      parts.range > 0 &&
+      parts.bodyPct <= THRESHOLDS.pinBarMaxBodyPct &&
+      parts.lowerShadow >= parts.body * THRESHOLDS.pinBarMinShadowRatio &&
+      parts.upperShadow <= parts.body * THRESHOLDS.pinBarMaxMinorShadow &&
+      parts.closePosition >= THRESHOLDS.hammerMinClosePosition;
+
     if (!valid) return null;
+
+    const risk = candle.high - candle.low;
     return {
       price: candle.close,
       entry: candle.high,
       stop: candle.low,
-      targets: [
-        round(candle.high + (candle.high - candle.low) * 2),
-        round(candle.high + (candle.high - candle.low) * 3),
-      ],
+      targets: calculateTargets(candle.high, risk, 'up'),
     };
   }
 }

@@ -3,6 +3,7 @@ import { MarketStructurePointEnum, PatternDirectionEnum, PatternIdEnum } from '#
 import { getMarketStructure } from '#shared/utils/marketStructure';
 import type { ScanContext } from '#shared/utils/scanContext';
 import { PatternDetector } from '../PatternDetector';
+import { CONFIDENCE } from '../constants';
 
 const POINT_TO_ID: Record<MarketStructurePointEnum, PatternIdEnum> = {
   [MarketStructurePointEnum.HigherHigh]: PatternIdEnum.HigherHigh,
@@ -13,11 +14,10 @@ const POINT_TO_ID: Record<MarketStructurePointEnum, PatternIdEnum> = {
 
 export class MarketStructureDetector extends PatternDetector {
   override detect(ctx: ScanContext): PatternSignal[] {
-    const { candles, index, atr14 } = ctx;
-    const current = candles[index];
+    const current = ctx.currentCandle;
     if (!current) return [];
 
-    const structure = getMarketStructure(candles, index, atr14[index] ?? 0);
+    const structure = getMarketStructure(ctx.candles, ctx.index, ctx.currentAtr);
 
     return structure.points.map((point) => ({
       id: POINT_TO_ID[point],
@@ -25,7 +25,7 @@ export class MarketStructureDetector extends PatternDetector {
         point === MarketStructurePointEnum.HigherHigh || point === MarketStructurePointEnum.HigherLow
           ? PatternDirectionEnum.Bullish
           : PatternDirectionEnum.Bearish,
-      confidence: 58,
+      confidence: CONFIDENCE.marketStructure,
       price: current.close,
       meta: { structure },
     }));

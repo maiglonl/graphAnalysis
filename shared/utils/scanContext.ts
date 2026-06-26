@@ -1,26 +1,38 @@
-import type { Candle } from "#shared/types/market";
-import { atr, ema, relativeVolume } from "#shared/utils/indicators";
+import type { Candle } from '#shared/types/market';
+import { StructureTrendEnum } from '#shared/types/market';
+import { atr, ema, getTrend } from '#shared/utils/indicators';
 
-export type ScanContext = {
-  candles: Candle[];
-  index: number;
-  closes: number[];
-  ema20: number[];
-  ema50: number[];
-  atr14: number[];
-  relativeVolume20: number[];
-};
+export class ScanContext {
+  readonly candles: Candle[];
+  readonly index: number;
+  readonly ema20: number[];
+  readonly ema50: number[];
+  readonly atr14: number[];
+
+  constructor(candles: Candle[]) {
+    const closes = candles.map((c) => c.close);
+    this.candles = candles;
+    this.index = candles.length - 1;
+    this.ema20 = ema(closes, 20);
+    this.ema50 = ema(closes, 50);
+    this.atr14 = atr(candles, 14);
+  }
+
+  get currentCandle(): Candle | undefined {
+    return this.candles[this.index];
+  }
+
+  get currentAtr(): number {
+    return this.atr14[this.index] ?? 0;
+  }
+
+  trend(): StructureTrendEnum {
+    const current = this.currentCandle;
+    if (!current) return StructureTrendEnum.Neutral;
+    return getTrend(this.index, current.close, this.ema20, this.ema50);
+  }
+}
 
 export function createScanContext(candles: Candle[]): ScanContext {
-  const closes = candles.map((candle) => candle.close);
-
-  return {
-    candles,
-    index: candles.length - 1,
-    closes,
-    ema20: ema(closes, 20),
-    ema50: ema(closes, 50),
-    atr14: atr(candles, 14),
-    relativeVolume20: relativeVolume(candles, 20),
-  };
+  return new ScanContext(candles);
 }
