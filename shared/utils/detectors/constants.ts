@@ -42,6 +42,15 @@ export const SCANNER = {
   confluenceBonusStep: 5,
 } as const;
 
+export const SCORING = {
+  structureBreakScore: 10,
+  marketStructureScore: 6,
+  trendAlignmentBonus: 8,
+  trendConflictPenalty: 8,
+  conflictPenalty: 10,
+  volumeScore: 0,
+} as const;
+
 export const API = {
   candleLimit: 500,
   candleLimitMin: 50,
