@@ -65,6 +65,30 @@
     "bearishBos": {
       "name": "Bearish BOS",
       "reason": "Close broke the last confirmed swing low, indicating a bearish structure break."
+    },
+    "bullishChoch": {
+      "name": "Bullish CHOCH",
+      "reason": "Change of character: bearish structure reversed by breaking a relevant swing high."
+    },
+    "bearishChoch": {
+      "name": "Bearish CHOCH",
+      "reason": "Change of character: bullish structure reversed by breaking a relevant swing low."
+    },
+    "higherHigh": {
+      "name": "Higher High",
+      "reason": "Higher high than the previous one, confirming bullish market structure."
+    },
+    "higherLow": {
+      "name": "Higher Low",
+      "reason": "Higher low than the previous one, sustaining the uptrend."
+    },
+    "lowerHigh": {
+      "name": "Lower High",
+      "reason": "Lower high than the previous one, confirming bearish market structure."
+    },
+    "lowerLow": {
+      "name": "Lower Low",
+      "reason": "Lower low than the previous one, sustaining the downtrend."
     }
   },
   "actions": {

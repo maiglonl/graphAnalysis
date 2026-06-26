@@ -1,6 +1,21 @@
-import type { Candle, PatternSignal, TradeSuggestion } from '../types/market';
-import { PatternDirectionEnum, PatternIdEnum, TradeActionEnum } from '../types/market';
-import { atr, isUptrend, isDowntrend, getLastSwingHigh, getLastSwingLow } from './indicators';
+import type { Candle, PatternSignal, TradeSuggestion } from '#shared/types/market';
+import {
+  MarketStructurePointEnum,
+  PatternDirectionEnum,
+  PatternIdEnum,
+  StructureTrendEnum,
+  TradeActionEnum,
+} from '#shared/types/market';
+import { atr, isUptrend, isDowntrend } from './indicators';
+import { createScanContext, type ScanContext } from '#shared/utils/scanContext';
+import { getMarketStructure } from '#shared/utils/marketStructure';
+
+const STRUCTURE_POINT_TO_PATTERN_ID: Record<MarketStructurePointEnum, PatternIdEnum> = {
+  [MarketStructurePointEnum.HigherHigh]: PatternIdEnum.HigherHigh,
+  [MarketStructurePointEnum.HigherLow]: PatternIdEnum.HigherLow,
+  [MarketStructurePointEnum.LowerHigh]: PatternIdEnum.LowerHigh,
+  [MarketStructurePointEnum.LowerLow]: PatternIdEnum.LowerLow,
+};
 
 function candleParts(candle: Candle) {
   const range = candle.high - candle.low;
@@ -47,10 +62,7 @@ export function detectHammer(candles: Candle[], index: number): PatternSignal | 
     price: candle.close,
     entry: candle.high,
     stop: candle.low,
-    targets: [
-      round(candle.high + (candle.high - candle.low) * 2),
-      round(candle.high + (candle.high - candle.low) * 3),
-    ],
+    targets: [round(candle.high + (candle.high - candle.low) * 2), round(candle.high + (candle.high - candle.low) * 3)],
   };
 }
 
@@ -77,10 +89,7 @@ export function detectShootingStar(candles: Candle[], index: number): PatternSig
     price: candle.close,
     entry: candle.low,
     stop: candle.high,
-    targets: [
-      round(candle.low - (candle.high - candle.low) * 2),
-      round(candle.low - (candle.high - candle.low) * 3),
-    ],
+    targets: [round(candle.low - (candle.high - candle.low) * 2), round(candle.low - (candle.high - candle.low) * 3)],
   };
 }
 
@@ -262,50 +271,136 @@ export function detectBearishFvg(candles: Candle[], index: number): PatternSigna
   };
 }
 
-export function detectBos(candles: Candle[], index: number): PatternSignal | null {
+export function detectMarketStructureSignals(ctx: ScanContext): PatternSignal[] {
+  const { candles, index, atr14 } = ctx;
   const current = candles[index];
+
+  if (!current) return [];
+
+  const structure = getMarketStructure(candles, index, atr14[index] || 0);
+
+  return structure.points.map((point) => {
+    const isBullish = point === MarketStructurePointEnum.HigherHigh || point === MarketStructurePointEnum.HigherLow;
+
+    return {
+      id: STRUCTURE_POINT_TO_PATTERN_ID[point],
+      direction: isBullish ? PatternDirectionEnum.Bullish : PatternDirectionEnum.Bearish,
+      confidence: 58,
+      price: current.close,
+      meta: { structure },
+    };
+  });
+}
+
+export function detectBos(ctx: ScanContext): PatternSignal | null {
+  const { candles, index, atr14 } = ctx;
+  const current = candles[index];
+
   if (!current) return null;
 
-  const lastHigh = getLastSwingHigh(candles, index);
-  const lastLow = getLastSwingLow(candles, index);
+  const atrValue = atr14[index] || 0;
+  const buffer = atrValue * 0.05;
 
-  const atrValues = atr(candles);
-  const currentAtr = atrValues[index] || 0;
-  const buffer = currentAtr * 0.05;
+  const structure = getMarketStructure(candles, index, atrValue);
 
-  if (lastHigh && current.close > lastHigh.price + buffer) {
+  if (structure.lastHigh && current.close > structure.lastHigh.price + buffer) {
     return {
       id: PatternIdEnum.BullishBos,
       direction: PatternDirectionEnum.Bullish,
       confidence: 76,
       price: current.close,
       entry: current.close,
-      stop: lastLow?.price,
-      targets: lastLow
+      stop: structure.lastLow?.price,
+      targets: structure.lastLow
         ? [
-            round(current.close + (current.close - lastLow.price) * 2),
-            round(current.close + (current.close - lastLow.price) * 3),
+            round(current.close + (current.close - structure.lastLow.price) * 2),
+            round(current.close + (current.close - structure.lastLow.price) * 3),
           ]
         : undefined,
-      meta: { brokenSwingHigh: lastHigh.price },
+      meta: {
+        brokenLevel: structure.lastHigh.price,
+        structure,
+      },
     };
   }
 
-  if (lastLow && current.close < lastLow.price - buffer) {
+  if (structure.lastLow && current.close < structure.lastLow.price - buffer) {
     return {
       id: PatternIdEnum.BearishBos,
       direction: PatternDirectionEnum.Bearish,
       confidence: 76,
       price: current.close,
       entry: current.close,
-      stop: lastHigh?.price,
-      targets: lastHigh
+      stop: structure.lastHigh?.price,
+      targets: structure.lastHigh
         ? [
-            round(current.close - (lastHigh.price - current.close) * 2),
-            round(current.close - (lastHigh.price - current.close) * 3),
+            round(current.close - (structure.lastHigh.price - current.close) * 2),
+            round(current.close - (structure.lastHigh.price - current.close) * 3),
           ]
         : undefined,
-      meta: { brokenSwingLow: lastLow.price },
+      meta: {
+        brokenLevel: structure.lastLow.price,
+        structure,
+      },
+    };
+  }
+
+  return null;
+}
+
+export function detectChoch(ctx: ScanContext): PatternSignal | null {
+  const { candles, index, atr14 } = ctx;
+  const current = candles[index];
+
+  if (!current) return null;
+
+  const atrValue = atr14[index] || 0;
+  const buffer = atrValue * 0.05;
+
+  const structure = getMarketStructure(candles, index, atrValue);
+
+  const wasBearish = structure.trend === StructureTrendEnum.Bearish;
+  const wasBullish = structure.trend === StructureTrendEnum.Bullish;
+
+  if (wasBearish && structure.lastHigh && current.close > structure.lastHigh.price + buffer) {
+    return {
+      id: PatternIdEnum.BullishChoch,
+      direction: PatternDirectionEnum.Bullish,
+      confidence: 72,
+      price: current.close,
+      entry: current.close,
+      stop: structure.lastLow?.price,
+      targets: structure.lastLow
+        ? [
+            round(current.close + (current.close - structure.lastLow.price) * 2),
+            round(current.close + (current.close - structure.lastLow.price) * 3),
+          ]
+        : undefined,
+      meta: {
+        brokenLevel: structure.lastHigh.price,
+        structure,
+      },
+    };
+  }
+
+  if (wasBullish && structure.lastLow && current.close < structure.lastLow.price - buffer) {
+    return {
+      id: PatternIdEnum.BearishChoch,
+      direction: PatternDirectionEnum.Bearish,
+      confidence: 72,
+      price: current.close,
+      entry: current.close,
+      stop: structure.lastHigh?.price,
+      targets: structure.lastHigh
+        ? [
+            round(current.close - (structure.lastHigh.price - current.close) * 2),
+            round(current.close - (structure.lastHigh.price - current.close) * 3),
+          ]
+        : undefined,
+      meta: {
+        brokenLevel: structure.lastLow.price,
+        structure,
+      },
     };
   }
 
@@ -313,29 +408,33 @@ export function detectBos(candles: Candle[], index: number): PatternSignal | nul
 }
 
 export function scanPatterns(candles: Candle[]): PatternSignal[] {
-  const index = candles.length - 1;
+  if (candles.length < 50) return [];
 
-  if (index < 50) return [];
+  const ctx = createScanContext(candles);
+  const { index } = ctx;
 
-  const detectors = [
-    detectHammer,
-    detectShootingStar,
-    detectDoji,
-    detectBullishEngulfing,
-    detectBearishEngulfing,
-    detectInsideBar,
-    detectBullishFvg,
-    detectBearishFvg,
-    detectBos,
-  ];
+  const candlePatterns = [
+    detectHammer(candles, index),
+    detectShootingStar(candles, index),
+    detectDoji(candles, index),
+    detectBullishEngulfing(candles, index),
+    detectBearishEngulfing(candles, index),
+    detectInsideBar(candles, index),
+    detectBullishFvg(candles, index),
+    detectBearishFvg(candles, index),
+  ].filter(Boolean) as PatternSignal[];
 
-  return detectors
-    .map((detector) => detector(candles, index))
-    .filter(Boolean) as PatternSignal[];
+  const structurePatterns = [...detectMarketStructureSignals(ctx), detectBos(ctx), detectChoch(ctx)].filter(
+    Boolean,
+  ) as PatternSignal[];
+
+  return [...candlePatterns, ...structurePatterns];
 }
 
 export function buildSuggestion(candles: Candle[], patterns: PatternSignal[]): TradeSuggestion {
-  if (candles.length === 0 || patterns.length === 0) {
+  const last = candles.at(-1);
+
+  if (!last || patterns.length === 0) {
     return {
       action: TradeActionEnum.None,
       confidence: 0,
@@ -345,16 +444,17 @@ export function buildSuggestion(candles: Candle[], patterns: PatternSignal[]): T
 
   const bullish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bullish);
   const bearish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bearish);
-
   const bullishScore = bullish.reduce((sum, p) => sum + p.confidence, 0);
   const bearishScore = bearish.reduce((sum, p) => sum + p.confidence, 0);
 
-  const best =
+  const direction =
     bullishScore > bearishScore
-      ? bullish.sort((a, b) => b.confidence - a.confidence)[0]
-      : bearish.sort((a, b) => b.confidence - a.confidence)[0];
+      ? PatternDirectionEnum.Bullish
+      : bearishScore > bullishScore
+        ? PatternDirectionEnum.Bearish
+        : PatternDirectionEnum.Neutral;
 
-  if (!best) {
+  if (direction === PatternDirectionEnum.Neutral) {
     return {
       action: TradeActionEnum.Wait,
       confidence: 45,
@@ -362,13 +462,12 @@ export function buildSuggestion(candles: Candle[], patterns: PatternSignal[]): T
     };
   }
 
-  const confidence = Math.min(
-    95,
-    Math.round(best.confidence + Math.max(0, patterns.length - 1) * 4),
-  );
-
-  const action =
-    best.direction === PatternDirectionEnum.Bullish ? TradeActionEnum.Buy : TradeActionEnum.Sell;
+  const selectedPatterns = direction === PatternDirectionEnum.Bullish ? bullish : bearish;
+  const best = selectedPatterns.sort((a, b) => b.confidence - a.confidence)[0];
+  const averageConfidence = selectedPatterns.reduce((sum, p) => sum + p.confidence, 0) / selectedPatterns.length;
+  const confluenceBonus = Math.min(15, Math.max(0, selectedPatterns.length - 1) * 5);
+  const confidence = Math.min(95, Math.round(averageConfidence + confluenceBonus));
+  const action = direction === PatternDirectionEnum.Bullish ? TradeActionEnum.Buy : TradeActionEnum.Sell;
 
   return {
     action,
@@ -376,6 +475,6 @@ export function buildSuggestion(candles: Candle[], patterns: PatternSignal[]): T
     entry: best.entry,
     stop: best.stop,
     targets: best.targets,
-    reasons: patterns.map((p) => p.id),
+    reasons: selectedPatterns.map((p) => p.id),
   };
 }

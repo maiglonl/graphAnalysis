@@ -65,6 +65,30 @@
     "bearishBos": {
       "name": "BOS Bajista",
       "reason": "El cierre rompió el último swing low confirmado, indicando ruptura de estructura bajista."
+    },
+    "bullishChoch": {
+      "name": "CHOCH Alcista",
+      "reason": "Cambio de carácter: la estructura bajista revirtió al romper un máximo relevante."
+    },
+    "bearishChoch": {
+      "name": "CHOCH Bajista",
+      "reason": "Cambio de carácter: la estructura alcista revirtió al romper un mínimo relevante."
+    },
+    "higherHigh": {
+      "name": "Máximo Mayor",
+      "reason": "Máximo más alto que el anterior, confirmando estructura alcista de mercado."
+    },
+    "higherLow": {
+      "name": "Mínimo Mayor",
+      "reason": "Mínimo más alto que el anterior, sosteniendo la tendencia alcista."
+    },
+    "lowerHigh": {
+      "name": "Máximo Menor",
+      "reason": "Máximo más bajo que el anterior, confirmando estructura bajista de mercado."
+    },
+    "lowerLow": {
+      "name": "Mínimo Menor",
+      "reason": "Mínimo más bajo que el anterior, sosteniendo la tendencia bajista."
     }
   },
   "actions": {

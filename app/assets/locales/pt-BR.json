@@ -65,6 +65,30 @@
     "bearishBos": {
       "name": "Bearish BOS",
       "reason": "Fechamento rompeu o último swing low confirmado, indicando quebra de estrutura baixista."
+    },
+    "bullishChoch": {
+      "name": "Bullish CHOCH",
+      "reason": "Mudança de caráter: estrutura baixista reverteu ao romper um topo relevante."
+    },
+    "bearishChoch": {
+      "name": "Bearish CHOCH",
+      "reason": "Mudança de caráter: estrutura altista reverteu ao romper um fundo relevante."
+    },
+    "higherHigh": {
+      "name": "Higher High",
+      "reason": "Topo mais alto que o anterior, confirmando estrutura de alta."
+    },
+    "higherLow": {
+      "name": "Higher Low",
+      "reason": "Fundo mais alto que o anterior, sustentando a tendência de alta."
+    },
+    "lowerHigh": {
+      "name": "Lower High",
+      "reason": "Topo mais baixo que o anterior, confirmando estrutura de baixa."
+    },
+    "lowerLow": {
+      "name": "Lower Low",
+      "reason": "Fundo mais baixo que o anterior, sustentando a tendência de baixa."
     }
   },
   "actions": {

@@ -24,6 +24,12 @@ export enum PatternIdEnum {
   BearishFvg = 'bearishFvg',
   BullishBos = 'bullishBos',
   BearishBos = 'bearishBos',
+  BullishChoch = 'bullishChoch',
+  BearishChoch = 'bearishChoch',
+  HigherHigh = 'higherHigh',
+  HigherLow = 'higherLow',
+  LowerHigh = 'lowerHigh',
+  LowerLow = 'lowerLow',
 }
 
 export type PatternSignal = {
@@ -72,4 +78,37 @@ export type AnalyzeResponse = {
   suggestion: TradeSuggestion;
   patterns: PatternSignal[];
   disclaimer: string;
+};
+
+export enum MarketStructurePointEnum {
+  HigherHigh = 'HH',
+  HigherLow = 'HL',
+  LowerHigh = 'LH',
+  LowerLow = 'LL',
+}
+
+export enum StructureTrendEnum {
+  Bullish = 'bullish',
+  Bearish = 'bearish',
+  Neutral = 'neutral',
+}
+
+export enum SwingPointTypeEnum {
+  High = 'high',
+  Low = 'low',
+}
+
+export type SwingPoint = {
+  index: number;
+  price: number;
+  type: SwingPointTypeEnum;
+};
+
+export type MarketStructure = {
+  lastHigh: SwingPoint | null;
+  previousHigh: SwingPoint | null;
+  lastLow: SwingPoint | null;
+  previousLow: SwingPoint | null;
+  points: MarketStructurePointEnum[];
+  trend: StructureTrendEnum;
 };
