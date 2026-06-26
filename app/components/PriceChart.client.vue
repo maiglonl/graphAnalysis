@@ -23,10 +23,12 @@ import {
   buildFvgZones,
   buildPatternMarkers,
   buildPatternPriceLines,
+  buildStructureBreakMarkers,
   buildStructureMarkers,
   buildTradePlanLines,
   type ChartPatternMarker,
   type ChartPriceLine,
+  type ChartStructureBreakMarker,
   type ChartStructureMarker,
   type ChartZone,
 } from '~/utils/chartAnnotations';
@@ -69,6 +71,16 @@ function toPatternSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTime
     time: toChartTime(marker.time),
     position: isBullish ? 'belowBar' : 'aboveBar',
     shape: isBullish ? 'arrowUp' : isBearish ? 'arrowDown' : 'circle',
+    color: directionColor(marker.direction),
+    text: t(`patterns.${marker.patternId}.name`),
+  };
+}
+
+function toStructureBreakSeriesMarker(marker: ChartStructureBreakMarker): SeriesMarker<UTCTimestamp> {
+  return {
+    time: toChartTime(marker.time),
+    position: marker.position,
+    shape: marker.shape,
     color: directionColor(marker.direction),
     text: t(`patterns.${marker.patternId}.name`),
   };
@@ -150,10 +162,12 @@ function addChartAnnotations() {
   if (!candleSeries) return;
 
   const patternMarkers = buildPatternMarkers(props.candles, props.patterns ?? []);
+  const structureBreakMarkers = buildStructureBreakMarkers(props.candles, props.patterns ?? []);
   const structureMarkers = buildStructureMarkers(props.candles, props.structure);
 
   createSeriesMarkers(candleSeries, [
     ...patternMarkers.map(toPatternSeriesMarker),
+    ...structureBreakMarkers.map(toStructureBreakSeriesMarker),
     ...structureMarkers.map(toStructureSeriesMarker),
   ]);
 
