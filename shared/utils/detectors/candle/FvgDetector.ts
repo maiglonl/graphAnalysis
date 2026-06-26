@@ -36,7 +36,11 @@ export abstract class FvgDetector extends CandlePatternDetector {
       entry: round(entry),
       stop: round(stop),
       targets: calculateTargets(round(entry), risk, direction),
-      meta: this.buildMeta(c1, c3, gap),
+      meta: {
+        ...this.buildMeta(c1, c3, gap),
+        fromTime: c1.time,
+        toTime: c3.time,
+      },
     };
   }
 }
