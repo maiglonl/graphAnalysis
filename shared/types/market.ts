@@ -51,7 +51,10 @@ export enum TradeActionEnum {
 }
 
 export enum IntervalEnum {
+  OneMinute = '1m',
+  FiveMinutes = '5m',
   FifteenMinutes = '15m',
+  ThirtyMinutes = '30m',
   OneHour = '1h',
   FourHours = '4h',
   OneDay = '1d',

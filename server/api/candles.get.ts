@@ -1,4 +1,5 @@
 import type { Candle } from "#shared/types/market";
+import { IntervalEnum } from "#shared/types/market";
 
 type BinanceKline = [
   number,
@@ -15,36 +16,26 @@ type BinanceKline = [
   string,
 ];
 
+const ALLOWED_INTERVALS = new Set<string>(Object.values(IntervalEnum));
+
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const allowedIntervals = new Set([
-    "1m",
-    "5m",
-    "15m",
-    "30m",
-    "1h",
-    "4h",
-    "1d",
-  ]);
 
   const rawLimit = Number(query.limit || 500);
   const limit = Number.isFinite(rawLimit)
     ? Math.min(Math.max(rawLimit, 50), 1000)
     : 500;
 
-  const interval = String(query.interval || "1h");
+  const interval = String(query.interval || IntervalEnum.OneHour);
   const symbol = String(query.symbol || "BTCUSDT")
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, "");
 
   if (!symbol) {
-    throw createError({
-      statusCode: 400,
-      message: "Ativo inválido.",
-    });
+    throw createError({ statusCode: 400, message: "Ativo inválido." });
   }
 
-  if (!allowedIntervals.has(interval)) {
+  if (!ALLOWED_INTERVALS.has(interval)) {
     throw createError({ statusCode: 400, message: "Timeframe inválido." });
   }
 
@@ -60,9 +51,5 @@ export default defineEventHandler(async (event) => {
     volume: Number(item[5]),
   }));
 
-  return {
-    symbol,
-    interval,
-    candles,
-  };
+  return { symbol, interval, candles };
 });
