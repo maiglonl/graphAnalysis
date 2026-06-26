@@ -8,9 +8,9 @@ export type Candle = {
 };
 
 export enum PatternDirectionEnum {
-  Bullish = "bullish",
-  Bearish = "bearish",
-  Neutral = "neutral",
+  Bullish = 'bullish',
+  Bearish = 'bearish',
+  Neutral = 'neutral',
 }
 
 export type PatternSignal = {
@@ -27,11 +27,21 @@ export type PatternSignal = {
 };
 
 export enum TradeActionEnum {
-  Buy = "buy",
-  Sell = "sell",
-  Wait = "wait",
-  None = "none",
+  Buy = 'buy',
+  Sell = 'sell',
+  Wait = 'wait',
+  None = 'none',
 }
+
+export enum IntervalEnum {
+  FifteenMinutes = '15m',
+  OneHour = '1h',
+  FourHours = '4h',
+  OneDay = '1d',
+}
+
+export const DEFAULT_SYMBOL = 'BTCUSDT';
+export const DEFAULT_INTERVAL = IntervalEnum.OneHour;
 
 export type TradeSuggestion = {
   action: TradeActionEnum;
@@ -44,7 +54,7 @@ export type TradeSuggestion = {
 
 export type AnalyzeResponse = {
   symbol: string;
-  interval: string;
+  interval: IntervalEnum;
   price: number | null;
   updatedAt: number | null;
   candles: Candle[];

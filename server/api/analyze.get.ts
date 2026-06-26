@@ -1,11 +1,16 @@
 import type { Candle } from "#shared/types/market";
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from "#shared/types/market";
 import { buildSuggestion, scanPatterns } from "#shared/utils/scanner";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  const symbol = String(query.symbol || "BTCUSDT").toUpperCase();
-  const interval = String(query.interval || "1h");
+  const symbol = String(query.symbol || DEFAULT_SYMBOL).toUpperCase();
+
+  const validIntervals = Object.values(IntervalEnum) as string[];
+  const interval: IntervalEnum = validIntervals.includes(String(query.interval))
+    ? (query.interval as IntervalEnum)
+    : DEFAULT_INTERVAL;
 
   const response = await $fetch<{ candles: Candle[] }>("/api/candles", {
     query: {

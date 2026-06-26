@@ -1,14 +1,18 @@
 <script setup lang="ts">
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from "#shared/types/market";
+
 const props = defineProps<{
   loading?: boolean;
 }>();
 
 const emit = defineEmits<{
-  analyze: [payload: { symbol: string; interval: string }];
+  analyze: [payload: { symbol: string; interval: IntervalEnum }];
 }>();
 
-const symbol = defineModel<string>("symbol", { default: "BTCUSDT" });
-const interval = defineModel<string>("interval", { default: "1h" });
+const symbol = defineModel<string>("symbol", { default: DEFAULT_SYMBOL });
+const interval = defineModel<IntervalEnum>("interval", { default: DEFAULT_INTERVAL });
+
+const intervals = Object.values(IntervalEnum);
 
 function submit() {
   emit("analyze", { symbol: symbol.value, interval: interval.value });
@@ -27,10 +31,7 @@ function submit() {
     />
 
     <select v-model="interval" class="h-10 px-3 border border-slate-300 rounded-xl">
-      <option value="15m">15m</option>
-      <option value="1h">1h</option>
-      <option value="4h">4h</option>
-      <option value="1d">1d</option>
+      <option v-for="iv in intervals" :key="iv" :value="iv">{{ iv }}</option>
     </select>
 
     <button
