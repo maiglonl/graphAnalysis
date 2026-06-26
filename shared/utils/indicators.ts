@@ -1,4 +1,4 @@
-import type { Candle } from "../types/market";
+import type { Candle } from '../types/market';
 
 export function sma(values: number[], period: number): number[] {
   return values.map((_, index) => {
@@ -35,7 +35,7 @@ export function atr(candles: Candle[], period = 14): number[] {
     return Math.max(
       candle.high - candle.low,
       Math.abs(candle.high - previousClose),
-      Math.abs(candle.low - previousClose),
+      Math.abs(candle.low - previousClose)
     );
   });
 
@@ -74,12 +74,7 @@ export function isDowntrend(candles: Candle[], index: number): boolean {
   return candles[index].close < ema20[index] && ema20[index] < ema50[index];
 }
 
-export function isSwingHigh(
-  candles: Candle[],
-  index: number,
-  left = 2,
-  right = 2,
-): boolean {
+export function isSwingHigh(candles: Candle[], index: number, left = 2, right = 2): boolean {
   if (index < left || index + right >= candles.length) return false;
 
   const current = candles[index].high;
@@ -92,12 +87,7 @@ export function isSwingHigh(
   return true;
 }
 
-export function isSwingLow(
-  candles: Candle[],
-  index: number,
-  left = 2,
-  right = 2,
-): boolean {
+export function isSwingLow(candles: Candle[], index: number, left = 2, right = 2): boolean {
   if (index < left || index + right >= candles.length) return false;
 
   const current = candles[index].low;
