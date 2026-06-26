@@ -1,4 +1,8 @@
 {
+  "errors": {
+    "invalidSymbol": "Invalid asset.",
+    "invalidInterval": "Invalid timeframe."
+  },
   "common": {
     "entry": "Entry",
     "stop": "Stop",

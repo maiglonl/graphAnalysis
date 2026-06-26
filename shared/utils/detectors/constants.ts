@@ -44,4 +44,6 @@ export const SCANNER = {
 
 export const API = {
   candleLimit: 500,
+  candleLimitMin: 50,
+  candleLimitMax: 1000,
 } as const;

@@ -1,4 +1,8 @@
 {
+  "errors": {
+    "invalidSymbol": "Activo inválido.",
+    "invalidInterval": "Marco temporal inválido."
+  },
   "common": {
     "entry": "Entrada",
     "stop": "Stop",
