@@ -10,16 +10,24 @@ import {
   type UTCTimestamp,
 } from 'lightweight-charts';
 
-import { PatternDirectionEnum, type TradeSuggestion, type Candle, type PatternSignal } from '#shared/types/market';
+import {
+  PatternDirectionEnum,
+  type TradeSuggestion,
+  type Candle,
+  type MarketStructure,
+  type PatternSignal,
+} from '#shared/types/market';
 import { MARKET_COLORS, actionColor, directionColor } from '#shared/utils/colors';
 import {
   ChartPriceLineKindEnum,
   buildFvgZones,
   buildPatternMarkers,
   buildPatternPriceLines,
+  buildStructureMarkers,
   buildTradePlanLines,
   type ChartPatternMarker,
   type ChartPriceLine,
+  type ChartStructureMarker,
   type ChartZone,
 } from '~/utils/chartAnnotations';
 
@@ -28,6 +36,7 @@ const { t } = useI18n();
 const props = defineProps<{
   candles: Candle[];
   patterns?: PatternSignal[];
+  structure?: MarketStructure;
   suggestion?: TradeSuggestion;
 }>();
 
@@ -52,7 +61,7 @@ type RenderedChartZone = {
   label: string;
 };
 
-function toSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTimestamp> {
+function toPatternSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTimestamp> {
   const isBullish = marker.direction === PatternDirectionEnum.Bullish;
   const isBearish = marker.direction === PatternDirectionEnum.Bearish;
 
@@ -62,6 +71,16 @@ function toSeriesMarker(marker: ChartPatternMarker): SeriesMarker<UTCTimestamp> 
     shape: isBullish ? 'arrowUp' : isBearish ? 'arrowDown' : 'circle',
     color: directionColor(marker.direction),
     text: t(`patterns.${marker.patternId}.name`),
+  };
+}
+
+function toStructureSeriesMarker(marker: ChartStructureMarker): SeriesMarker<UTCTimestamp> {
+  return {
+    time: toChartTime(marker.time),
+    position: marker.position,
+    shape: marker.shape,
+    color: directionColor(marker.direction),
+    text: t(marker.labelKey),
   };
 }
 
@@ -131,8 +150,12 @@ function addChartAnnotations() {
   if (!candleSeries) return;
 
   const patternMarkers = buildPatternMarkers(props.candles, props.patterns ?? []);
+  const structureMarkers = buildStructureMarkers(props.candles, props.structure);
 
-  createSeriesMarkers(candleSeries, patternMarkers.map(toSeriesMarker));
+  createSeriesMarkers(candleSeries, [
+    ...patternMarkers.map(toPatternSeriesMarker),
+    ...structureMarkers.map(toStructureSeriesMarker),
+  ]);
 
   const tradePlanLines = buildTradePlanLines(props.suggestion);
   const patternPriceLines = buildPatternPriceLines(props.patterns ?? []);
@@ -263,7 +286,7 @@ onBeforeUnmount(() => {
 });
 
 watch(
-  () => [props.candles, props.patterns, props.suggestion],
+  () => [props.candles, props.patterns, props.structure, props.suggestion],
   () => renderChart(),
   { deep: true }
 );
