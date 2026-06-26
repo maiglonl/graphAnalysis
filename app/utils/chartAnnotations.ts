@@ -1,8 +1,11 @@
 import {
+  MarketStructurePointEnum,
   PatternDirectionEnum,
   PatternIdEnum,
   type Candle,
+  type MarketStructure,
   type PatternSignal,
+  type SwingPoint,
   type TradeSuggestion,
 } from '#shared/types/market';
 
@@ -18,11 +21,23 @@ export enum ChartZoneKindEnum {
   FairValueGap = 'fairValueGap',
 }
 
+export type ChartMarkerPosition = 'aboveBar' | 'belowBar';
+export type ChartMarkerShape = 'arrowUp' | 'arrowDown' | 'circle';
+
 export type ChartPatternMarker = {
   id: string;
   time: number;
   direction: PatternDirectionEnum;
   patternId: PatternIdEnum;
+};
+
+export type ChartStructureMarker = {
+  id: string;
+  time: number;
+  direction: PatternDirectionEnum;
+  labelKey: string;
+  position: ChartMarkerPosition;
+  shape: ChartMarkerShape;
 };
 
 export type ChartPriceLine = {
@@ -74,6 +89,102 @@ export function buildPatternMarkers(candles: Candle[], patterns: PatternSignal[]
     direction: pattern.direction,
     patternId: pattern.id,
   }));
+}
+
+export function buildStructureMarkers(candles: Candle[], structure?: MarketStructure): ChartStructureMarker[] {
+  if (!structure) return [];
+
+  return [
+    buildPreviousHighMarker(candles, structure.previousHigh),
+    buildPreviousLowMarker(candles, structure.previousLow),
+    buildLastHighMarker(candles, structure),
+    buildLastLowMarker(candles, structure),
+  ].filter(Boolean) as ChartStructureMarker[];
+}
+
+function buildPreviousHighMarker(candles: Candle[], point: SwingPoint | null): ChartStructureMarker | null {
+  return buildStructureMarker(candles, point, {
+    direction: PatternDirectionEnum.Neutral,
+    labelKey: 'chart.swingHigh',
+    position: 'aboveBar',
+    shape: 'circle',
+  });
+}
+
+function buildPreviousLowMarker(candles: Candle[], point: SwingPoint | null): ChartStructureMarker | null {
+  return buildStructureMarker(candles, point, {
+    direction: PatternDirectionEnum.Neutral,
+    labelKey: 'chart.swingLow',
+    position: 'belowBar',
+    shape: 'circle',
+  });
+}
+
+function buildLastHighMarker(candles: Candle[], structure: MarketStructure): ChartStructureMarker | null {
+  const isHigherHigh = structure.points.includes(MarketStructurePointEnum.HigherHigh);
+  const isLowerHigh = structure.points.includes(MarketStructurePointEnum.LowerHigh);
+
+  if (isHigherHigh) {
+    return buildStructureMarker(candles, structure.lastHigh, {
+      direction: PatternDirectionEnum.Bullish,
+      labelKey: 'chart.higherHigh',
+      position: 'aboveBar',
+      shape: 'arrowDown',
+    });
+  }
+
+  if (isLowerHigh) {
+    return buildStructureMarker(candles, structure.lastHigh, {
+      direction: PatternDirectionEnum.Bearish,
+      labelKey: 'chart.lowerHigh',
+      position: 'aboveBar',
+      shape: 'arrowDown',
+    });
+  }
+
+  return buildPreviousHighMarker(candles, structure.lastHigh);
+}
+
+function buildLastLowMarker(candles: Candle[], structure: MarketStructure): ChartStructureMarker | null {
+  const isHigherLow = structure.points.includes(MarketStructurePointEnum.HigherLow);
+  const isLowerLow = structure.points.includes(MarketStructurePointEnum.LowerLow);
+
+  if (isHigherLow) {
+    return buildStructureMarker(candles, structure.lastLow, {
+      direction: PatternDirectionEnum.Bullish,
+      labelKey: 'chart.higherLow',
+      position: 'belowBar',
+      shape: 'arrowUp',
+    });
+  }
+
+  if (isLowerLow) {
+    return buildStructureMarker(candles, structure.lastLow, {
+      direction: PatternDirectionEnum.Bearish,
+      labelKey: 'chart.lowerLow',
+      position: 'belowBar',
+      shape: 'arrowUp',
+    });
+  }
+
+  return buildPreviousLowMarker(candles, structure.lastLow);
+}
+
+function buildStructureMarker(
+  candles: Candle[],
+  point: SwingPoint | null,
+  marker: Omit<ChartStructureMarker, 'id' | 'time'>,
+): ChartStructureMarker | null {
+  if (!point) return null;
+
+  const candle = candles[point.index];
+  if (!candle) return null;
+
+  return {
+    id: `${marker.labelKey}-${point.index}`,
+    time: candle.time,
+    ...marker,
+  };
 }
 
 export function buildTradePlanLines(suggestion?: TradeSuggestion): ChartPriceLine[] {
