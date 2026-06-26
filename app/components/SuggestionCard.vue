@@ -1,9 +1,42 @@
 <script setup lang="ts">
 import type { AnalyzeResponse } from '#shared/types/market';
 
-defineProps<{
+const props = defineProps<{
   result: AnalyzeResponse;
 }>();
+
+const scoreItems = computed(() => [
+  {
+    key: 'patternScore',
+    labelKey: 'suggestion.scoreBreakdown.patternScore',
+    value: props.result.suggestion.scoreBreakdown.patternScore,
+  },
+  {
+    key: 'structureScore',
+    labelKey: 'suggestion.scoreBreakdown.structureScore',
+    value: props.result.suggestion.scoreBreakdown.structureScore,
+  },
+  {
+    key: 'trendScore',
+    labelKey: 'suggestion.scoreBreakdown.trendScore',
+    value: props.result.suggestion.scoreBreakdown.trendScore,
+  },
+  {
+    key: 'volumeScore',
+    labelKey: 'suggestion.scoreBreakdown.volumeScore',
+    value: props.result.suggestion.scoreBreakdown.volumeScore,
+  },
+  {
+    key: 'confluenceBonus',
+    labelKey: 'suggestion.scoreBreakdown.confluenceBonus',
+    value: props.result.suggestion.scoreBreakdown.confluenceBonus,
+  },
+  {
+    key: 'conflictPenalty',
+    labelKey: 'suggestion.scoreBreakdown.conflictPenalty',
+    value: -props.result.suggestion.scoreBreakdown.conflictPenalty,
+  },
+]);
 </script>
 
 <template>
@@ -17,6 +50,28 @@ defineProps<{
     <p class="text-slate-500 mt-0">
       {{ $t('common.confidence') }}
     </p>
+
+    <div class="border border-slate-200 rounded-xl p-3 mb-5">
+      <h4 class="mt-0 mb-3">
+        {{ $t('suggestion.scoreBreakdown.title') }}
+      </h4>
+
+      <dl class="grid gap-2 m-0 text-sm">
+        <div
+          v-for="item in scoreItems"
+          :key="item.key"
+          class="flex justify-between gap-3"
+        >
+          <dt class="text-slate-500">
+            {{ $t(item.labelKey) }}
+          </dt>
+
+          <dd class="m-0 font-semibold">
+            {{ item.value }}
+          </dd>
+        </div>
+      </dl>
+    </div>
 
     <div v-if="result.suggestion.entry != null" class="grid gap-2.5">
       <div>
