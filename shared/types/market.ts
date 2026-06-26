@@ -103,6 +103,11 @@ export type AnalyzeResponse = {
   disclaimer: string;
 };
 
+export type ScanListResponse = {
+  interval: IntervalEnum;
+  items: AnalyzeResponse[];
+};
+
 export enum MarketStructurePointEnum {
   HigherHigh = 'HH',
   HigherLow = 'HL',
