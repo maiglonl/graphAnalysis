@@ -63,6 +63,15 @@ export enum IntervalEnum {
 export const DEFAULT_SYMBOL = 'BTCUSDT';
 export const DEFAULT_INTERVAL = IntervalEnum.OneHour;
 
+export enum MarketDataErrorCodeEnum {
+  InvalidSymbol = 'invalidSymbol',
+  InvalidInterval = 'invalidInterval',
+  RateLimited = 'rateLimited',
+  Timeout = 'timeout',
+  EmptyResponse = 'emptyResponse',
+  ProviderUnavailable = 'providerUnavailable',
+}
+
 export type SuggestionScoreBreakdown = {
   patternScore: number;
   structureScore: number;
