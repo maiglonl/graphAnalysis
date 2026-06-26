@@ -1,7 +1,8 @@
 {
   "errors": {
     "invalidSymbol": "Ativo inválido.",
-    "invalidInterval": "Timeframe inválido."
+    "invalidInterval": "Timeframe inválido.",
+    "analyzeDefault": "Erro ao analisar ativo."
   },
   "common": {
     "entry": "Entrada",
@@ -16,7 +17,10 @@
     "analyze": "Analisar"
   },
   "chart": {
-    "targetLine": "Alvo {n}"
+    "targetLine": "Alvo {n}",
+    "fvgStart": "Início FVG",
+    "fvgEnd": "Fim FVG",
+    "brokenLevel": "Nível rompido"
   },
   "scanner": {
     "title": "Scanner Técnico",
@@ -100,8 +104,5 @@
     "sell": "Vender",
     "wait": "Aguardar",
     "none": "Neutro"
-  },
-  "errors": {
-    "analyzeDefault": "Erro ao analisar ativo."
   }
 }
