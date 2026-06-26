@@ -63,6 +63,15 @@ export enum IntervalEnum {
 export const DEFAULT_SYMBOL = 'BTCUSDT';
 export const DEFAULT_INTERVAL = IntervalEnum.OneHour;
 
+export type SuggestionScoreBreakdown = {
+  patternScore: number;
+  structureScore: number;
+  trendScore: number;
+  volumeScore: number;
+  confluenceBonus: number;
+  conflictPenalty: number;
+};
+
 export type TradeSuggestion = {
   action: TradeActionEnum;
   confidence: number;
@@ -70,6 +79,7 @@ export type TradeSuggestion = {
   stop?: number;
   targets?: number[];
   reasons: PatternIdEnum[];
+  scoreBreakdown: SuggestionScoreBreakdown;
 };
 
 export type AnalyzeResponse = {
