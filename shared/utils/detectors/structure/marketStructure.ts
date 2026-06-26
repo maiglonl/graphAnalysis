@@ -2,7 +2,7 @@ import type { PatternSignal } from '#shared/types/market';
 import { MarketStructurePointEnum, PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { getMarketStructure } from '#shared/utils/marketStructure';
 import type { ScanContext } from '#shared/utils/scanContext';
-import { PatternDetector } from '../base';
+import { PatternDetector } from '../PatternDetector';
 
 const POINT_TO_ID: Record<MarketStructurePointEnum, PatternIdEnum> = {
   [MarketStructurePointEnum.HigherHigh]: PatternIdEnum.HigherHigh,

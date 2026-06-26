@@ -1,7 +1,7 @@
 import type { Candle } from '#shared/types/market';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { isUptrend } from '#shared/utils/indicators';
-import { CandlePatternDetector } from '../base';
+import { CandlePatternDetector } from '../CandlePatternDetector';
 import { candleParts, round } from '../helpers';
 
 export class BearishEngulfingDetector extends CandlePatternDetector {

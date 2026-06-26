@@ -1,6 +1,6 @@
 import type { Candle } from '#shared/types/market';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
-import { CandlePatternDetector } from '../base';
+import { CandlePatternDetector } from '../CandlePatternDetector';
 import { candleParts } from '../helpers';
 
 export class DojiDetector extends CandlePatternDetector {

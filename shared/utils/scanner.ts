@@ -1,7 +1,7 @@
 import type { Candle, PatternSignal, TradeSuggestion } from '#shared/types/market';
 import { PatternDirectionEnum, TradeActionEnum } from '#shared/types/market';
 import { createScanContext } from '#shared/utils/scanContext';
-import type { PatternDetector } from '#shared/utils/detectors/base';
+import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
 import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
 import { ShootingStarDetector } from '#shared/utils/detectors/candle/shootingStar';
 import { DojiDetector } from '#shared/utils/detectors/candle/doji';

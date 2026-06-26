@@ -1,6 +1,6 @@
 import type { Candle } from '#shared/types/market';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
-import { CandlePatternDetector } from '../base';
+import { CandlePatternDetector } from '../CandlePatternDetector';
 import { round } from '../helpers';
 
 export class InsideBarDetector extends CandlePatternDetector {

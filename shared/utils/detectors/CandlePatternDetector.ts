@@ -1,6 +1,7 @@
 import type { Candle, PatternSignal } from '#shared/types/market';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import type { ScanContext } from '#shared/utils/scanContext';
+import { PatternDetector } from './PatternDetector';
 
 type MatchResult = {
   price?: number;
@@ -9,10 +10,6 @@ type MatchResult = {
   targets?: number[];
   meta?: Record<string, unknown>;
 };
-
-export abstract class PatternDetector {
-  abstract detect(ctx: ScanContext): PatternSignal[];
-}
 
 /**
  * Base for patterns that examine a fixed candle window and always produce

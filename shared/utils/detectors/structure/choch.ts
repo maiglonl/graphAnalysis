@@ -2,7 +2,7 @@ import type { PatternSignal } from '#shared/types/market';
 import { PatternDirectionEnum, PatternIdEnum, StructureTrendEnum } from '#shared/types/market';
 import { getMarketStructure } from '#shared/utils/marketStructure';
 import type { ScanContext } from '#shared/utils/scanContext';
-import { PatternDetector } from '../base';
+import { PatternDetector } from '../PatternDetector';
 import { round } from '../helpers';
 
 export class ChochDetector extends PatternDetector {
