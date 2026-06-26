@@ -29,7 +29,6 @@ export default defineEventHandler(async (event) => {
     candles,
     suggestion,
     patterns,
-    disclaimer:
-      "Isto não é recomendação financeira. É uma leitura automatizada baseada em padrões técnicos.",
+    disclaimer: "common.disclaimer",
   };
 });

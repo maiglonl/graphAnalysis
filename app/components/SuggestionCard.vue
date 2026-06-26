@@ -9,47 +9,47 @@ defineProps<{
 <template>
   <aside class="bg-white border border-slate-200 rounded-2xl p-5">
     <span
-      class="inline-block px-3 py-2 rounded-full font-bold"
+      class="inline-block px-3 py-2 rounded-full font-bold uppercase"
       :class="getActionClass(result.suggestion.action)"
     >
-      {{ result.suggestion.label }}
+      {{ $t(`actions.${result.suggestion.action}`) }}
     </span>
 
     <div class="text-5xl font-extrabold mt-4">
       {{ result.suggestion.confidence }}%
     </div>
 
-    <p class="text-slate-500 mt-0">Confiança estimada</p>
+    <p class="text-slate-500 mt-0">{{ $t('common.confidence') }}</p>
 
     <div v-if="result.suggestion.entry" class="grid gap-2.5">
       <div>
-        <small>Entrada</small>
+        <small>{{ $t('common.entry') }}</small>
         <strong class="block">{{ result.suggestion.entry }}</strong>
       </div>
 
       <div>
-        <small>Stop</small>
+        <small>{{ $t('common.stop') }}</small>
         <strong class="block">{{ result.suggestion.stop }}</strong>
       </div>
 
       <div>
-        <small>Alvos</small>
-        <strong class="block">{{ result.suggestion.targets?.join(" · ") }}</strong>
+        <small>{{ $t('common.targets') }}</small>
+        <strong class="block">{{ result.suggestion.targets?.join(' · ') }}</strong>
       </div>
     </div>
 
     <hr class="border-0 border-t border-slate-200 my-5" />
 
-    <h4>Motivos</h4>
+    <h4>{{ $t('suggestion.reasons') }}</h4>
 
     <ul v-if="result.suggestion.reasons.length" class="pl-4">
       <li v-for="reason in result.suggestion.reasons" :key="reason" class="mb-2">
-        {{ reason }}
+        {{ $t(reason) }}
       </li>
     </ul>
 
     <small class="block text-slate-400 mt-5">
-      {{ result.disclaimer }}
+      {{ $t(result.disclaimer) }}
     </small>
   </aside>
 </template>

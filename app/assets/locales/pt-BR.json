@@ -1,0 +1,79 @@
+{
+  "common": {
+    "entry": "Entrada",
+    "stop": "Stop",
+    "targets": "Alvos",
+    "confidence": "Confiança estimada",
+    "analyzing": "Analisando...",
+    "disclaimer": "Isto não é recomendação financeira. É uma leitura automatizada baseada em padrões técnicos."
+  },
+  "analysisForm": {
+    "symbolPlaceholder": "Símbolo",
+    "analyze": "Analisar"
+  },
+  "chart": {
+    "targetLine": "Alvo {n}"
+  },
+  "scanner": {
+    "title": "Scanner Técnico",
+    "subtitle": "Sugestões automáticas baseadas em padrões técnicos, estrutura e price action.",
+    "currentPrice": "Preço atual: {price}"
+  },
+  "suggestion": {
+    "title": "Plano da operação",
+    "reasons": "Motivos"
+  },
+  "patterns": {
+    "title": "Padrões detectados",
+    "empty": "Nenhum padrão relevante detectado no candle atual.",
+    "hammer": {
+      "name": "Hammer",
+      "reason": "Hammer após tendência de baixa, com sombra inferior longa e rejeição vendedora."
+    },
+    "shootingStar": {
+      "name": "Shooting Star",
+      "reason": "Estrela cadente após tendência de alta, com rejeição compradora no topo."
+    },
+    "doji": {
+      "name": "Doji",
+      "reason": "Abertura e fechamento praticamente iguais, indicando indecisão."
+    },
+    "bullishEngulfing": {
+      "name": "Bullish Engulfing",
+      "reason": "Engolfo de alta após queda, com candle comprador englobando o corpo anterior."
+    },
+    "bearishEngulfing": {
+      "name": "Bearish Engulfing",
+      "reason": "Engolfo de baixa após alta, com candle vendedor englobando o corpo anterior."
+    },
+    "insideBar": {
+      "name": "Inside Bar",
+      "reason": "Candle atual contido dentro do anterior, indicando compressão antes de rompimento."
+    },
+    "bullishFvg": {
+      "name": "Bullish FVG",
+      "reason": "Ineficiência altista entre três candles: mínima do terceiro acima da máxima do primeiro."
+    },
+    "bearishFvg": {
+      "name": "Bearish FVG",
+      "reason": "Ineficiência baixista entre três candles: máxima do terceiro abaixo da mínima do primeiro."
+    },
+    "bullishBos": {
+      "name": "Bullish BOS",
+      "reason": "Fechamento rompeu o último swing high confirmado, indicando quebra de estrutura altista."
+    },
+    "bearishBos": {
+      "name": "Bearish BOS",
+      "reason": "Fechamento rompeu o último swing low confirmado, indicando quebra de estrutura baixista."
+    }
+  },
+  "actions": {
+    "buy": "Comprar",
+    "sell": "Vender",
+    "wait": "Aguardar",
+    "none": "Neutro"
+  },
+  "errors": {
+    "analyzeDefault": "Erro ao analisar ativo."
+  }
+}

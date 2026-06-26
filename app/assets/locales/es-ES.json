@@ -1,0 +1,79 @@
+{
+  "common": {
+    "entry": "Entrada",
+    "stop": "Stop",
+    "targets": "Objetivos",
+    "confidence": "Confianza estimada",
+    "analyzing": "Analizando...",
+    "disclaimer": "Esto no es asesoramiento financiero. Es una lectura automatizada basada en patrones técnicos."
+  },
+  "analysisForm": {
+    "symbolPlaceholder": "Símbolo",
+    "analyze": "Analizar"
+  },
+  "chart": {
+    "targetLine": "Objetivo {n}"
+  },
+  "scanner": {
+    "title": "Escáner Técnico",
+    "subtitle": "Sugerencias automáticas basadas en patrones técnicos, estructura y price action.",
+    "currentPrice": "Precio actual: {price}"
+  },
+  "suggestion": {
+    "title": "Plan de operación",
+    "reasons": "Motivos"
+  },
+  "patterns": {
+    "title": "Patrones detectados",
+    "empty": "Ningún patrón relevante detectado en el candle actual.",
+    "hammer": {
+      "name": "Martillo",
+      "reason": "Martillo tras tendencia bajista, con sombra inferior larga y rechazo vendedor."
+    },
+    "shootingStar": {
+      "name": "Estrella Fugaz",
+      "reason": "Estrella fugaz tras tendencia alcista, con rechazo comprador en el techo."
+    },
+    "doji": {
+      "name": "Doji",
+      "reason": "Apertura y cierre prácticamente iguales, indicando indecisión."
+    },
+    "bullishEngulfing": {
+      "name": "Envolvente Alcista",
+      "reason": "Envolvente alcista tras caída, con vela compradora que engloba el cuerpo anterior."
+    },
+    "bearishEngulfing": {
+      "name": "Envolvente Bajista",
+      "reason": "Envolvente bajista tras subida, con vela vendedora que engloba el cuerpo anterior."
+    },
+    "insideBar": {
+      "name": "Barra Interior",
+      "reason": "Vela actual contenida dentro de la anterior, indicando compresión antes de ruptura."
+    },
+    "bullishFvg": {
+      "name": "FVG Alcista",
+      "reason": "Ineficiencia alcista entre tres velas: mínimo de la tercera por encima del máximo de la primera."
+    },
+    "bearishFvg": {
+      "name": "FVG Bajista",
+      "reason": "Ineficiencia bajista entre tres velas: máximo de la tercera por debajo del mínimo de la primera."
+    },
+    "bullishBos": {
+      "name": "BOS Alcista",
+      "reason": "El cierre rompió el último swing high confirmado, indicando ruptura de estructura alcista."
+    },
+    "bearishBos": {
+      "name": "BOS Bajista",
+      "reason": "El cierre rompió el último swing low confirmado, indicando ruptura de estructura bajista."
+    }
+  },
+  "actions": {
+    "buy": "Comprar",
+    "sell": "Vender",
+    "wait": "Esperar",
+    "none": "Neutro"
+  },
+  "errors": {
+    "analyzeDefault": "Error al analizar el activo."
+  }
+}

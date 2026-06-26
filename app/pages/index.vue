@@ -1,25 +1,13 @@
 <script setup lang="ts">
 import type { AnalyzeResponse } from "#shared/types/market";
-import { TradeActionEnum } from "#shared/types/market";
+
+const { t } = useI18n();
 
 const symbol = ref("BTCUSDT");
 const interval = ref("1h");
 const result = ref<AnalyzeResponse | null>(null);
 const loading = ref(false);
 const error = ref("");
-
-function getActionClass(action: TradeActionEnum) {
-  switch (action) {
-    case TradeActionEnum.Buy:
-      return "bg-green-100 text-green-800";
-    case TradeActionEnum.Sell:
-      return "bg-red-100 text-red-800";
-    case TradeActionEnum.Wait:
-      return "bg-yellow-100 text-yellow-800";
-    default:
-      return "bg-slate-100 text-slate-700";
-  }
-}
 
 async function analyze() {
   loading.value = true;
@@ -31,7 +19,7 @@ async function analyze() {
     });
   } catch (err: any) {
     error.value =
-      err?.data?.message || err?.message || "Erro ao analisar ativo.";
+      err?.data?.message || err?.message || t("errors.analyzeDefault");
   } finally {
     loading.value = false;
   }
@@ -45,13 +33,16 @@ onMounted(() => {
 <template>
   <main class="min-h-screen bg-slate-50 text-slate-900 p-8">
     <section class="max-w-6xl mx-auto">
-      <header class="mb-6">
-        <h1 class="text-4xl m-0">Scanner Técnico</h1>
+      <header class="mb-6 flex justify-between items-start">
+        <div>
+          <h1 class="text-4xl m-0">{{ $t('scanner.title') }}</h1>
 
-        <p class="text-slate-500 mt-2">
-          Sugestões automáticas baseadas em padrões técnicos, estrutura e price
-          action.
-        </p>
+          <p class="text-slate-500 mt-2">
+            {{ $t('scanner.subtitle') }}
+          </p>
+        </div>
+
+        <LocaleSwitcher />
       </header>
 
       <section
@@ -59,7 +50,7 @@ onMounted(() => {
       >
         <input
           v-model="symbol"
-          placeholder="BTCUSDT"
+          :placeholder="$t('analysisForm.symbolPlaceholder')"
           class="h-10 px-3 border border-slate-300 rounded-xl"
         />
 
@@ -78,7 +69,7 @@ onMounted(() => {
           class="h-10 px-4 border-0 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-50"
           @click="analyze"
         >
-          {{ loading ? "Analisando..." : "Analisar" }}
+          {{ loading ? $t('common.analyzing') : $t('analysisForm.analyze') }}
         </button>
       </section>
 
@@ -95,15 +86,15 @@ onMounted(() => {
               <h2 class="m-0">{{ result.symbol }} · {{ result.interval }}</h2>
 
               <p class="mt-1 mb-0 text-slate-500">
-                Preço atual: {{ result.price }}
+                {{ $t('scanner.currentPrice', { price: result.price }) }}
               </p>
             </div>
 
             <span
-              class="px-3 py-2 rounded-full font-bold"
+              class="px-3 py-2 rounded-full font-bold uppercase"
               :class="getActionClass(result.suggestion.action)"
             >
-              {{ result.suggestion.label }}
+              {{ $t(`actions.${result.suggestion.action}`) }}
             </span>
           </div>
 
@@ -117,31 +108,31 @@ onMounted(() => {
         <aside
           class="w-80 shrink-0 bg-white border border-slate-200 rounded-2xl p-5"
         >
-          <h3 class="mt-0">Plano da operação</h3>
+          <h3 class="mt-0">{{ $t('suggestion.title') }}</h3>
 
           <div class="text-5xl font-extrabold mb-1">
             {{ result.suggestion.confidence }}%
           </div>
 
-          <p class="text-slate-500 mt-0">Confiança estimada</p>
+          <p class="text-slate-500 mt-0">{{ $t('common.confidence') }}</p>
 
           <div v-if="result.suggestion.entry" class="grid gap-2.5">
             <div>
-              <small>Entrada</small>
+              <small>{{ $t('common.entry') }}</small>
               <strong class="block">
                 {{ result.suggestion.entry }}
               </strong>
             </div>
 
             <div>
-              <small>Stop</small>
+              <small>{{ $t('common.stop') }}</small>
               <strong class="block">
                 {{ result.suggestion.stop }}
               </strong>
             </div>
 
             <div>
-              <small>Alvos</small>
+              <small>{{ $t('common.targets') }}</small>
               <strong class="block">
                 {{ result.suggestion.targets?.join(" · ") }}
               </strong>
@@ -150,7 +141,7 @@ onMounted(() => {
 
           <hr class="border-0 border-t border-slate-200 my-5" />
 
-          <h4>Padrões detectados</h4>
+          <h4>{{ $t('patterns.title') }}</h4>
 
           <ul v-if="result.patterns.length" class="pl-4">
             <li
@@ -158,20 +149,20 @@ onMounted(() => {
               :key="pattern.id"
               class="mb-2.5"
             >
-              <strong>{{ pattern.name }}</strong>
+              <strong>{{ $t(pattern.name) }}</strong>
               <br />
               <span class="text-slate-500">
-                {{ pattern.reason }}
+                {{ $t(pattern.reason) }}
               </span>
             </li>
           </ul>
 
           <p v-else class="text-slate-500">
-            Nenhum padrão relevante detectado no candle atual.
+            {{ $t('patterns.empty') }}
           </p>
 
           <small class="block text-slate-400 mt-5">
-            {{ result.disclaimer }}
+            {{ $t(result.disclaimer) }}
           </small>
         </aside>
       </section>

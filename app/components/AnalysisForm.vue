@@ -21,7 +21,7 @@ function submit() {
   >
     <input
       v-model="symbol"
-      placeholder="BTCUSDT"
+      :placeholder="$t('analysisForm.symbolPlaceholder')"
       class="h-10 px-3 border border-slate-300 rounded-xl"
       @keyup.enter="submit"
     />
@@ -38,7 +38,7 @@ function submit() {
       class="h-10 px-4 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
       @click="submit"
     >
-      {{ props.loading ? "Analisando..." : "Analisar" }}
+      {{ props.loading ? $t('common.analyzing') : $t('analysisForm.analyze') }}
     </button>
   </section>
 </template>

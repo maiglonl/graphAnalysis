@@ -51,7 +51,7 @@ export function detectHammer(
 
   return {
     id: "hammer",
-    name: "Hammer",
+    name: "patterns.hammer.name",
     direction: PatternDirectionEnum.Bullish,
     confidence: 68,
     price: candle.close,
@@ -61,8 +61,7 @@ export function detectHammer(
       round(candle.high + (candle.high - candle.low) * 2),
       round(candle.high + (candle.high - candle.low) * 3),
     ],
-    reason:
-      "Hammer após tendência de baixa, com sombra inferior longa e rejeição vendedora.",
+    reason: "patterns.hammer.reason",
   };
 }
 
@@ -86,8 +85,8 @@ export function detectShootingStar(
   if (!valid) return null;
 
   return {
-    id: "shooting_star",
-    name: "Shooting Star",
+    id: "shootingStar",
+    name: "patterns.shootingStar.name",
     direction: PatternDirectionEnum.Bearish,
     confidence: 68,
     price: candle.close,
@@ -97,8 +96,7 @@ export function detectShootingStar(
       round(candle.low - (candle.high - candle.low) * 2),
       round(candle.low - (candle.high - candle.low) * 3),
     ],
-    reason:
-      "Estrela cadente após tendência de alta, com rejeição compradora no topo.",
+    reason: "patterns.shootingStar.reason",
   };
 }
 
@@ -115,11 +113,11 @@ export function detectDoji(
 
   return {
     id: "doji",
-    name: "Doji",
+    name: "patterns.doji.name",
     direction: PatternDirectionEnum.Neutral,
     confidence: 45,
     price: candle.close,
-    reason: "Abertura e fechamento praticamente iguais, indicando indecisão.",
+    reason: "patterns.doji.reason",
   };
 }
 
@@ -151,16 +149,15 @@ export function detectBullishEngulfing(
   const risk = patternHigh - patternLow;
 
   return {
-    id: "bullish_engulfing",
-    name: "Bullish Engulfing",
+    id: "bullishEngulfing",
+    name: "patterns.bullishEngulfing.name",
     direction: PatternDirectionEnum.Bullish,
     confidence: 74,
     price: current.close,
     entry: patternHigh,
     stop: patternLow,
     targets: [round(patternHigh + risk * 2), round(patternHigh + risk * 3)],
-    reason:
-      "Engolfo de alta após queda, com candle comprador englobando o corpo anterior.",
+    reason: "patterns.bullishEngulfing.reason",
   };
 }
 
@@ -192,16 +189,15 @@ export function detectBearishEngulfing(
   const risk = patternHigh - patternLow;
 
   return {
-    id: "bearish_engulfing",
-    name: "Bearish Engulfing",
+    id: "bearishEngulfing",
+    name: "patterns.bearishEngulfing.name",
     direction: PatternDirectionEnum.Bearish,
     confidence: 74,
     price: current.close,
     entry: patternLow,
     stop: patternHigh,
     targets: [round(patternLow - risk * 2), round(patternLow - risk * 3)],
-    reason:
-      "Engolfo de baixa após alta, com candle vendedor englobando o corpo anterior.",
+    reason: "patterns.bearishEngulfing.reason",
   };
 }
 
@@ -219,8 +215,8 @@ export function detectInsideBar(
   if (!valid) return null;
 
   return {
-    id: "inside_bar",
-    name: "Inside Bar",
+    id: "insideBar",
+    name: "patterns.insideBar.name",
     direction: PatternDirectionEnum.Neutral,
     confidence: 55,
     price: current.close,
@@ -230,8 +226,7 @@ export function detectInsideBar(
       round(mother.high + (mother.high - mother.low) * 1.5),
       round(mother.high + (mother.high - mother.low) * 2),
     ],
-    reason:
-      "Candle atual está contido dentro do candle anterior, indicando compressão antes de rompimento.",
+    reason: "patterns.insideBar.reason",
   };
 }
 
@@ -257,8 +252,8 @@ export function detectBullishFvg(
   const midGap = c1.high + gap / 2;
 
   return {
-    id: "bullish_fvg",
-    name: "Bullish FVG",
+    id: "bullishFvg",
+    name: "patterns.bullishFvg.name",
     direction: PatternDirectionEnum.Bullish,
     confidence: 70,
     price: c3.close,
@@ -268,8 +263,7 @@ export function detectBullishFvg(
       round(c3.close + currentAtr * 2),
       round(c3.close + currentAtr * 3),
     ],
-    reason:
-      "Ineficiência altista entre três candles: mínima do terceiro acima da máxima do primeiro.",
+    reason: "patterns.bullishFvg.reason",
     meta: {
       gapStart: c1.high,
       gapEnd: c3.low,
@@ -300,8 +294,8 @@ export function detectBearishFvg(
   const midGap = c3.high + gap / 2;
 
   return {
-    id: "bearish_fvg",
-    name: "Bearish FVG",
+    id: "bearishFvg",
+    name: "patterns.bearishFvg.name",
     direction: PatternDirectionEnum.Bearish,
     confidence: 70,
     price: c3.close,
@@ -311,8 +305,7 @@ export function detectBearishFvg(
       round(c3.close - currentAtr * 2),
       round(c3.close - currentAtr * 3),
     ],
-    reason:
-      "Ineficiência baixista entre três candles: máxima do terceiro abaixo da mínima do primeiro.",
+    reason: "patterns.bearishFvg.reason",
     meta: {
       gapStart: c3.high,
       gapEnd: c1.low,
@@ -337,8 +330,8 @@ export function detectBos(
 
   if (lastHigh && current.close > lastHigh.price + buffer) {
     return {
-      id: "bullish_bos",
-      name: "Bullish BOS",
+      id: "bullishBos",
+      name: "patterns.bullishBos.name",
       direction: PatternDirectionEnum.Bullish,
       confidence: 76,
       price: current.close,
@@ -350,8 +343,7 @@ export function detectBos(
             round(current.close + (current.close - lastLow.price) * 3),
           ]
         : undefined,
-      reason:
-        "Fechamento rompeu o último swing high confirmado, indicando quebra de estrutura altista.",
+      reason: "patterns.bullishBos.reason",
       meta: {
         brokenSwingHigh: lastHigh.price,
       },
@@ -360,8 +352,8 @@ export function detectBos(
 
   if (lastLow && current.close < lastLow.price - buffer) {
     return {
-      id: "bearish_bos",
-      name: "Bearish BOS",
+      id: "bearishBos",
+      name: "patterns.bearishBos.name",
       direction: PatternDirectionEnum.Bearish,
       confidence: 76,
       price: current.close,
@@ -373,8 +365,7 @@ export function detectBos(
             round(current.close - (lastHigh.price - current.close) * 3),
           ]
         : undefined,
-      reason:
-        "Fechamento rompeu o último swing low confirmado, indicando quebra de estrutura baixista.",
+      reason: "patterns.bearishBos.reason",
       meta: {
         brokenSwingLow: lastLow.price,
       },
@@ -413,9 +404,8 @@ export function buildSuggestion(
   if (candles.length === 0 || patterns.length === 0) {
     return {
       action: TradeActionEnum.None,
-      label: "Sem operação",
       confidence: 0,
-      reasons: ["Nenhum padrão relevante detectado no candle atual."],
+      reasons: ["patterns.empty"],
     };
   }
 
@@ -437,7 +427,6 @@ export function buildSuggestion(
   if (!best) {
     return {
       action: TradeActionEnum.Wait,
-      label: "Aguardar confirmação",
       confidence: 45,
       reasons: patterns.map((p) => p.reason),
     };
@@ -455,7 +444,6 @@ export function buildSuggestion(
 
   return {
     action,
-    label: action === TradeActionEnum.Buy ? "Compra moderada" : "Venda moderada",
     confidence,
     entry: best.entry,
     stop: best.stop,

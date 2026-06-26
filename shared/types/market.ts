@@ -35,7 +35,6 @@ export enum TradeActionEnum {
 
 export type TradeSuggestion = {
   action: TradeActionEnum;
-  label: string;
   confidence: number;
   entry?: number;
   stop?: number;

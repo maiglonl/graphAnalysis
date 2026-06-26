@@ -1,0 +1,79 @@
+{
+  "common": {
+    "entry": "Entry",
+    "stop": "Stop",
+    "targets": "Targets",
+    "confidence": "Estimated confidence",
+    "analyzing": "Analyzing...",
+    "disclaimer": "This is not financial advice. It is an automated reading based on technical patterns."
+  },
+  "analysisForm": {
+    "symbolPlaceholder": "Symbol",
+    "analyze": "Analyze"
+  },
+  "chart": {
+    "targetLine": "Target {n}"
+  },
+  "scanner": {
+    "title": "Technical Scanner",
+    "subtitle": "Automated suggestions based on technical patterns, structure and price action.",
+    "currentPrice": "Current price: {price}"
+  },
+  "suggestion": {
+    "title": "Trade plan",
+    "reasons": "Reasons"
+  },
+  "patterns": {
+    "title": "Detected patterns",
+    "empty": "No relevant pattern detected on the current candle.",
+    "hammer": {
+      "name": "Hammer",
+      "reason": "Hammer after a downtrend, with long lower shadow and seller rejection."
+    },
+    "shootingStar": {
+      "name": "Shooting Star",
+      "reason": "Shooting star after an uptrend, with buyer rejection at the top."
+    },
+    "doji": {
+      "name": "Doji",
+      "reason": "Opening and closing nearly equal, indicating indecision."
+    },
+    "bullishEngulfing": {
+      "name": "Bullish Engulfing",
+      "reason": "Bullish engulfing after a decline, with buyer candle engulfing the previous body."
+    },
+    "bearishEngulfing": {
+      "name": "Bearish Engulfing",
+      "reason": "Bearish engulfing after a rally, with seller candle engulfing the previous body."
+    },
+    "insideBar": {
+      "name": "Inside Bar",
+      "reason": "Current candle contained within the previous, indicating compression before a breakout."
+    },
+    "bullishFvg": {
+      "name": "Bullish FVG",
+      "reason": "Bullish inefficiency across three candles: third candle low above first candle high."
+    },
+    "bearishFvg": {
+      "name": "Bearish FVG",
+      "reason": "Bearish inefficiency across three candles: third candle high below first candle low."
+    },
+    "bullishBos": {
+      "name": "Bullish BOS",
+      "reason": "Close broke the last confirmed swing high, indicating a bullish structure break."
+    },
+    "bearishBos": {
+      "name": "Bearish BOS",
+      "reason": "Close broke the last confirmed swing low, indicating a bearish structure break."
+    }
+  },
+  "actions": {
+    "buy": "Buy",
+    "sell": "Sell",
+    "wait": "Wait",
+    "none": "Neutral"
+  },
+  "errors": {
+    "analyzeDefault": "Error analyzing asset."
+  }
+}

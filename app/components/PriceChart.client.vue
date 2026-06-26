@@ -18,6 +18,8 @@ import {
 } from "#shared/types/market";
 import { CHART_COLORS, directionColor, actionColor } from "#shared/utils/colors";
 
+const { t } = useI18n();
+
 const props = defineProps<{
   candles: Candle[];
   patterns?: PatternSignal[];
@@ -65,7 +67,7 @@ function addTradePlanLines() {
       lineWidth: 2,
       lineStyle: LineStyle.Solid,
       axisLabelVisible: true,
-      title: "Entrada",
+      title: t("common.entry"),
     });
   }
 
@@ -76,7 +78,7 @@ function addTradePlanLines() {
       lineWidth: 2,
       lineStyle: LineStyle.Dashed,
       axisLabelVisible: true,
-      title: "Stop",
+      title: t("common.stop"),
     });
   }
 
@@ -87,7 +89,7 @@ function addTradePlanLines() {
       lineWidth: 1,
       lineStyle: LineStyle.Dotted,
       axisLabelVisible: true,
-      title: `Alvo ${index + 1}`,
+      title: t("chart.targetLine", { n: index + 1 }),
     });
   });
 }
