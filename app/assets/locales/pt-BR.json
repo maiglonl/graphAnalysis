@@ -20,7 +20,8 @@
     "targetLine": "Alvo {n}",
     "fvgStart": "Início FVG",
     "fvgEnd": "Fim FVG",
-    "brokenLevel": "Nível rompido"
+    "brokenLevel": "Nível rompido",
+    "fvgZone": "Zona FVG"
   },
   "scanner": {
     "title": "Scanner Técnico",
