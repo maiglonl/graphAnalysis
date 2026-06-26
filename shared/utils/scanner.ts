@@ -13,13 +13,13 @@ import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
 import { MarketStructureDetector } from '#shared/utils/detectors/structure/marketStructure';
 import { BosDetector } from '#shared/utils/detectors/structure/bos';
 import { ChochDetector } from '#shared/utils/detectors/structure/choch';
-import { SCANNER, SCORING } from '#shared/utils/detectors/constants';
+import { SCANNER, SCORING, VOLUME } from '#shared/utils/detectors/constants';
 
 const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
   patternScore: 0,
   structureScore: 0,
   trendScore: 0,
-  volumeScore: SCORING.volumeScore,
+  volumeScore: 0,
   confluenceBonus: 0,
   conflictPenalty: 0,
 };
@@ -128,17 +128,19 @@ export class SuggestionBuilder {
     bearish: PatternSignal[],
     direction: PatternDirectionEnum,
   ): SuggestionScoreBreakdown {
+    const ctx = new ScanContext(candles);
     const patternScore = this.calculatePatternScore(selectedPatterns);
     const confluenceBonus = this.calculateConfluenceBonus(selectedPatterns);
     const structureScore = this.calculateStructureScore(selectedPatterns);
-    const trendScore = this.calculateTrendScore(candles, direction);
+    const trendScore = this.calculateTrendScore(ctx, direction);
+    const volumeScore = this.calculateVolumeScore(ctx, selectedPatterns);
     const conflictPenalty = this.calculateConflictPenalty(bullish, bearish);
 
     return {
       patternScore,
       structureScore,
       trendScore,
-      volumeScore: SCORING.volumeScore,
+      volumeScore,
       confluenceBonus,
       conflictPenalty,
     };
@@ -169,14 +171,28 @@ export class SuggestionBuilder {
     return 0;
   }
 
-  private calculateTrendScore(candles: Candle[], direction: PatternDirectionEnum): number {
-    const trend = new ScanContext(candles).trend();
+  private calculateTrendScore(ctx: ScanContext, direction: PatternDirectionEnum): number {
+    const trend = ctx.trend();
 
     if (trend === StructureTrendEnum.Neutral) return 0;
     if (trend === StructureTrendEnum.Bullish && direction === PatternDirectionEnum.Bullish) return SCORING.trendAlignmentBonus;
     if (trend === StructureTrendEnum.Bearish && direction === PatternDirectionEnum.Bearish) return SCORING.trendAlignmentBonus;
 
     return -SCORING.trendConflictPenalty;
+  }
+
+  private calculateVolumeScore(ctx: ScanContext, patterns: PatternSignal[]): number {
+    if (!patterns.some((pattern) => this.needsVolumeConfirmation(pattern))) return 0;
+
+    if (ctx.currentRelativeVolume >= VOLUME.highRelativeVolume) {
+      return SCORING.highVolumeBonus;
+    }
+
+    if (ctx.currentRelativeVolume > 0 && ctx.currentRelativeVolume <= VOLUME.lowRelativeVolume) {
+      return -SCORING.lowVolumePenalty;
+    }
+
+    return 0;
   }
 
   private calculateConflictPenalty(bullish: PatternSignal[], bearish: PatternSignal[]): number {
@@ -195,6 +211,16 @@ export class SuggestionBuilder {
       scoreBreakdown.conflictPenalty;
 
     return Math.min(SCANNER.maxConfidence, Math.max(SCANNER.waitConfidence, Math.round(confidence)));
+  }
+
+  private needsVolumeConfirmation(pattern: PatternSignal): boolean {
+    return (
+      this.isStructureBreakPattern(pattern) ||
+      pattern.id === PatternIdEnum.BullishFvg ||
+      pattern.id === PatternIdEnum.BearishFvg ||
+      pattern.id === PatternIdEnum.BullishEngulfing ||
+      pattern.id === PatternIdEnum.BearishEngulfing
+    );
   }
 
   private isStructureBreakPattern(pattern: PatternSignal): boolean {
