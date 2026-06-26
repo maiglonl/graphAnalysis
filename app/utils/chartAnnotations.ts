@@ -31,6 +31,15 @@ export type ChartPatternMarker = {
   patternId: PatternIdEnum;
 };
 
+export type ChartStructureBreakMarker = {
+  id: string;
+  time: number;
+  direction: PatternDirectionEnum;
+  patternId: PatternIdEnum;
+  position: ChartMarkerPosition;
+  shape: ChartMarkerShape;
+};
+
 export type ChartStructureMarker = {
   id: string;
   time: number;
@@ -78,17 +87,72 @@ function isStructureBreakPattern(pattern: PatternSignal): boolean {
   );
 }
 
+function isBullishStructureBreak(pattern: PatternSignal): boolean {
+  return pattern.id === PatternIdEnum.BullishBos || pattern.id === PatternIdEnum.BullishChoch;
+}
+
+function isBearishStructureBreak(pattern: PatternSignal): boolean {
+  return pattern.id === PatternIdEnum.BearishBos || pattern.id === PatternIdEnum.BearishChoch;
+}
+
+function isChochPattern(pattern: PatternSignal): boolean {
+  return pattern.id === PatternIdEnum.BullishChoch || pattern.id === PatternIdEnum.BearishChoch;
+}
+
+function isBosPattern(pattern: PatternSignal): boolean {
+  return pattern.id === PatternIdEnum.BullishBos || pattern.id === PatternIdEnum.BearishBos;
+}
+
 export function buildPatternMarkers(candles: Candle[], patterns: PatternSignal[]): ChartPatternMarker[] {
   const last = candles.at(-1);
 
   if (!last) return [];
 
-  return patterns.map((pattern) => ({
-    id: `${pattern.id}-${last.time}`,
-    time: last.time,
-    direction: pattern.direction,
-    patternId: pattern.id,
-  }));
+  return patterns
+    .filter((pattern) => !isStructureBreakPattern(pattern))
+    .map((pattern) => ({
+      id: `${pattern.id}-${last.time}`,
+      time: last.time,
+      direction: pattern.direction,
+      patternId: pattern.id,
+    }));
+}
+
+export function buildStructureBreakMarkers(candles: Candle[], patterns: PatternSignal[]): ChartStructureBreakMarker[] {
+  const last = candles.at(-1);
+
+  if (!last) return [];
+
+  return patterns
+    .filter(isStructureBreakPattern)
+    .filter((pattern) => shouldRenderStructureBreakMarker(pattern, patterns))
+    .map((pattern) => {
+      const isBullish = pattern.direction === PatternDirectionEnum.Bullish || isBullishStructureBreak(pattern);
+      const time = getMetaNumber(pattern, 'time') ?? last.time;
+
+      return {
+        id: `structure-break-${pattern.id}-${time}`,
+        time,
+        direction: pattern.direction,
+        patternId: pattern.id,
+        position: isBullish ? 'belowBar' : 'aboveBar',
+        shape: isBullish ? 'arrowUp' : 'arrowDown',
+      };
+    });
+}
+
+function shouldRenderStructureBreakMarker(pattern: PatternSignal, patterns: PatternSignal[]): boolean {
+  if (!isBosPattern(pattern)) return true;
+
+  if (isBullishStructureBreak(pattern)) {
+    return !patterns.some((candidate) => candidate.id === PatternIdEnum.BullishChoch);
+  }
+
+  if (isBearishStructureBreak(pattern)) {
+    return !patterns.some((candidate) => candidate.id === PatternIdEnum.BearishChoch);
+  }
+
+  return true;
 }
 
 export function buildStructureMarkers(candles: Candle[], structure?: MarketStructure): ChartStructureMarker[] {
