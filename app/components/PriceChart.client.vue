@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {
   CandlestickSeries,
+  LineStyle,
   createChart,
   createSeriesMarkers,
   type IChartApi,
@@ -9,11 +10,16 @@ import {
   type UTCTimestamp,
 } from "lightweight-charts";
 
-import type { Candle, PatternSignal } from "#shared/types/market";
+import type {
+  Candle,
+  PatternSignal,
+  TradeSuggestion,
+} from "#shared/types/market";
 
 const props = defineProps<{
   candles: Candle[];
   patterns?: PatternSignal[];
+  suggestion?: TradeSuggestion;
 }>();
 
 const chartEl = ref<HTMLDivElement | null>(null);
@@ -42,6 +48,45 @@ function buildMarkers(): SeriesMarker<UTCTimestamp>[] {
       color: isBullish ? "#16a34a" : isBearish ? "#dc2626" : "#64748b",
       text: pattern.name,
     };
+  });
+}
+
+function addTradePlanLines() {
+  if (!candleSeries || !props.suggestion) return;
+
+  const { entry, stop, targets, action } = props.suggestion;
+
+  if (entry) {
+    candleSeries.createPriceLine({
+      price: entry,
+      color: action === "sell" ? "#dc2626" : "#16a34a",
+      lineWidth: 2,
+      lineStyle: LineStyle.Solid,
+      axisLabelVisible: true,
+      title: "Entrada",
+    });
+  }
+
+  if (stop) {
+    candleSeries.createPriceLine({
+      price: stop,
+      color: "#ef4444",
+      lineWidth: 2,
+      lineStyle: LineStyle.Dashed,
+      axisLabelVisible: true,
+      title: "Stop",
+    });
+  }
+
+  targets?.forEach((target, index) => {
+    candleSeries?.createPriceLine({
+      price: target,
+      color: "#2563eb",
+      lineWidth: 1,
+      lineStyle: LineStyle.Dotted,
+      axisLabelVisible: true,
+      title: `Alvo ${index + 1}`,
+    });
   });
 }
 
@@ -82,6 +127,8 @@ function renderChart() {
     borderVisible: false,
     wickUpColor: "#16a34a",
     wickDownColor: "#dc2626",
+    priceLineVisible: false,
+    lastValueVisible: true,
   });
 
   candleSeries.setData(
@@ -95,8 +142,10 @@ function renderChart() {
   );
 
   createSeriesMarkers(candleSeries, buildMarkers());
+  addTradePlanLines();
 
   chart.timeScale().fitContent();
+  resizeChart();
 }
 
 function resizeChart() {
@@ -118,12 +167,12 @@ onBeforeUnmount(() => {
 });
 
 watch(
-  () => [props.candles, props.patterns],
+  () => [props.candles, props.patterns, props.suggestion],
   () => renderChart(),
   { deep: true },
 );
 </script>
 
 <template>
-  <div ref="chartEl" class="w-full min-h-96" />
+  <div ref="chartEl" class="flex w-full min-h-96" />
 </template>

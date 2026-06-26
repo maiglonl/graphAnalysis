@@ -26,6 +26,7 @@ export default defineEventHandler(async (event) => {
     interval,
     price: last?.close ?? null,
     updatedAt: last?.time ?? null,
+    candles,
     suggestion,
     patterns,
     disclaimer:

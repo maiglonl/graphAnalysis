@@ -48,6 +48,7 @@ export type AnalyzeResponse = {
   interval: string;
   price: number | null;
   updatedAt: number | null;
+  candles: Candle[];
   suggestion: TradeSuggestion;
   patterns: PatternSignal[];
   disclaimer: string;
