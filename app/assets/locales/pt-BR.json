@@ -36,7 +36,16 @@
   },
   "suggestion": {
     "title": "Plano da operação",
-    "reasons": "Motivos"
+    "reasons": "Motivos",
+    "scoreBreakdown": {
+      "title": "Composição da confiança",
+      "patternScore": "Padrões",
+      "structureScore": "Estrutura",
+      "trendScore": "Tendência",
+      "volumeScore": "Volume",
+      "confluenceBonus": "Confluência",
+      "conflictPenalty": "Conflito"
+    }
   },
   "patterns": {
     "title": "Padrões detectados",
