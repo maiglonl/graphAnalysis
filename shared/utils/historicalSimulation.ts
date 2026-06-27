@@ -82,46 +82,44 @@ function simulateTrade(
   suggestion: TradeSuggestion & { entry: number; stop: number; targets: [number, ...number[]] },
 ): HistoricalSimulationTrade {
   const target = suggestion.targets[0];
+  const signalCandle = candles[signalIndex];
+  const entryTime = signalCandle?.time ?? 0;
   const futureCandles = candles.slice(signalIndex + 1, signalIndex + 1 + HISTORICAL_SIMULATION.maxLookaheadCandles);
 
   for (const candle of futureCandles) {
     if (suggestion.action === TradeActionEnum.Buy) {
       if (candle.low <= suggestion.stop) {
-        return buildTrade(candle.time, suggestion, target, 'loss');
+        return buildTrade(entryTime, candle.time, suggestion, target, 'loss');
       }
 
       if (candle.high >= target) {
-        return buildTrade(candle.time, suggestion, target, 'win');
+        return buildTrade(entryTime, candle.time, suggestion, target, 'win');
       }
     }
 
     if (suggestion.action === TradeActionEnum.Sell) {
       if (candle.high >= suggestion.stop) {
-        return buildTrade(candle.time, suggestion, target, 'loss');
+        return buildTrade(entryTime, candle.time, suggestion, target, 'loss');
       }
 
       if (candle.low <= target) {
-        return buildTrade(candle.time, suggestion, target, 'win');
+        return buildTrade(entryTime, candle.time, suggestion, target, 'win');
       }
     }
   }
 
-  const signalCandle = candles[signalIndex];
-
-  return {
-    ...buildTrade(null, suggestion, target, 'expired'),
-    entryTime: signalCandle?.time ?? 0,
-  };
+  return buildTrade(entryTime, null, suggestion, target, 'expired');
 }
 
 function buildTrade(
+  entryTime: number,
   exitTime: number | null,
   suggestion: TradeSuggestion & { entry: number; stop: number },
   target: number,
   result: HistoricalSimulationTradeResult,
 ): HistoricalSimulationTrade {
   return {
-    entryTime: 0,
+    entryTime,
     exitTime,
     action: suggestion.action,
     entry: suggestion.entry,
