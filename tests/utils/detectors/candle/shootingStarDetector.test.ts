@@ -22,7 +22,7 @@ describe('ShootingStarDetector', () => {
   it('detects shooting star after a bullish trend', () => {
     const candles = [
       ...bullishCandles(59),
-      { time: 60, open: 160, high: 170, low: 159.8, close: 159.9, volume: 1500 },
+      { time: 60, open: 160.2, high: 170, low: 160, close: 160, volume: 1500 },
     ];
 
     const signals = new ShootingStarDetector().detect(new ScanContext(candles));
@@ -31,7 +31,7 @@ describe('ShootingStarDetector', () => {
     expect(signals[0]).toMatchObject({
       id: PatternIdEnum.ShootingStar,
       direction: PatternDirectionEnum.Bearish,
-      entry: 159.8,
+      entry: 160,
       stop: 170,
     });
   });
@@ -39,7 +39,7 @@ describe('ShootingStarDetector', () => {
   it('ignores shooting-star shape outside a bullish trend', () => {
     const candles = [
       ...bullishCandles(10),
-      { time: 11, open: 160, high: 170, low: 159.8, close: 159.9, volume: 1500 },
+      { time: 11, open: 160.2, high: 170, low: 160, close: 160, volume: 1500 },
     ];
 
     const signals = new ShootingStarDetector().detect(new ScanContext(candles));
