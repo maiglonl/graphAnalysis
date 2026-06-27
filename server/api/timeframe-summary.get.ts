@@ -1,6 +1,7 @@
 import {
   DEFAULT_SYMBOL,
   IntervalEnum,
+  type AnalyzeResponse,
   type MultiTimeframeResponse,
 } from '#shared/types/market';
 import { analyzeMarket } from '../utils/analyzeMarket';
@@ -20,7 +21,7 @@ export default defineEventHandler(async (event): Promise<MultiTimeframeResponse>
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, '');
   const intervals = parseIntervals(query.intervals);
-  const items = [];
+  const items: AnalyzeResponse[] = [];
 
   for (const interval of intervals) {
     items.push(await analyzeMarket({ symbol, interval }));
