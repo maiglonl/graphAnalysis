@@ -62,7 +62,17 @@ describe('historical simulation', () => {
     });
 
     expect(result.trades[0]?.result).toBe('win');
-    expect(result.metrics).toMatchObject({ totalTrades: 1, wins: 1, losses: 0, expired: 0, winRate: 100 });
+    expect(result.metrics).toMatchObject({
+      totalTrades: 1,
+      wins: 1,
+      losses: 0,
+      expired: 0,
+      winRate: 100,
+      lossRate: 0,
+      averageReturn: 10,
+      maxDrawdown: 0,
+      averageConfidence: 60,
+    });
   });
 
   it('records a losing sell trade when stop is reached', () => {
@@ -80,7 +90,17 @@ describe('historical simulation', () => {
     });
 
     expect(result.trades[0]?.result).toBe('loss');
-    expect(result.metrics).toMatchObject({ totalTrades: 1, wins: 0, losses: 1, expired: 0, winRate: 0 });
+    expect(result.metrics).toMatchObject({
+      totalTrades: 1,
+      wins: 0,
+      losses: 1,
+      expired: 0,
+      winRate: 0,
+      lossRate: 100,
+      averageReturn: -10,
+      maxDrawdown: 10,
+      averageConfidence: 60,
+    });
   });
 
   it('records an expired trade when neither target nor stop is reached', () => {
@@ -93,7 +113,7 @@ describe('historical simulation', () => {
     });
 
     expect(result.trades[0]?.result).toBe('expired');
-    expect(result.metrics).toMatchObject({ totalTrades: 1, wins: 0, losses: 0, expired: 1, winRate: 0 });
+    expect(result.metrics).toMatchObject({ totalTrades: 1, wins: 0, losses: 0, expired: 1, winRate: 0, averageReturn: 0 });
   });
 
   it('ignores non actionable suggestions', () => {
