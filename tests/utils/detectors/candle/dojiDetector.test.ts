@@ -2,16 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { DojiDetector } from '#shared/utils/detectors/candle/doji';
 import { ScanContext } from '#shared/utils/scanContext';
-import { flatCandles, withLastCandle } from '../../../fixtures/candles/factories';
+import { dojiCandles, nonDojiCandles } from '../../../fixtures/candles/doji';
 
 describe('DojiDetector', () => {
   it('detects a neutral doji candle', () => {
-    const candles = withLastCandle(
-      flatCandles(59),
-      { time: 60, open: 100, high: 110, low: 90, close: 100.5, volume: 1000 },
-    );
-
-    const signals = new DojiDetector().detect(new ScanContext(candles));
+    const signals = new DojiDetector().detect(new ScanContext(dojiCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
@@ -22,12 +17,7 @@ describe('DojiDetector', () => {
   });
 
   it('ignores a regular candle', () => {
-    const candles = withLastCandle(
-      flatCandles(59),
-      { time: 60, open: 100, high: 110, low: 90, close: 105, volume: 1000 },
-    );
-
-    const signals = new DojiDetector().detect(new ScanContext(candles));
+    const signals = new DojiDetector().detect(new ScanContext(nonDojiCandles()));
 
     expect(signals).toEqual([]);
   });
