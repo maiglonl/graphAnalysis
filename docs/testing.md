@@ -201,7 +201,10 @@ Cobre:
 - bônus por volume relativo alto;
 - penalidade por volume relativo baixo;
 - bônus por quebra de estrutura;
-- bônus por estrutura de mercado.
+- bônus por estrutura de mercado;
+- bônus por tendência alinhada;
+- penalidade por tendência contrária;
+- limite máximo de confluência.
 
 ### Cache de candles
 
@@ -292,11 +295,9 @@ Cobre:
 
 ## Próximos testes recomendados
 
-### Scanner e sugestão
+### Scanner
 
-- `Scanner.scan()` com confluência;
-- `SuggestionBuilder` com tendência alinhada/contrária;
-- `SuggestionBuilder` com confluência máxima.
+- `Scanner.scan()` com confluência.
 
 ### API/server utils
 
