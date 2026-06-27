@@ -12,6 +12,7 @@ graphAnalysis.actionFilter
 graphAnalysis.minConfidence
 graphAnalysis.watchlist
 graphAnalysis.analysisHistory
+graphAnalysis.simulationHistory
 graphAnalysis.accountSize
 graphAnalysis.riskPercent
 ```
@@ -48,6 +49,7 @@ Responsabilidades:
 - estado persistido do scanner;
 - watchlist local;
 - histórico recente de análises;
+- histórico recente de simulações;
 - análise individual;
 - scan em lote;
 - simulação histórica;
@@ -55,6 +57,8 @@ Responsabilidades:
 - calibração informativa do score;
 - confirmação por timeframe;
 - seleção de ativo da watchlist;
+- seleção de histórico de análise;
+- seleção de histórico de simulação;
 - seleção de oportunidade;
 - seleção de timeframe;
 - limpeza de painéis derivados;
@@ -65,6 +69,7 @@ Responsabilidades:
 ```txt
 app/components/WatchlistPanel.vue
 app/components/AnalysisHistoryPanel.vue
+app/components/SimulationHistoryPanel.vue
 app/components/OpportunityRanking.vue
 app/components/TimeframeSummaryPanel.vue
 app/components/HistoricalSimulationPanel.vue
@@ -79,6 +84,10 @@ Controla a UI da watchlist salva em `graphAnalysis.watchlist`.
 ### `AnalysisHistoryPanel.vue`
 
 Controla a UI do histórico recente salvo em `graphAnalysis.analysisHistory`.
+
+### `SimulationHistoryPanel.vue`
+
+Controla a UI do histórico de simulações salvo em `graphAnalysis.simulationHistory`.
 
 ### `OpportunityRanking.vue`
 
