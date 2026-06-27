@@ -12,11 +12,13 @@ export type LoadHistoricalCandlesParams = {
   interval: IntervalEnum;
 };
 
-export type LoadHistoricalCandles = (params: LoadHistoricalCandlesParams) => Promise<{
+export type HistoricalCandlesResponse = {
   symbol: string;
   interval: IntervalEnum;
   candles: Candle[];
-}>;
+};
+
+export type LoadHistoricalCandles = (params: LoadHistoricalCandlesParams) => Promise<HistoricalCandlesResponse>;
 
 export type RunHistoricalTimeframeSummaryParams = {
   symbol: string;
@@ -46,12 +48,8 @@ export async function runHistoricalTimeframeSummary(
   };
 }
 
-async function defaultLoadCandles(params: LoadHistoricalCandlesParams): Promise<{
-  symbol: string;
-  interval: IntervalEnum;
-  candles: Candle[];
-}> {
-  return $fetch('/api/candles', {
+async function defaultLoadCandles(params: LoadHistoricalCandlesParams): Promise<HistoricalCandlesResponse> {
+  return $fetch<HistoricalCandlesResponse>('/api/candles', {
     query: {
       symbol: params.symbol,
       interval: params.interval,
