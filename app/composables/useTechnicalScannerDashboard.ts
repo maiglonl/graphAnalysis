@@ -9,6 +9,11 @@ import { resolveApiErrorMessage } from '~/utils/apiErrors';
 
 export type OpportunityActionFilter = TradeActionEnum | 'all';
 
+export type HistoricalTimeframeSummaryResponse = {
+  symbol: string;
+  items: HistoricalSimulationResult[];
+};
+
 export function useTechnicalScannerDashboard() {
   const { t } = useI18n();
 
@@ -23,10 +28,12 @@ export function useTechnicalScannerDashboard() {
   const result = ref<AnalyzeResponse | null>(null);
   const scanResult = ref<ScanListResponse | null>(null);
   const historicalSimulation = ref<HistoricalSimulationResult | null>(null);
+  const historicalTimeframeSummary = ref<HistoricalTimeframeSummaryResponse | null>(null);
   const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
   const loading = ref(false);
   const scanLoading = ref(false);
   const simulationLoading = ref(false);
+  const historicalTimeframeLoading = ref(false);
   const timeframeLoading = ref(false);
   const error = ref('');
 
@@ -87,6 +94,23 @@ export function useTechnicalScannerDashboard() {
     }
   }
 
+  async function loadHistoricalTimeframeSummary() {
+    historicalTimeframeLoading.value = true;
+    error.value = '';
+
+    try {
+      historicalTimeframeSummary.value = await $fetch<HistoricalTimeframeSummaryResponse>('/api/historical-timeframe-summary', {
+        query: {
+          symbol: symbol.value,
+        },
+      });
+    } catch (err: unknown) {
+      error.value = resolveApiErrorMessage(err, t);
+    } finally {
+      historicalTimeframeLoading.value = false;
+    }
+  }
+
   async function loadTimeframeSummary() {
     timeframeLoading.value = true;
     error.value = '';
@@ -119,6 +143,7 @@ export function useTechnicalScannerDashboard() {
 
   function clearDerivedPanels() {
     historicalSimulation.value = null;
+    historicalTimeframeSummary.value = null;
     timeframeSummary.value = null;
   }
 
@@ -137,16 +162,19 @@ export function useTechnicalScannerDashboard() {
     actionFilters,
     result,
     historicalSimulation,
+    historicalTimeframeSummary,
     timeframeSummary,
     loading,
     scanLoading,
     simulationLoading,
+    historicalTimeframeLoading,
     timeframeLoading,
     error,
     scanItems,
     analyze,
     scanSymbols,
     runSimulation,
+    loadHistoricalTimeframeSummary,
     loadTimeframeSummary,
     selectOpportunity,
     selectTimeframeItem,
