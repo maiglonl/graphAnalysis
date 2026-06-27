@@ -1,10 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import { PatternDirectionEnum, PatternIdEnum, TradeActionEnum, type Candle, type PatternSignal } from '#shared/types/market';
+import {
+  MarketStructurePointEnum,
+  PatternDirectionEnum,
+  PatternIdEnum,
+  StructureTrendEnum,
+  SwingPointTypeEnum,
+  TradeActionEnum,
+  type Candle,
+  type MarketStructure,
+  type PatternSignal,
+} from '#shared/types/market';
 import {
   buildFvgZones,
   buildPatternMarkers,
   buildPatternPriceLines,
   buildStructureBreakMarkers,
+  buildStructureMarkers,
   buildTradePlanLines,
   ChartPriceLineKindEnum,
   ChartZoneKindEnum,
@@ -20,6 +31,18 @@ function pattern(overrides: Partial<PatternSignal>): PatternSignal {
     id: PatternIdEnum.Hammer,
     direction: PatternDirectionEnum.Bullish,
     confidence: 60,
+    ...overrides,
+  };
+}
+
+function marketStructure(overrides: Partial<MarketStructure> = {}): MarketStructure {
+  return {
+    previousHigh: { index: 0, price: 105, type: SwingPointTypeEnum.High },
+    previousLow: { index: 0, price: 95, type: SwingPointTypeEnum.Low },
+    lastHigh: { index: 1, price: 106, type: SwingPointTypeEnum.High },
+    lastLow: { index: 1, price: 96, type: SwingPointTypeEnum.Low },
+    points: [],
+    trend: StructureTrendEnum.Neutral,
     ...overrides,
   };
 }
@@ -54,6 +77,32 @@ describe('chart annotations', () => {
       position: 'belowBar',
       shape: 'arrowUp',
     });
+  });
+
+  it('builds market structure markers with HH and HL labels', () => {
+    const markers = buildStructureMarkers(candles, marketStructure({
+      points: [MarketStructurePointEnum.HigherHigh, MarketStructurePointEnum.HigherLow],
+      trend: StructureTrendEnum.Bullish,
+    }));
+
+    expect(markers.map((marker) => marker.labelKey)).toEqual([
+      'chart.swingHigh',
+      'chart.swingLow',
+      'chart.higherHigh',
+      'chart.higherLow',
+    ]);
+    expect(markers.map((marker) => marker.time)).toEqual([1000, 1000, 2000, 2000]);
+  });
+
+  it('ignores structure points outside the candle range', () => {
+    const markers = buildStructureMarkers(candles, marketStructure({
+      previousHigh: { index: 10, price: 120, type: SwingPointTypeEnum.High },
+      previousLow: null,
+      lastHigh: null,
+      lastLow: null,
+    }));
+
+    expect(markers).toEqual([]);
   });
 
   it('builds trade plan lines', () => {
