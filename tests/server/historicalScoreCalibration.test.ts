@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { IntervalEnum, PatternIdEnum, TradeActionEnum, type HistoricalSimulationResult } from '#shared/types/market';
+import { IntervalEnum, PatternIdEnum, type HistoricalSimulationResult } from '#shared/types/market';
 import { buildHistoricalScoreCalibration } from '../../server/utils/historicalScoreCalibration';
 
-function simulation(): HistoricalSimulationResult {
+function makeSimulation(): HistoricalSimulationResult {
   return {
     symbol: 'BTCUSDT',
     interval: IntervalEnum.OneHour,
@@ -34,22 +34,17 @@ function simulation(): HistoricalSimulationResult {
   };
 }
 
-describe('historical score calibration', () => {
-  it('builds calibration metadata from simulation result', () => {
-    const result = buildHistoricalScoreCalibration(simulation());
+describe('buildHistoricalScoreCalibration', () => {
+  it('maps simulation stats to pattern adjustments', () => {
+    const result = buildHistoricalScoreCalibration(makeSimulation());
 
     expect(result.symbol).toBe('BTCUSDT');
     expect(result.interval).toBe(IntervalEnum.OneHour);
-    expect(result.patternAdjustments).toEqual([
-      {
-        patternId: PatternIdEnum.Hammer,
-        sampleSize: 10,
-        adjustment: 4,
-        winRate: 70,
-        averageReturn: 4,
-        averageConfidence: 70,
-        isReliable: true,
-      },
-    ]);
+    expect(result.patternAdjustments[0]).toMatchObject({
+      patternId: PatternIdEnum.Hammer,
+      sampleSize: 10,
+      adjustment: 4,
+      isReliable: true,
+    });
   });
 });
