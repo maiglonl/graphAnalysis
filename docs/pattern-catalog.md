@@ -12,6 +12,16 @@ Inverted Hammer
 Hanging Man
 Shooting Star
 Doji
+Long-Legged Doji
+Dragonfly Doji
+Gravestone Doji
+Spinning Top
+Bullish Marubozu
+Bearish Marubozu
+Bullish Kicker
+Bearish Kicker
+Three White Soldiers
+Three Black Crows
 Bullish Engulfing
 Bearish Engulfing
 Bullish Harami
@@ -33,7 +43,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 24 padrões/sinais.
+Total ativo aproximado: 34 padrões/sinais.
 
 ### IDs e traduções preparados, mas detectores ainda pendentes
 
@@ -42,24 +52,9 @@ Piercing Line
 Dark Cloud Cover
 ```
 
-Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores ainda não foram ativados porque a criação dos arquivos foi bloqueada pelo conector nesta rodada.
+Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores ainda não foram ativados porque a criação dos arquivos foi bloqueada pelo conector.
 
 ## Próximos lotes sugeridos
-
-### Lote 1 — Candles clássicos adicionais
-
-```txt
-Marubozu Bullish
-Marubozu Bearish
-Long Legged Doji
-Dragonfly Doji
-Gravestone Doji
-Spinning Top
-Bullish Kicker
-Bearish Kicker
-Three White Soldiers
-Three Black Crows
-```
 
 ### Lote 2 — Continuação e compressão
 
@@ -186,7 +181,7 @@ Breaker Block Bearish
 1. Adicionar enum em `PatternIdEnum`.
 2. Adicionar constantes de confiança e thresholds.
 3. Criar um detector concreto por arquivo.
-4. Registrar no `defaultScanner`.
+4. Registrar no `defaultScanner` ou em registry importado pelo scanner.
 5. Adicionar traduções em `pt-BR`, `en-US` e `es-ES`.
 6. Adicionar fixture ou teste unitário mínimo.
 7. Atualizar este catálogo.
