@@ -1,12 +1,11 @@
 import type {
   AnalyzeResponse,
   HistoricalSimulationResult,
-  IntervalEnum,
   MultiTimeframeResponse,
   ScanListResponse,
 } from '#shared/types/market';
 import type { PatternScoreCalibration } from '#shared/utils/scoreCalibration';
-import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, TradeActionEnum } from '#shared/types/market';
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 import { resolveApiErrorMessage } from '~/utils/apiErrors';
 
 export type OpportunityActionFilter = TradeActionEnum | 'all';
