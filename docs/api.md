@@ -121,6 +121,50 @@ type ScanListResponse = {
 
 ---
 
+## `GET /api/historical-simulation`
+
+Executa uma simulação histórica simples para um ativo usando os candles disponíveis.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `interval` | `IntervalEnum` | não | Timeframe. Default: `1h`. |
+
+### Exemplo
+
+```txt
+/api/historical-simulation?symbol=BTCUSDT&interval=1h
+```
+
+### Retorno
+
+```ts
+type HistoricalSimulationResult = {
+  symbol: string
+  interval: IntervalEnum
+  trades: HistoricalTrade[]
+  metrics: {
+    totalTrades: number
+    wins: number
+    losses: number
+    expired: number
+    winRate: number
+    averageRiskReward: number
+  }
+}
+```
+
+### Observações
+
+- Usa `HISTORICAL_SIMULATION.maxLookaheadCandles` para limitar a janela futura.
+- Usa `HISTORICAL_SIMULATION.minConfidence` para filtrar sinais fracos.
+- Considera o primeiro alvo da sugestão como alvo da operação simulada.
+- Esta simulação é uma métrica técnica auxiliar, não uma recomendação financeira.
+
+---
+
 ## Erros conhecidos
 
 | Chave | Significado |
