@@ -63,6 +63,7 @@ export const SCORE_CALIBRATION = {
   winRateStep: 10,
   averageReturnStep: 2,
   maxAdjustment: 8,
+  maxTotalAdjustment: 12,
 } as const;
 
 export const HISTORICAL_SIMULATION = {
