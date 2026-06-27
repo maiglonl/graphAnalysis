@@ -3,18 +3,11 @@ import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
 import { BullishFvgDetector } from '#shared/utils/detectors/candle/bullishFvg';
 import { ScanContext } from '#shared/utils/scanContext';
-import { narrowFlatCandles } from '../../../fixtures/candles/factories';
+import { bearishFvgCandles, bullishFvgCandles, unconfirmedBullishFvgCandles } from '../../../fixtures/candles/fvg';
 
 describe('FVG detectors', () => {
   it('detects bullish FVG between first and third candles', () => {
-    const candles = [
-      ...narrowFlatCandles(57),
-      { time: 58, open: 98, high: 100, low: 97, close: 99, volume: 1000 },
-      { time: 59, open: 100, high: 108, low: 99, close: 107, volume: 1500 },
-      { time: 60, open: 107, high: 110, low: 105, close: 109, volume: 1000 },
-    ];
-
-    const signals = new BullishFvgDetector().detect(new ScanContext(candles));
+    const signals = new BullishFvgDetector().detect(new ScanContext(bullishFvgCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
@@ -32,14 +25,7 @@ describe('FVG detectors', () => {
   });
 
   it('detects bearish FVG between first and third candles', () => {
-    const candles = [
-      ...narrowFlatCandles(57),
-      { time: 58, open: 102, high: 103, low: 100, close: 101, volume: 1000 },
-      { time: 59, open: 100, high: 101, low: 92, close: 93, volume: 1500 },
-      { time: 60, open: 93, high: 95, low: 90, close: 91, volume: 1000 },
-    ];
-
-    const signals = new BearishFvgDetector().detect(new ScanContext(candles));
+    const signals = new BearishFvgDetector().detect(new ScanContext(bearishFvgCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
@@ -57,14 +43,7 @@ describe('FVG detectors', () => {
   });
 
   it('ignores FVG when the middle candle does not confirm direction', () => {
-    const candles = [
-      ...narrowFlatCandles(57),
-      { time: 58, open: 98, high: 100, low: 97, close: 99, volume: 1000 },
-      { time: 59, open: 107, high: 108, low: 99, close: 100, volume: 1500 },
-      { time: 60, open: 107, high: 110, low: 105, close: 109, volume: 1000 },
-    ];
-
-    const signals = new BullishFvgDetector().detect(new ScanContext(candles));
+    const signals = new BullishFvgDetector().detect(new ScanContext(unconfirmedBullishFvgCandles()));
 
     expect(signals).toEqual([]);
   });
