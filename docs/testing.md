@@ -155,6 +155,8 @@ Cobre:
 - filtro de rompimentos estruturais nos markers genéricos;
 - deduplicação visual BOS/CHOCH;
 - linhas de plano de trade;
+- linhas de FVG e rompimento;
+- deduplicação de price lines;
 - zonas FVG.
 
 ### Scanner
@@ -278,9 +280,7 @@ Cobre:
 
 ### UI utils
 
-- markers de estrutura de mercado;
-- price lines de FVG e rompimento;
-- deduplicação de price lines.
+- markers de estrutura de mercado.
 
 ### API/server utils
 
