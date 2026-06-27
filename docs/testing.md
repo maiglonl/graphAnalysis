@@ -67,6 +67,8 @@ tests/
     apiErrors.test.ts
     indicators.test.ts
     riskPlan.test.ts
+    scanner/
+      suggestionBuilder.test.ts
     detectors/
       helpers.test.ts
       candle/
@@ -136,6 +138,23 @@ Cobre:
 - tradução de erro vindo de `message`;
 - fallback para erro desconhecido;
 - fallback para valores não objeto.
+
+### Scanner e sugestão
+
+Arquivo:
+
+```txt
+tests/utils/scanner/suggestionBuilder.test.ts
+```
+
+Cobre:
+
+- retorno neutro sem padrões;
+- sugestão bullish;
+- sugestão bearish;
+- penalidade por conflito;
+- empate direcional com `wait`;
+- bônus por volume relativo alto.
 
 ### Cache de candles
 
@@ -218,10 +237,10 @@ Cobre:
 
 - `Scanner.scan()` com input inválido;
 - `Scanner.scan()` com confluência;
-- `SuggestionBuilder` com direção bullish;
-- `SuggestionBuilder` com direção bearish;
-- `SuggestionBuilder` com conflito;
-- `SuggestionBuilder` com volume alto/baixo.
+- `SuggestionBuilder` com tendência alinhada/contrária;
+- `SuggestionBuilder` com estrutura BOS/CHOCH;
+- `SuggestionBuilder` com estrutura HH/HL/LH/LL;
+- `SuggestionBuilder` com volume baixo.
 
 ### API/server utils
 
