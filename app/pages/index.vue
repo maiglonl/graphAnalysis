@@ -10,11 +10,13 @@ const {
   result,
   historicalSimulation,
   historicalTimeframeSummary,
+  scoreCalibration,
   timeframeSummary,
   loading,
   scanLoading,
   simulationLoading,
   historicalTimeframeLoading,
+  scoreCalibrationLoading,
   timeframeLoading,
   error,
   scanItems,
@@ -22,6 +24,7 @@ const {
   scanSymbols,
   runSimulation,
   loadHistoricalTimeframeSummary,
+  loadScoreCalibration,
   loadTimeframeSummary,
   selectOpportunity,
   selectTimeframeItem,
@@ -66,6 +69,12 @@ const {
       :result="historicalTimeframeSummary"
       :loading="historicalTimeframeLoading"
       @refresh="loadHistoricalTimeframeSummary"
+    />
+
+    <ScoreCalibrationPanel
+      :result="scoreCalibration"
+      :loading="scoreCalibrationLoading"
+      @refresh="loadScoreCalibration"
     />
 
     <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
