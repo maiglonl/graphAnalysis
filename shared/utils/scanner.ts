@@ -22,6 +22,7 @@ import { MarketStructureDetector } from '#shared/utils/detectors/structure/marke
 import { BosDetector } from '#shared/utils/detectors/structure/bos';
 import { ChochDetector } from '#shared/utils/detectors/structure/choch';
 import { SCANNER, SCORING, VOLUME } from '#shared/utils/detectors/constants';
+import { createExpandedCandleDetectors } from '#shared/utils/expandedCandleDetectors';
 
 const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
   patternScore: 0,
@@ -256,6 +257,7 @@ const defaultScanner = new Scanner([
   new HangingManDetector(),
   new ShootingStarDetector(),
   new DojiDetector(),
+  ...createExpandedCandleDetectors(),
   new BullishEngulfingDetector(),
   new BearishEngulfingDetector(),
   new BullishHaramiDetector(),
