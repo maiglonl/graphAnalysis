@@ -59,6 +59,18 @@ describe('Scanner', () => {
     expect(scanner.scan(makeCandles())).toEqual([expected]);
   });
 
+  it('combines signals from multiple detectors', () => {
+    const scanner = new Scanner([
+      new FakeDetector([signal(PatternIdEnum.Hammer, PatternDirectionEnum.Bullish)]),
+      new FakeDetector([signal(PatternIdEnum.BullishFvg, PatternDirectionEnum.Bullish)]),
+    ]);
+
+    expect(scanner.scan(makeCandles()).map((item) => item.id)).toEqual([
+      PatternIdEnum.Hammer,
+      PatternIdEnum.BullishFvg,
+    ]);
+  });
+
   it('deduplicates bullish BOS when bullish CHOCH is present', () => {
     const scanner = new Scanner([
       new FakeDetector([
