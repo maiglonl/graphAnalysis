@@ -9,16 +9,19 @@ const {
   actionFilters,
   result,
   historicalSimulation,
+  historicalTimeframeSummary,
   timeframeSummary,
   loading,
   scanLoading,
   simulationLoading,
+  historicalTimeframeLoading,
   timeframeLoading,
   error,
   scanItems,
   analyze,
   scanSymbols,
   runSimulation,
+  loadHistoricalTimeframeSummary,
   loadTimeframeSummary,
   selectOpportunity,
   selectTimeframeItem,
@@ -57,6 +60,12 @@ const {
       :result="historicalSimulation"
       :loading="simulationLoading"
       @run="runSimulation"
+    />
+
+    <HistoricalTimeframeSummaryPanel
+      :result="historicalTimeframeSummary"
+      :loading="historicalTimeframeLoading"
+      @refresh="loadHistoricalTimeframeSummary"
     />
 
     <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
