@@ -65,6 +65,7 @@ tests/
     marketDataProviderError.test.ts
   utils/
     apiErrors.test.ts
+    chartAnnotations.test.ts
     indicators.test.ts
     riskPlan.test.ts
     scanner/
@@ -139,6 +140,22 @@ Cobre:
 - tradução de erro vindo de `message`;
 - fallback para erro desconhecido;
 - fallback para valores não objeto.
+
+### Anotações de gráfico
+
+Arquivo:
+
+```txt
+tests/utils/chartAnnotations.test.ts
+```
+
+Cobre:
+
+- criação de markers de padrão;
+- filtro de rompimentos estruturais nos markers genéricos;
+- deduplicação visual BOS/CHOCH;
+- linhas de plano de trade;
+- zonas FVG.
 
 ### Scanner
 
@@ -258,6 +275,12 @@ Cobre:
 - `Scanner.scan()` com confluência;
 - `SuggestionBuilder` com tendência alinhada/contrária;
 - `SuggestionBuilder` com confluência máxima.
+
+### UI utils
+
+- markers de estrutura de mercado;
+- price lines de FVG e rompimento;
+- deduplicação de price lines.
 
 ### API/server utils
 
