@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { PatternIdEnum } from '#shared/types/market';
 import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
 import { ScanContext } from '#shared/utils/scanContext';
-import { bearishTrendCandles, withLastCandle } from '../../../../fixtures/candles/factories';
+import { bearishTrendCandles, withLastCandle } from '../../../fixtures/candles/factories';
 
 describe('HammerDetector', () => {
   it('detects hammer after a bearish trend', () => {
