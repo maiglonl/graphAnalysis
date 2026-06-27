@@ -171,7 +171,10 @@ Cobre:
 - sugestão bearish;
 - penalidade por conflito;
 - empate direcional com `wait`;
-- bônus por volume relativo alto.
+- bônus por volume relativo alto;
+- penalidade por volume relativo baixo;
+- bônus por quebra de estrutura;
+- bônus por estrutura de mercado.
 
 ### Cache de candles
 
@@ -254,9 +257,7 @@ Cobre:
 
 - `Scanner.scan()` com confluência;
 - `SuggestionBuilder` com tendência alinhada/contrária;
-- `SuggestionBuilder` com estrutura BOS/CHOCH;
-- `SuggestionBuilder` com estrutura HH/HL/LH/LL;
-- `SuggestionBuilder` com volume baixo.
+- `SuggestionBuilder` com confluência máxima.
 
 ### API/server utils
 
