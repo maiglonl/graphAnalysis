@@ -180,6 +180,7 @@ Cobre:
 - input com candles insuficientes;
 - input com candles inválidos;
 - retorno de sinais dos detectores;
+- confluência entre múltiplos detectores;
 - deduplicação de Bullish BOS quando Bullish CHOCH está presente;
 - deduplicação de Bearish BOS quando Bearish CHOCH está presente.
 
@@ -294,10 +295,6 @@ Cobre:
 ---
 
 ## Próximos testes recomendados
-
-### Scanner
-
-- `Scanner.scan()` com confluência.
 
 ### API/server utils
 
