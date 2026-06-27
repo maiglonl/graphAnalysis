@@ -4,6 +4,8 @@ import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from 
 
 type OpportunityActionFilter = TradeActionEnum | 'all';
 
+const HIGH_CONFIDENCE_ALERT_THRESHOLD = 70;
+
 const { t } = useI18n();
 
 const symbol = usePersistedRef('graphAnalysis.symbol', DEFAULT_SYMBOL);
@@ -25,6 +27,15 @@ const filteredScanItems = computed(() => {
   if (actionFilter.value === 'all') return items;
 
   return items.filter((item) => item.suggestion.action === actionFilter.value);
+});
+
+const alertItems = computed(() => {
+  const items = scanResult.value?.items ?? [];
+
+  return items.filter((item) => {
+    const isActionable = item.suggestion.action === TradeActionEnum.Buy || item.suggestion.action === TradeActionEnum.Sell;
+    return isActionable && item.suggestion.confidence >= HIGH_CONFIDENCE_ALERT_THRESHOLD;
+  });
 });
 
 async function analyze() {
@@ -135,6 +146,33 @@ onMounted(() => {
           :placeholder="$t('opportunities.symbolsPlaceholder')"
           @keyup.enter="scanSymbols"
         >
+
+        <div v-if="alertItems.length" class="border border-yellow-200 bg-yellow-50 rounded-xl p-3 mb-3">
+          <h3 class="mt-0 mb-2 text-base">
+            {{ $t('alerts.title') }}
+          </h3>
+
+          <div class="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+            <button
+              v-for="item in alertItems"
+              :key="item.symbol"
+              class="border border-yellow-200 rounded-xl p-3 bg-white cursor-pointer text-left hover:bg-yellow-50"
+              @click="selectOpportunity(item)"
+            >
+              <div class="flex justify-between items-center gap-3">
+                <strong>{{ item.symbol }}</strong>
+
+                <span class="px-2 py-1 rounded-full text-xs font-bold uppercase" :class="getActionClass(item.suggestion.action)">
+                  {{ $t(`actions.${item.suggestion.action}`) }}
+                </span>
+              </div>
+
+              <p class="mt-2 mb-0 text-sm text-slate-500">
+                {{ $t('alerts.confidence', { value: item.suggestion.confidence }) }}
+              </p>
+            </button>
+          </div>
+        </div>
 
         <div class="flex flex-wrap gap-2 mb-3">
           <button
