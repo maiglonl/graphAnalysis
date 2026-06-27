@@ -81,6 +81,18 @@ export type SuggestionScoreBreakdown = {
   conflictPenalty: number;
 };
 
+export type RiskPlan = {
+  accountSize: number;
+  riskPercent: number;
+  riskAmount: number;
+  entry: number;
+  stop: number;
+  stopDistance: number;
+  positionSize: number;
+  quantity: number;
+  riskRewardByTarget: number[];
+};
+
 export type TradeSuggestion = {
   action: TradeActionEnum;
   confidence: number;
