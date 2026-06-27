@@ -7,6 +7,8 @@ import { GravestoneDojiDetector } from '#shared/utils/detectors/candle/graveston
 import { LongLeggedDojiDetector } from '#shared/utils/detectors/candle/longLeggedDoji';
 import { RedMarubozuDetector } from '#shared/utils/detectors/candle/redMarubozu';
 import { SpinningTopDetector } from '#shared/utils/detectors/candle/spinningTop';
+import { ThreeBlackCrowsDetector } from '#shared/utils/detectors/candle/threeBlackCrows';
+import { ThreeWhiteSoldiersDetector } from '#shared/utils/detectors/candle/threeWhiteSoldiers';
 
 export function createExpandedCandleDetectors(): PatternDetector[] {
   return [
@@ -18,5 +20,7 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new RedMarubozuDetector(),
     new BullishKickerDetector(),
     new BearishKickerDetector(),
+    new ThreeWhiteSoldiersDetector(),
+    new ThreeBlackCrowsDetector(),
   ];
 }
