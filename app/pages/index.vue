@@ -51,6 +51,8 @@ async function analyze() {
         interval: interval.value,
       },
     });
+    historicalSimulation.value = null;
+    timeframeSummary.value = null;
   } catch (err: any) {
     const messageKey = err?.data?.message || err?.message;
 
