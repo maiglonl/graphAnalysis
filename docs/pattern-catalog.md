@@ -36,6 +36,8 @@ Bullish Breakaway Gap
 Bearish Breakaway Gap
 Runaway Gap Up
 Runaway Gap Down
+Exhaustion Gap Up
+Exhaustion Gap Down
 Gap Fill Bullish
 Gap Fill Bearish
 Island Reversal Bottom
@@ -61,7 +63,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 52 padrões/sinais.
+Total ativo aproximado: 54 padrões/sinais.
 
 ### IDs e traduções preparados, mas detectores ainda pendentes
 
@@ -73,13 +75,6 @@ Dark Cloud Cover
 Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores ainda não foram ativados porque a criação dos arquivos foi bloqueada pelo conector.
 
 ## Próximos lotes sugeridos
-
-### Lote 3 — Gaps e janelas restantes
-
-```txt
-Exhaustion Gap Up
-Exhaustion Gap Down
-```
 
 ### Lote 4 — Estrutura e price action
 
