@@ -26,67 +26,51 @@ const {
 </script>
 
 <template>
-  <main class="min-h-screen bg-slate-50 text-slate-900 p-8 max-md:p-4">
-    <section class="max-w-6xl mx-auto">
-      <header class="mb-6 flex justify-between items-start gap-4 max-md:flex-col">
-        <div>
-          <h1 class="text-4xl m-0">
-            {{ $t('scanner.title') }}
-          </h1>
+  <DashboardLayout title-key="scanner.title" subtitle-key="scanner.subtitle">
+    <AnalysisForm
+      v-model:symbol="symbol"
+      v-model:interval="interval"
+      :loading="loading"
+      :intervals="intervals"
+      @analyze="analyze"
+    />
 
-          <p class="text-slate-500 mt-2">
-            {{ $t('scanner.subtitle') }}
-          </p>
-        </div>
+    <OpportunityRanking
+      v-model:symbols="symbolsToScan"
+      v-model:action-filter="actionFilter"
+      v-model:min-confidence="minConfidence"
+      :items="scanItems"
+      :loading="scanLoading"
+      :action-filters="actionFilters"
+      @refresh="scanSymbols"
+      @select="selectOpportunity"
+    />
 
-        <LocaleSwitcher />
-      </header>
+    <TimeframeSummaryPanel
+      :result="timeframeSummary"
+      :loading="timeframeLoading"
+      @refresh="loadTimeframeSummary"
+      @select="selectTimeframeItem"
+    />
 
-      <AnalysisForm
-        v-model:symbol="symbol"
-        v-model:interval="interval"
-        :loading="loading"
-        :intervals="intervals"
-        @analyze="analyze"
-      />
+    <HistoricalSimulationPanel
+      :result="historicalSimulation"
+      :loading="simulationLoading"
+      @run="runSimulation"
+    />
 
-      <OpportunityRanking
-        v-model:symbols="symbolsToScan"
-        v-model:action-filter="actionFilter"
-        v-model:min-confidence="minConfidence"
-        :items="scanItems"
-        :loading="scanLoading"
-        :action-filters="actionFilters"
-        @refresh="scanSymbols"
-        @select="selectOpportunity"
-      />
+    <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
+      {{ error }}
+    </p>
 
-      <TimeframeSummaryPanel
-        :result="timeframeSummary"
-        :loading="timeframeLoading"
-        @refresh="loadTimeframeSummary"
-        @select="selectTimeframeItem"
-      />
+    <section v-if="result" class="flex gap-5 items-start max-lg:flex-col">
+      <div class="flex-1 min-w-0 grid gap-5 max-lg:w-full">
+        <ChartPanel :result="result" />
 
-      <HistoricalSimulationPanel
-        :result="historicalSimulation"
-        :loading="simulationLoading"
-        @run="runSimulation"
-      />
+        <DetectedPatterns :patterns="result.patterns" />
+      </div>
 
-      <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
-        {{ error }}
-      </p>
-
-      <section v-if="result" class="flex gap-5 items-start max-lg:flex-col">
-        <div class="flex-1 min-w-0 grid gap-5 max-lg:w-full">
-          <ChartPanel :result="result" />
-
-          <DetectedPatterns :patterns="result.patterns" />
-        </div>
-
-        <SuggestionCard :result="result" />
-      </section>
+      <SuggestionCard :result="result" />
     </section>
-  </main>
+  </DashboardLayout>
 </template>
