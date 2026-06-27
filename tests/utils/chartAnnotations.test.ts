@@ -3,6 +3,7 @@ import { PatternDirectionEnum, PatternIdEnum, TradeActionEnum, type Candle, type
 import {
   buildFvgZones,
   buildPatternMarkers,
+  buildPatternPriceLines,
   buildStructureBreakMarkers,
   buildTradePlanLines,
   ChartPriceLineKindEnum,
@@ -79,6 +80,38 @@ describe('chart annotations', () => {
       ChartPriceLineKindEnum.Target,
       ChartPriceLineKindEnum.Target,
     ]);
+  });
+
+  it('builds FVG and broken level price lines with deduplication', () => {
+    const lines = buildPatternPriceLines([
+      pattern({
+        id: PatternIdEnum.BullishFvg,
+        meta: {
+          gapStart: 101,
+          gapEnd: 104,
+        },
+      }),
+      pattern({
+        id: PatternIdEnum.BullishFvg,
+        meta: {
+          gapStart: 101,
+          gapEnd: 104,
+        },
+      }),
+      pattern({
+        id: PatternIdEnum.BullishBos,
+        meta: {
+          brokenLevel: 110,
+        },
+      }),
+    ]);
+
+    expect(lines.map((line) => line.kind)).toEqual([
+      ChartPriceLineKindEnum.FvgBoundary,
+      ChartPriceLineKindEnum.FvgBoundary,
+      ChartPriceLineKindEnum.BrokenLevel,
+    ]);
+    expect(lines.map((line) => line.price)).toEqual([101, 104, 110]);
   });
 
   it('builds FVG zones from pattern metadata', () => {
