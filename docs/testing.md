@@ -60,6 +60,7 @@ node
 ```txt
 tests/
   server/
+    analyzeMarket.test.ts
     candleCache.test.ts
     historicalSimulation.test.ts
     marketDataProviderError.test.ts
@@ -207,6 +208,22 @@ Cobre:
 - penalidade por tendência contrária;
 - limite máximo de confluência.
 
+### Análise de mercado
+
+Arquivo:
+
+```txt
+tests/server/analyzeMarket.test.ts
+```
+
+Cobre:
+
+- chamada a `/api/candles`;
+- integração com `scanPatterns()`;
+- integração com `buildSuggestion()`;
+- retorno de preço e timestamp atuais;
+- fallback para `price` e `updatedAt` nulos sem candles.
+
 ### Cache de candles
 
 Arquivo:
@@ -299,7 +316,6 @@ Cobre:
 ### API/server utils
 
 - `BinanceProvider` com mock;
-- `analyzeMarket` com candles mockados;
 - endpoints Nuxt com mocks de provider.
 
 ---
