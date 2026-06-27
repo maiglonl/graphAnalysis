@@ -7,6 +7,7 @@ import type {
 import type { PatternScoreCalibration } from '#shared/utils/scoreCalibration';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 import { resolveApiErrorMessage } from '~/utils/apiErrors';
+import { addWatchlistSymbol, removeWatchlistSymbol } from '~/utils/watchlist';
 
 const ANALYSIS_HISTORY_MAX_ITEMS = 10;
 
@@ -43,6 +44,8 @@ export function useTechnicalScannerDashboard() {
   const minConfidence = usePersistedRef('graphAnalysis.minConfidence', 0);
   const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityActionFilter[];
   const analysisHistory = usePersistedJsonRef<AnalysisHistorySnapshot[]>('graphAnalysis.analysisHistory', []);
+  const watchlist = usePersistedJsonRef<string[]>('graphAnalysis.watchlist', [DEFAULT_SYMBOL, 'ETHUSDT', 'SOLUSDT']);
+  const watchlistSymbol = ref('');
 
   const result = ref<AnalyzeResponse | null>(null);
   const scanResult = ref<ScanListResponse | null>(null);
@@ -168,6 +171,24 @@ export function useTechnicalScannerDashboard() {
     }
   }
 
+  function addSymbolToWatchlist() {
+    watchlist.value = addWatchlistSymbol(watchlist.value, watchlistSymbol.value);
+    watchlistSymbol.value = '';
+  }
+
+  function addCurrentSymbolToWatchlist() {
+    watchlist.value = addWatchlistSymbol(watchlist.value, symbol.value);
+  }
+
+  function removeSymbolFromWatchlist(item: string) {
+    watchlist.value = removeWatchlistSymbol(watchlist.value, item);
+  }
+
+  async function selectWatchlistSymbol(item: string) {
+    symbol.value = item;
+    await analyze();
+  }
+
   function selectOpportunity(item: AnalyzeResponse) {
     symbol.value = item.symbol;
     interval.value = item.interval;
@@ -236,6 +257,8 @@ export function useTechnicalScannerDashboard() {
     scoreCalibration,
     timeframeSummary,
     analysisHistory,
+    watchlist,
+    watchlistSymbol,
     loading,
     scanLoading,
     simulationLoading,
@@ -250,6 +273,10 @@ export function useTechnicalScannerDashboard() {
     loadHistoricalTimeframeSummary,
     loadScoreCalibration,
     loadTimeframeSummary,
+    addSymbolToWatchlist,
+    addCurrentSymbolToWatchlist,
+    removeSymbolFromWatchlist,
+    selectWatchlistSymbol,
     selectOpportunity,
     selectTimeframeItem,
     selectHistoryItem,
