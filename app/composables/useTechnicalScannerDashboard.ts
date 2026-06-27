@@ -7,6 +7,11 @@ import type {
 import type { PatternScoreCalibration } from '#shared/utils/scoreCalibration';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 import { resolveApiErrorMessage } from '~/utils/apiErrors';
+import {
+  addSimulationHistorySnapshot,
+  buildSimulationHistorySnapshot,
+  type SimulationHistorySnapshot,
+} from '~/utils/simulationHistory';
 import { addWatchlistSymbol, removeWatchlistSymbol } from '~/utils/watchlist';
 
 const ANALYSIS_HISTORY_MAX_ITEMS = 10;
@@ -44,6 +49,7 @@ export function useTechnicalScannerDashboard() {
   const minConfidence = usePersistedRef('graphAnalysis.minConfidence', 0);
   const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityActionFilter[];
   const analysisHistory = usePersistedJsonRef<AnalysisHistorySnapshot[]>('graphAnalysis.analysisHistory', []);
+  const simulationHistory = usePersistedJsonRef<SimulationHistorySnapshot[]>('graphAnalysis.simulationHistory', []);
   const watchlist = usePersistedJsonRef<string[]>('graphAnalysis.watchlist', [DEFAULT_SYMBOL, 'ETHUSDT', 'SOLUSDT']);
   const watchlistSymbol = ref('');
 
@@ -112,6 +118,7 @@ export function useTechnicalScannerDashboard() {
           interval: interval.value,
         },
       });
+      recordSimulation(historicalSimulation.value);
     } catch (err: unknown) {
       error.value = resolveApiErrorMessage(err, t);
     } finally {
@@ -211,6 +218,12 @@ export function useTechnicalScannerDashboard() {
     await analyze();
   }
 
+  async function selectSimulationHistoryItem(item: SimulationHistorySnapshot) {
+    symbol.value = item.symbol;
+    interval.value = item.interval;
+    await runSimulation();
+  }
+
   function recordAnalysis(item: AnalyzeResponse) {
     const snapshot = buildAnalysisSnapshot(item);
     const historyWithoutDuplicate = analysisHistory.value.filter(
@@ -218,6 +231,13 @@ export function useTechnicalScannerDashboard() {
     );
 
     analysisHistory.value = [snapshot, ...historyWithoutDuplicate].slice(0, ANALYSIS_HISTORY_MAX_ITEMS);
+  }
+
+  function recordSimulation(item: HistoricalSimulationResult) {
+    simulationHistory.value = addSimulationHistorySnapshot(
+      simulationHistory.value,
+      buildSimulationHistorySnapshot(item),
+    );
   }
 
   function buildAnalysisSnapshot(item: AnalyzeResponse): AnalysisHistorySnapshot {
@@ -257,6 +277,7 @@ export function useTechnicalScannerDashboard() {
     scoreCalibration,
     timeframeSummary,
     analysisHistory,
+    simulationHistory,
     watchlist,
     watchlistSymbol,
     loading,
@@ -280,5 +301,6 @@ export function useTechnicalScannerDashboard() {
     selectOpportunity,
     selectTimeframeItem,
     selectHistoryItem,
+    selectSimulationHistoryItem,
   };
 }
