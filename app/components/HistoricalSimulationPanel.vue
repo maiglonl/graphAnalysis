@@ -33,7 +33,7 @@ const emit = defineEmits<{
       </button>
     </div>
 
-    <dl v-if="result" class="grid gap-3 m-0 md:grid-cols-3 lg:grid-cols-6">
+    <dl v-if="result" class="grid gap-3 m-0 md:grid-cols-2 lg:grid-cols-5">
       <div class="border border-slate-200 rounded-xl p-3">
         <dt class="text-sm text-slate-500">{{ $t('simulation.totalTrades') }}</dt>
         <dd class="m-0 text-2xl font-bold">{{ result.metrics.totalTrades }}</dd>
@@ -60,8 +60,28 @@ const emit = defineEmits<{
       </div>
 
       <div class="border border-slate-200 rounded-xl p-3">
+        <dt class="text-sm text-slate-500">{{ $t('simulation.lossRate') }}</dt>
+        <dd class="m-0 text-2xl font-bold">{{ result.metrics.lossRate }}%</dd>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl p-3">
         <dt class="text-sm text-slate-500">{{ $t('simulation.averageRiskReward') }}</dt>
         <dd class="m-0 text-2xl font-bold">{{ result.metrics.averageRiskReward }}</dd>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl p-3">
+        <dt class="text-sm text-slate-500">{{ $t('simulation.averageReturn') }}</dt>
+        <dd class="m-0 text-2xl font-bold">{{ result.metrics.averageReturn }}%</dd>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl p-3">
+        <dt class="text-sm text-slate-500">{{ $t('simulation.maxDrawdown') }}</dt>
+        <dd class="m-0 text-2xl font-bold">{{ result.metrics.maxDrawdown }}%</dd>
+      </div>
+
+      <div class="border border-slate-200 rounded-xl p-3">
+        <dt class="text-sm text-slate-500">{{ $t('simulation.averageConfidence') }}</dt>
+        <dd class="m-0 text-2xl font-bold">{{ result.metrics.averageConfidence }}%</dd>
       </div>
     </dl>
 
