@@ -52,6 +52,8 @@
     "bearishBreakawayGap": { "name": "Bearish Breakaway Gap", "reason": "Bearish gap after a bullish trend, suggesting breakout and a pressure shift." },
     "runawayGapUp": { "name": "Runaway Gap Up", "reason": "Bullish continuation gap in trend direction, indicating buyer acceleration." },
     "runawayGapDown": { "name": "Runaway Gap Down", "reason": "Bearish continuation gap in trend direction, indicating seller acceleration." },
+    "exhaustionGapUp": { "name": "Exhaustion Gap Up", "reason": "Upside gap in an extended trend with rejection, suggesting possible buyer exhaustion." },
+    "exhaustionGapDown": { "name": "Exhaustion Gap Down", "reason": "Downside gap in an extended trend with rejection, suggesting possible seller exhaustion." },
     "gapFillBullish": { "name": "Bullish Gap Fill", "reason": "Bearish gap filled by price recovery, suggesting buyer reaction." },
     "gapFillBearish": { "name": "Bearish Gap Fill", "reason": "Bullish gap filled by price rejection, suggesting seller reaction." },
     "islandReversalBottom": { "name": "Island Reversal Bottom", "reason": "Bottom island reversal with an entry gap and an exit gap to the upside." },
