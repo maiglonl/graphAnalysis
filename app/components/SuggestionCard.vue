@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import type { AnalyzeResponse } from '#shared/types/market';
+import { buildRiskPlan } from '#shared/utils/riskPlan';
 
 const props = defineProps<{
   result: AnalyzeResponse;
 }>();
+
+const accountSize = ref(10000);
+const riskPercent = ref(1);
 
 const scoreItems = computed(() => [
   {
@@ -37,6 +41,14 @@ const scoreItems = computed(() => [
     value: -props.result.suggestion.scoreBreakdown.conflictPenalty,
   },
 ]);
+
+const riskPlan = computed(() => buildRiskPlan({
+  accountSize: accountSize.value,
+  riskPercent: riskPercent.value,
+  entry: props.result.suggestion.entry,
+  stop: props.result.suggestion.stop,
+  targets: props.result.suggestion.targets,
+}));
 </script>
 
 <template>
@@ -57,11 +69,7 @@ const scoreItems = computed(() => [
       </h4>
 
       <dl class="grid gap-2 m-0 text-sm">
-        <div
-          v-for="item in scoreItems"
-          :key="item.key"
-          class="flex justify-between gap-3"
-        >
+        <div v-for="item in scoreItems" :key="item.key" class="flex justify-between gap-3">
           <dt class="text-slate-500">
             {{ $t(item.labelKey) }}
           </dt>
@@ -97,6 +105,55 @@ const scoreItems = computed(() => [
           {{ result.suggestion.targets.join(' · ') }}
         </strong>
       </div>
+    </div>
+
+    <div class="border border-slate-200 rounded-xl p-3 mt-5">
+      <h4 class="mt-0 mb-3">
+        {{ $t('risk.title') }}
+      </h4>
+
+      <div class="grid gap-2 mb-3">
+        <label class="grid gap-1 text-sm">
+          <span class="text-slate-500">{{ $t('risk.accountSize') }}</span>
+          <input v-model.number="accountSize" type="number" min="0" class="h-9 px-3 border border-slate-300 rounded-xl">
+        </label>
+
+        <label class="grid gap-1 text-sm">
+          <span class="text-slate-500">{{ $t('risk.riskPercent') }}</span>
+          <input v-model.number="riskPercent" type="number" min="0" step="0.1" class="h-9 px-3 border border-slate-300 rounded-xl">
+        </label>
+      </div>
+
+      <dl v-if="riskPlan" class="grid gap-2 m-0 text-sm">
+        <div class="flex justify-between gap-3">
+          <dt class="text-slate-500">{{ $t('risk.riskAmount') }}</dt>
+          <dd class="m-0 font-semibold">{{ riskPlan.riskAmount }}</dd>
+        </div>
+
+        <div class="flex justify-between gap-3">
+          <dt class="text-slate-500">{{ $t('risk.stopDistance') }}</dt>
+          <dd class="m-0 font-semibold">{{ riskPlan.stopDistance }}</dd>
+        </div>
+
+        <div class="flex justify-between gap-3">
+          <dt class="text-slate-500">{{ $t('risk.positionSize') }}</dt>
+          <dd class="m-0 font-semibold">{{ riskPlan.positionSize }}</dd>
+        </div>
+
+        <div class="flex justify-between gap-3">
+          <dt class="text-slate-500">{{ $t('risk.quantity') }}</dt>
+          <dd class="m-0 font-semibold">{{ riskPlan.quantity }}</dd>
+        </div>
+
+        <div v-if="riskPlan.riskRewardByTarget.length" class="flex justify-between gap-3">
+          <dt class="text-slate-500">{{ $t('risk.riskReward') }}</dt>
+          <dd class="m-0 font-semibold">{{ riskPlan.riskRewardByTarget.join(' · ') }}</dd>
+        </div>
+      </dl>
+
+      <p v-else class="text-slate-500 mb-0 text-sm">
+        {{ $t('risk.unavailable') }}
+      </p>
     </div>
 
     <hr class="border-0 border-t border-slate-200 my-5" />
