@@ -20,6 +20,21 @@ graphAnalysis.riskPercent
 
 A página não deve concentrar chamadas de API nem regra de estado. Essa responsabilidade fica no composable.
 
+## Layout
+
+```txt
+app/components/DashboardLayout.vue
+```
+
+Responsável pelo shell visual da página:
+
+- `main`;
+- container central;
+- título;
+- subtítulo;
+- seletor de idioma;
+- slot de conteúdo.
+
 ## Composable principal
 
 ```txt
