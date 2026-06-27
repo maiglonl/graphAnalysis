@@ -10,6 +10,7 @@ graphAnalysis.interval
 graphAnalysis.symbolsToScan
 graphAnalysis.actionFilter
 graphAnalysis.minConfidence
+graphAnalysis.watchlist
 graphAnalysis.analysisHistory
 graphAnalysis.accountSize
 graphAnalysis.riskPercent
@@ -45,6 +46,7 @@ app/composables/useTechnicalScannerDashboard.ts
 Responsabilidades:
 
 - estado persistido do scanner;
+- watchlist local;
 - histórico recente de análises;
 - análise individual;
 - scan em lote;
@@ -52,6 +54,7 @@ Responsabilidades:
 - simulação histórica multi-timeframe;
 - calibração informativa do score;
 - confirmação por timeframe;
+- seleção de ativo da watchlist;
 - seleção de oportunidade;
 - seleção de timeframe;
 - limpeza de painéis derivados;
@@ -60,6 +63,7 @@ Responsabilidades:
 ## Componentes de painel
 
 ```txt
+app/components/WatchlistPanel.vue
 app/components/AnalysisHistoryPanel.vue
 app/components/OpportunityRanking.vue
 app/components/TimeframeSummaryPanel.vue
@@ -67,6 +71,10 @@ app/components/HistoricalSimulationPanel.vue
 app/components/HistoricalTimeframeSummaryPanel.vue
 app/components/ScoreCalibrationPanel.vue
 ```
+
+### `WatchlistPanel.vue`
+
+Controla a UI da watchlist salva em `graphAnalysis.watchlist`.
 
 ### `AnalysisHistoryPanel.vue`
 
