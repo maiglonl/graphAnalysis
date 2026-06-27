@@ -6,7 +6,9 @@ Este documento descreve o MVP atual de avaliação histórica dos sinais.
 
 ```txt
 server/utils/historicalSimulation.ts
+server/utils/historicalTimeframeSummary.ts
 server/api/historical-simulation.get.ts
+server/api/historical-timeframe-summary.get.ts
 ```
 
 ## Fluxo atual
@@ -61,17 +63,34 @@ averageConfidence
 
 Isso prepara a próxima etapa de calibrar pesos do scanner a partir da performance histórica por padrão.
 
+## Simulação multi-timeframe
+
+Endpoint:
+
+```txt
+/api/historical-timeframe-summary
+```
+
+Esse endpoint executa a simulação histórica para os timeframes normalizados pelo mesmo fluxo de confirmação multi-timeframe.
+
+O retorno possui:
+
+```txt
+symbol
+items
+```
+
+Cada item de `items` é um resultado completo de simulação histórica para um timeframe.
+
 ## Limitações conhecidas
 
 1. Usa apenas o primeiro alvo.
 2. Não calcula retorno composto.
-3. Não separa performance por timeframe.
-4. Não persiste execuções.
-5. Não considera custos, slippage ou spread.
+3. Não persiste execuções.
+4. Não considera custos, slippage ou spread.
 
 ## Próximas evoluções
 
-1. Agrupar resultado por timeframe.
-2. Calcular retorno por operação com mais detalhes.
-3. Usar métricas históricas para calibrar pesos do scanner.
-4. Persistir execuções de simulação.
+1. Calcular retorno por operação com mais detalhes.
+2. Usar métricas históricas para calibrar pesos do scanner.
+3. Persistir execuções de simulação.
