@@ -57,6 +57,14 @@ export const SCORING = {
   lowVolumePenalty: 4,
 } as const;
 
+export const SCORE_CALIBRATION = {
+  minTrades: 5,
+  baselineWinRate: 50,
+  winRateStep: 10,
+  averageReturnStep: 2,
+  maxAdjustment: 8,
+} as const;
+
 export const HISTORICAL_SIMULATION = {
   maxLookaheadCandles: 24,
   minConfidence: 50,
