@@ -14,7 +14,18 @@ export type RunHistoricalSimulationParams = {
   candles: Candle[];
 };
 
-export function runHistoricalSimulation(params: RunHistoricalSimulationParams): HistoricalSimulationResult {
+export type HistoricalSimulationExtraMetrics = {
+  lossRate: number;
+  averageReturn: number;
+  maxDrawdown: number;
+  averageConfidence: number;
+};
+
+export type ExtendedHistoricalSimulationResult = HistoricalSimulationResult & {
+  metrics: HistoricalSimulationResult['metrics'] & HistoricalSimulationExtraMetrics;
+};
+
+export function runHistoricalSimulation(params: RunHistoricalSimulationParams): ExtendedHistoricalSimulationResult {
   const trades: HistoricalTrade[] = [];
 
   for (let index = SCANNER.minCandles; index < params.candles.length - 1; index += 1) {
@@ -93,7 +104,7 @@ function resolveTrade(params: ResolveTradeParams): HistoricalTrade {
   };
 }
 
-function buildMetrics(trades: HistoricalTrade[]): HistoricalSimulationResult['metrics'] {
+function buildMetrics(trades: HistoricalTrade[]): ExtendedHistoricalSimulationResult['metrics'] {
   const wins = trades.filter((trade) => trade.result === 'win').length;
   const losses = trades.filter((trade) => trade.result === 'loss').length;
   const expired = trades.filter((trade) => trade.result === 'expired').length;
@@ -105,7 +116,11 @@ function buildMetrics(trades: HistoricalTrade[]): HistoricalSimulationResult['me
     losses,
     expired,
     winRate: closedTrades > 0 ? round((wins / closedTrades) * 100) : 0,
+    lossRate: closedTrades > 0 ? round((losses / closedTrades) * 100) : 0,
     averageRiskReward: round(averageRiskReward(trades)),
+    averageReturn: round(averageReturn(trades)),
+    maxDrawdown: round(maxDrawdown(trades)),
+    averageConfidence: round(averageConfidence(trades)),
   };
 }
 
@@ -121,6 +136,43 @@ function averageRiskReward(trades: HistoricalTrade[]): number {
   }, 0);
 
   return total / tradesWithRisk.length;
+}
+
+function averageReturn(trades: HistoricalTrade[]): number {
+  if (!trades.length) return 0;
+
+  const total = trades.reduce((sum, trade) => sum + tradeReturn(trade), 0);
+
+  return total / trades.length;
+}
+
+function maxDrawdown(trades: HistoricalTrade[]): number {
+  let peak = 0;
+  let equity = 0;
+  let worstDrawdown = 0;
+
+  trades.forEach((trade) => {
+    equity += tradeReturn(trade);
+    peak = Math.max(peak, equity);
+    worstDrawdown = Math.max(worstDrawdown, peak - equity);
+  });
+
+  return worstDrawdown;
+}
+
+function averageConfidence(trades: HistoricalTrade[]): number {
+  if (!trades.length) return 0;
+
+  return trades.reduce((sum, trade) => sum + trade.confidence, 0) / trades.length;
+}
+
+function tradeReturn(trade: HistoricalTrade): number {
+  if (trade.result === 'expired') return 0;
+
+  const exit = trade.result === 'win' ? trade.target : trade.stop;
+  const directionMultiplier = trade.action === TradeActionEnum.Buy ? 1 : -1;
+
+  return ((exit - trade.entry) / trade.entry) * directionMultiplier * 100;
 }
 
 function round(value: number): number {
