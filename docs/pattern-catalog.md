@@ -26,6 +26,12 @@ Rising Three Methods
 Falling Three Methods
 Bullish Separating Lines
 Bearish Separating Lines
+Bullish Breakaway Gap
+Bearish Breakaway Gap
+Runaway Gap Up
+Runaway Gap Down
+Gap Fill Bullish
+Gap Fill Bearish
 Bullish Engulfing
 Bearish Engulfing
 Bullish Harami
@@ -47,7 +53,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 38 padrões/sinais.
+Total ativo aproximado: 44 padrões/sinais.
 
 ### IDs e traduções preparados, mas detectores ainda pendentes
 
@@ -71,17 +77,11 @@ In Neck
 Thrusting
 ```
 
-### Lote 3 — Gaps e janelas
+### Lote 3 — Gaps e janelas restantes
 
 ```txt
-Bullish Breakaway Gap
-Bearish Breakaway Gap
-Runaway Gap Up
-Runaway Gap Down
 Exhaustion Gap Up
 Exhaustion Gap Down
-Gap Fill Bullish
-Gap Fill Bearish
 Island Reversal Top
 Island Reversal Bottom
 ```
