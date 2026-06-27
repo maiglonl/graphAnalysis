@@ -1,0 +1,90 @@
+import { describe, expect, it } from 'vitest';
+import { PatternDirectionEnum, PatternIdEnum, TradeActionEnum, type Candle, type PatternSignal } from '#shared/types/market';
+import { SuggestionBuilder } from '#shared/utils/scanner';
+
+function makeCandles(volume = 100): Candle[] {
+  return Array.from({ length: 50 }, (_, index) => ({
+    time: index + 1,
+    open: 100,
+    high: 105,
+    low: 95,
+    close: 100,
+    volume,
+  }));
+}
+
+function makeHighVolumeCandles(): Candle[] {
+  const candles = makeCandles(100);
+  candles[candles.length - 1] = { ...candles[candles.length - 1]!, volume: 1000 };
+  return candles;
+}
+
+function pattern(overrides: Partial<PatternSignal>): PatternSignal {
+  return {
+    id: PatternIdEnum.Hammer,
+    direction: PatternDirectionEnum.Bullish,
+    confidence: 60,
+    ...overrides,
+  };
+}
+
+describe('SuggestionBuilder', () => {
+  it('returns none without patterns', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), []);
+
+    expect(suggestion.action).toBe(TradeActionEnum.None);
+    expect(suggestion.confidence).toBe(0);
+  });
+
+  it('builds a bullish suggestion from bullish patterns', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ id: PatternIdEnum.Hammer, confidence: 68, entry: 100, stop: 90, targets: [120] }),
+    ]);
+
+    expect(suggestion.action).toBe(TradeActionEnum.Buy);
+    expect(suggestion.confidence).toBe(68);
+    expect(suggestion.entry).toBe(100);
+    expect(suggestion.reasons).toEqual([PatternIdEnum.Hammer]);
+  });
+
+  it('builds a bearish suggestion from bearish patterns', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ id: PatternIdEnum.BearishEngulfing, direction: PatternDirectionEnum.Bearish, confidence: 74 }),
+    ]);
+
+    expect(suggestion.action).toBe(TradeActionEnum.Sell);
+    expect(suggestion.confidence).toBe(74);
+    expect(suggestion.reasons).toEqual([PatternIdEnum.BearishEngulfing]);
+  });
+
+  it('applies conflict penalty when both directions are present', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ id: PatternIdEnum.Hammer, confidence: 60 }),
+      pattern({ id: PatternIdEnum.BearishEngulfing, direction: PatternDirectionEnum.Bearish, confidence: 50 }),
+    ]);
+
+    expect(suggestion.action).toBe(TradeActionEnum.Buy);
+    expect(suggestion.scoreBreakdown.conflictPenalty).toBe(10);
+    expect(suggestion.confidence).toBe(50);
+  });
+
+  it('returns wait on tied directional scores', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ id: PatternIdEnum.Hammer, confidence: 60 }),
+      pattern({ id: PatternIdEnum.BearishEngulfing, direction: PatternDirectionEnum.Bearish, confidence: 60 }),
+    ]);
+
+    expect(suggestion.action).toBe(TradeActionEnum.Wait);
+    expect(suggestion.confidence).toBe(45);
+    expect(suggestion.scoreBreakdown.conflictPenalty).toBe(10);
+  });
+
+  it('adds high relative volume score for patterns that need confirmation', () => {
+    const suggestion = new SuggestionBuilder().build(makeHighVolumeCandles(), [
+      pattern({ id: PatternIdEnum.BullishFvg, confidence: 70 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.volumeScore).toBe(6);
+    expect(suggestion.confidence).toBe(76);
+  });
+});
