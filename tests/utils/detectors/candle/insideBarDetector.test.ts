@@ -2,17 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { InsideBarDetector } from '#shared/utils/detectors/candle/insideBar';
 import { ScanContext } from '#shared/utils/scanContext';
-import { flatCandles } from '../../../fixtures/candles/factories';
+import { insideBarCandles, outsideMotherRangeCandles } from '../../../fixtures/candles/insideBar';
 
 describe('InsideBarDetector', () => {
   it('detects an inside bar contained within the mother candle', () => {
-    const candles = [
-      ...flatCandles(58),
-      { time: 59, open: 100, high: 110, low: 90, close: 105, volume: 1000 },
-      { time: 60, open: 102, high: 108, low: 92, close: 104, volume: 1000 },
-    ];
-
-    const signals = new InsideBarDetector().detect(new ScanContext(candles));
+    const signals = new InsideBarDetector().detect(new ScanContext(insideBarCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
@@ -24,13 +18,7 @@ describe('InsideBarDetector', () => {
   });
 
   it('ignores candles that break the mother candle range', () => {
-    const candles = [
-      ...flatCandles(58),
-      { time: 59, open: 100, high: 110, low: 90, close: 105, volume: 1000 },
-      { time: 60, open: 102, high: 111, low: 92, close: 104, volume: 1000 },
-    ];
-
-    const signals = new InsideBarDetector().detect(new ScanContext(candles));
+    const signals = new InsideBarDetector().detect(new ScanContext(outsideMotherRangeCandles()));
 
     expect(signals).toEqual([]);
   });
