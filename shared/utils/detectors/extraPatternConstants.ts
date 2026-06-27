@@ -15,6 +15,12 @@ export const EXTRA_CONFIDENCE = {
   fallingThreeMethods: 70,
   bullishSeparatingLines: 64,
   bearishSeparatingLines: 64,
+  bullishBreakawayGap: 68,
+  bearishBreakawayGap: 68,
+  runawayGapUp: 64,
+  runawayGapDown: 64,
+  gapFillBullish: 60,
+  gapFillBearish: 60,
   bullishHarami: 62,
   bearishHarami: 62,
   piercingLine: 66,
@@ -41,4 +47,5 @@ export const EXTRA_THRESHOLDS = {
   threeCandleSequenceMinBodyPct: 0.5,
   continuationPullbackMaxBodyPct: 0.45,
   separatingLinesOpenTolerancePct: 0.001,
+  gapMinPct: 0.002,
 } as const;
