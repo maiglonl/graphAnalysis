@@ -75,6 +75,7 @@ tests/
     candleCache.test.ts
     candleQuery.test.ts
     historicalSimulation.test.ts
+    historicalTimeframeSummary.test.ts
     marketDataProviderError.test.ts
     scanQuery.test.ts
     timeframeSummaryQuery.test.ts
@@ -340,6 +341,20 @@ Cobre:
 - drawdown máximo;
 - confiança média;
 - estatísticas agrupadas por padrão.
+
+### Simulação histórica multi-timeframe
+
+Arquivo:
+
+```txt
+tests/server/historicalTimeframeSummary.test.ts
+```
+
+Cobre:
+
+- carregamento de candles por timeframe;
+- execução de simulação histórica para cada timeframe solicitado;
+- retorno ordenado por lista de timeframes solicitada.
 
 ### Erro de provider de mercado
 
