@@ -1,6 +1,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import { IntervalEnum, type Candle } from '#shared/types/market';
-import { runHistoricalTimeframeSummary } from '../../server/utils/historicalTimeframeSummary';
+import {
+  runHistoricalTimeframeSummary,
+  type LoadHistoricalCandles,
+} from '../../server/utils/historicalTimeframeSummary';
 
 function makeCandles(): Candle[] {
   return [
@@ -18,7 +21,7 @@ function makeCandles(): Candle[] {
 
 describe('historical timeframe summary', () => {
   it('runs historical simulation for each requested timeframe', async () => {
-    const loadCandles = vi.fn(async ({ symbol, interval }) => ({
+    const loadCandles = vi.fn<LoadHistoricalCandles>(async ({ symbol, interval }) => ({
       symbol,
       interval,
       candles: makeCandles(),
