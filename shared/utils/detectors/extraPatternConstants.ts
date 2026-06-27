@@ -34,4 +34,5 @@ export const EXTRA_THRESHOLDS = {
   longLeggedDojiMinShadowPct: 0.35,
   dragonflyUpperShadowMaxPct: 0.1,
   gravestoneLowerShadowMaxPct: 0.1,
+  threeCandleSequenceMinBodyPct: 0.5,
 } as const;
