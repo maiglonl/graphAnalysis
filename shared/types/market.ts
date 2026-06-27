@@ -43,6 +43,8 @@ export enum PatternIdEnum {
   BearishBreakawayGap = 'bearishBreakawayGap',
   RunawayGapUp = 'runawayGapUp',
   RunawayGapDown = 'runawayGapDown',
+  ExhaustionGapUp = 'exhaustionGapUp',
+  ExhaustionGapDown = 'exhaustionGapDown',
   GapFillBullish = 'gapFillBullish',
   GapFillBearish = 'gapFillBearish',
   IslandReversalBottom = 'islandReversalBottom',
