@@ -120,6 +120,11 @@ export type ScanListResponse = {
   items: AnalyzeResponse[];
 };
 
+export type MultiTimeframeResponse = {
+  symbol: string;
+  items: AnalyzeResponse[];
+};
+
 export type HistoricalTradeResult = 'win' | 'loss' | 'expired';
 
 export type HistoricalTrade = {
