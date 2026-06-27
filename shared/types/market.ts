@@ -120,6 +120,34 @@ export type ScanListResponse = {
   items: AnalyzeResponse[];
 };
 
+export type HistoricalTradeResult = 'win' | 'loss' | 'expired';
+
+export type HistoricalTrade = {
+  entryTime: number;
+  exitTime: number | null;
+  action: TradeActionEnum;
+  entry: number;
+  stop: number;
+  target: number;
+  result: HistoricalTradeResult;
+  patterns: PatternIdEnum[];
+  confidence: number;
+};
+
+export type HistoricalSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  trades: HistoricalTrade[];
+  metrics: {
+    totalTrades: number;
+    wins: number;
+    losses: number;
+    expired: number;
+    winRate: number;
+    averageRiskReward: number;
+  };
+};
+
 export enum MarketStructurePointEnum {
   HigherHigh = 'HH',
   HigherLow = 'HL',
