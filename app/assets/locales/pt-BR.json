@@ -52,6 +52,8 @@
     "bearishBreakawayGap": { "name": "Bearish Breakaway Gap", "reason": "Gap de baixa após tendência altista, sugerindo rompimento e mudança de pressão." },
     "runawayGapUp": { "name": "Runaway Gap Up", "reason": "Gap de continuação altista a favor da tendência, indicando aceleração compradora." },
     "runawayGapDown": { "name": "Runaway Gap Down", "reason": "Gap de continuação baixista a favor da tendência, indicando aceleração vendedora." },
+    "exhaustionGapUp": { "name": "Exhaustion Gap Up", "reason": "Gap de alta em tendência estendida com rejeição, sugerindo possível exaustão compradora." },
+    "exhaustionGapDown": { "name": "Exhaustion Gap Down", "reason": "Gap de baixa em tendência estendida com rejeição, sugerindo possível exaustão vendedora." },
     "gapFillBullish": { "name": "Bullish Gap Fill", "reason": "Preenchimento de gap baixista com recuperação de preço, sugerindo reação compradora." },
     "gapFillBearish": { "name": "Bearish Gap Fill", "reason": "Preenchimento de gap altista com devolução de preço, sugerindo reação vendedora." },
     "islandReversalBottom": { "name": "Island Reversal Bottom", "reason": "Ilha de reversão em fundo, com gap de entrada e gap de saída para cima." },
