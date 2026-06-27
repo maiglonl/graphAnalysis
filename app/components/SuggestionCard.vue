@@ -6,8 +6,8 @@ const props = defineProps<{
   result: AnalyzeResponse;
 }>();
 
-const accountSize = ref(10000);
-const riskPercent = ref(1);
+const accountSize = usePersistedRef('graphAnalysis.accountSize', 10000);
+const riskPercent = usePersistedRef('graphAnalysis.riskPercent', 1);
 
 const scoreItems = computed(() => [
   {
