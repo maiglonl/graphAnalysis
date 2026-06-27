@@ -3,17 +3,11 @@ import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { BearishEngulfingDetector } from '#shared/utils/detectors/candle/bearishEngulfing';
 import { BullishEngulfingDetector } from '#shared/utils/detectors/candle/bullishEngulfing';
 import { ScanContext } from '#shared/utils/scanContext';
-import { bearishTrendCandles, bullishTrendCandles } from '../../../fixtures/candles/factories';
+import { bearishEngulfingCandles, bullishEngulfingCandles } from '../../../fixtures/candles/engulfing';
 
 describe('Engulfing detectors', () => {
   it('detects bullish engulfing after a bearish trend', () => {
-    const candles = [
-      ...bearishTrendCandles(58),
-      { time: 59, open: 142, high: 143, low: 139.5, close: 140, volume: 1000 },
-      { time: 60, open: 139.5, high: 143, low: 139, close: 142.5, volume: 1500 },
-    ];
-
-    const signals = new BullishEngulfingDetector().detect(new ScanContext(candles));
+    const signals = new BullishEngulfingDetector().detect(new ScanContext(bullishEngulfingCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
@@ -25,13 +19,7 @@ describe('Engulfing detectors', () => {
   });
 
   it('detects bearish engulfing after a bullish trend', () => {
-    const candles = [
-      ...bullishTrendCandles(58),
-      { time: 59, open: 158, high: 160.5, low: 157, close: 160, volume: 1000 },
-      { time: 60, open: 160.5, high: 161, low: 157, close: 157.5, volume: 1500 },
-    ];
-
-    const signals = new BearishEngulfingDetector().detect(new ScanContext(candles));
+    const signals = new BearishEngulfingDetector().detect(new ScanContext(bearishEngulfingCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
