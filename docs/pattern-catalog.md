@@ -24,14 +24,22 @@ Three White Soldiers
 Three Black Crows
 Rising Three Methods
 Falling Three Methods
+Mat Hold
 Bullish Separating Lines
 Bearish Separating Lines
+Upside Tasuki Gap
+Downside Tasuki Gap
+On Neck
+In Neck
+Thrusting
 Bullish Breakaway Gap
 Bearish Breakaway Gap
 Runaway Gap Up
 Runaway Gap Down
 Gap Fill Bullish
 Gap Fill Bearish
+Island Reversal Bottom
+Island Reversal Top
 Bullish Engulfing
 Bearish Engulfing
 Bullish Harami
@@ -53,7 +61,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 44 padrões/sinais.
+Total ativo aproximado: 52 padrões/sinais.
 
 ### IDs e traduções preparados, mas detectores ainda pendentes
 
@@ -66,24 +74,11 @@ Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores 
 
 ## Próximos lotes sugeridos
 
-### Lote 2 — Continuação e compressão restante
-
-```txt
-Mat Hold
-Upside Tasuki Gap
-Downside Tasuki Gap
-On Neck
-In Neck
-Thrusting
-```
-
 ### Lote 3 — Gaps e janelas restantes
 
 ```txt
 Exhaustion Gap Up
 Exhaustion Gap Down
-Island Reversal Top
-Island Reversal Bottom
 ```
 
 ### Lote 4 — Estrutura e price action
