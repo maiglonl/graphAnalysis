@@ -11,6 +11,7 @@ const interval = usePersistedRef<IntervalEnum>('graphAnalysis.interval', DEFAULT
 const intervals = Object.values(IntervalEnum) as IntervalEnum[];
 const symbolsToScan = usePersistedRef('graphAnalysis.symbolsToScan', 'BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT');
 const actionFilter = usePersistedRef<OpportunityActionFilter>('graphAnalysis.actionFilter', 'all');
+const minConfidence = usePersistedRef('graphAnalysis.minConfidence', 0);
 const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityActionFilter[];
 
 const result = ref<AnalyzeResponse | null>(null);
@@ -22,9 +23,12 @@ const error = ref('');
 const filteredScanItems = computed(() => {
   const items = scanResult.value?.items ?? [];
 
-  if (actionFilter.value === 'all') return items;
+  return items.filter((item) => {
+    const matchesAction = actionFilter.value === 'all' || item.suggestion.action === actionFilter.value;
+    const matchesConfidence = item.suggestion.confidence >= minConfidence.value;
 
-  return items.filter((item) => item.suggestion.action === actionFilter.value);
+    return matchesAction && matchesConfidence;
+  });
 });
 
 async function analyze() {
@@ -136,16 +140,29 @@ onMounted(() => {
           @keyup.enter="scanSymbols"
         >
 
-        <div class="flex flex-wrap gap-2 mb-3">
-          <button
-            v-for="filter in actionFilters"
-            :key="filter"
-            class="px-3 py-1.5 rounded-full border border-slate-200 cursor-pointer text-sm"
-            :class="actionFilter === filter ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'"
-            @click="actionFilter = filter"
-          >
-            {{ actionFilterLabel(filter) }}
-          </button>
+        <div class="grid gap-3 mb-3 md:grid-cols-[1fr_auto] md:items-end">
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="filter in actionFilters"
+              :key="filter"
+              class="px-3 py-1.5 rounded-full border border-slate-200 cursor-pointer text-sm"
+              :class="actionFilter === filter ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'"
+              @click="actionFilter = filter"
+            >
+              {{ actionFilterLabel(filter) }}
+            </button>
+          </div>
+
+          <label class="grid gap-1 text-sm min-w-44">
+            <span class="text-slate-500">{{ $t('opportunities.minConfidence') }}</span>
+            <input
+              v-model.number="minConfidence"
+              type="number"
+              min="0"
+              max="100"
+              class="h-9 px-3 border border-slate-300 rounded-xl"
+            >
+          </label>
         </div>
 
         <div v-if="filteredScanItems.length" class="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
