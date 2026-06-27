@@ -3,6 +3,7 @@ import { BullishMarubozuDetector } from '#shared/utils/detectors/candle/bullishM
 import { DragonflyDojiDetector } from '#shared/utils/detectors/candle/dragonflyDoji';
 import { GravestoneDojiDetector } from '#shared/utils/detectors/candle/gravestoneDoji';
 import { LongLeggedDojiDetector } from '#shared/utils/detectors/candle/longLeggedDoji';
+import { RedMarubozuDetector } from '#shared/utils/detectors/candle/redMarubozu';
 import { SpinningTopDetector } from '#shared/utils/detectors/candle/spinningTop';
 
 export function createExpandedCandleDetectors(): PatternDetector[] {
@@ -12,5 +13,6 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new GravestoneDojiDetector(),
     new SpinningTopDetector(),
     new BullishMarubozuDetector(),
+    new RedMarubozuDetector(),
   ];
 }
