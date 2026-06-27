@@ -133,6 +133,17 @@ Formato:
 symbol:interval:limit
 ```
 
+Funções principais:
+
+```ts
+createCandleCacheKey(symbol, interval, limit)
+getCachedCandles(key)
+setCachedCandles(key, interval, candles)
+clearCandleCache()
+```
+
+`clearCandleCache()` limpa todo o cache em memória e é útil para testes, reset manual e futuras rotinas administrativas.
+
 TTL atual por intervalo:
 
 ```txt

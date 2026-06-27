@@ -121,6 +121,84 @@ type ScanListResponse = {
 
 ---
 
+## `GET /api/timeframe-summary`
+
+Executa análise do mesmo ativo em múltiplos timeframes.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `intervals` | `string` | não | Lista de timeframes separada por vírgula. Default: `15m,1h,4h,1d`. |
+
+### Exemplo
+
+```txt
+/api/timeframe-summary?symbol=BTCUSDT&intervals=15m,1h,4h,1d
+```
+
+### Retorno
+
+```ts
+type MultiTimeframeResponse = {
+  symbol: string
+  items: AnalyzeResponse[]
+}
+```
+
+### Observações
+
+- O limite atual é de 4 timeframes por chamada.
+- A execução é sequencial para reduzir pressão no provider externo.
+- A UI usa este endpoint para comparar ação e confiança por timeframe.
+
+---
+
+## `GET /api/historical-simulation`
+
+Executa uma simulação histórica simples para um ativo usando os candles disponíveis.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `interval` | `IntervalEnum` | não | Timeframe. Default: `1h`. |
+
+### Exemplo
+
+```txt
+/api/historical-simulation?symbol=BTCUSDT&interval=1h
+```
+
+### Retorno
+
+```ts
+type HistoricalSimulationResult = {
+  symbol: string
+  interval: IntervalEnum
+  trades: HistoricalTrade[]
+  metrics: {
+    totalTrades: number
+    wins: number
+    losses: number
+    expired: number
+    winRate: number
+    averageRiskReward: number
+  }
+}
+```
+
+### Observações
+
+- Usa `HISTORICAL_SIMULATION.maxLookaheadCandles` para limitar a janela futura.
+- Usa `HISTORICAL_SIMULATION.minConfidence` para filtrar sinais fracos.
+- Considera o primeiro alvo da sugestão como alvo da operação simulada.
+- Esta simulação é uma métrica técnica auxiliar, não uma recomendação financeira.
+
+---
+
 ## Erros conhecidos
 
 | Chave | Significado |
