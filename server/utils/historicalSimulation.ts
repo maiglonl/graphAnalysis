@@ -4,6 +4,7 @@ import {
   type HistoricalSimulationResult,
   type HistoricalTrade,
   type IntervalEnum,
+  type PatternIdEnum,
 } from '#shared/types/market';
 import { HISTORICAL_SIMULATION, SCANNER } from '#shared/utils/detectors/constants';
 import { buildSuggestion, scanPatterns } from '#shared/utils/scanner';
@@ -21,8 +22,20 @@ export type HistoricalSimulationExtraMetrics = {
   averageConfidence: number;
 };
 
+export type HistoricalPatternStat = {
+  patternId: PatternIdEnum;
+  totalTrades: number;
+  wins: number;
+  losses: number;
+  expired: number;
+  winRate: number;
+  averageReturn: number;
+  averageConfidence: number;
+};
+
 export type ExtendedHistoricalSimulationResult = HistoricalSimulationResult & {
   metrics: HistoricalSimulationResult['metrics'] & HistoricalSimulationExtraMetrics;
+  patternStats: HistoricalPatternStat[];
 };
 
 export function runHistoricalSimulation(params: RunHistoricalSimulationParams): ExtendedHistoricalSimulationResult {
@@ -55,6 +68,7 @@ export function runHistoricalSimulation(params: RunHistoricalSimulationParams): 
     interval: params.interval,
     trades,
     metrics: buildMetrics(trades),
+    patternStats: buildPatternStats(trades),
   };
 }
 
@@ -122,6 +136,36 @@ function buildMetrics(trades: HistoricalTrade[]): ExtendedHistoricalSimulationRe
     maxDrawdown: round(maxDrawdown(trades)),
     averageConfidence: round(averageConfidence(trades)),
   };
+}
+
+function buildPatternStats(trades: HistoricalTrade[]): HistoricalPatternStat[] {
+  const patternMap = new Map<PatternIdEnum, HistoricalTrade[]>();
+
+  trades.forEach((trade) => {
+    trade.patterns.forEach((patternId) => {
+      patternMap.set(patternId, [...(patternMap.get(patternId) ?? []), trade]);
+    });
+  });
+
+  return [...patternMap.entries()]
+    .map(([patternId, patternTrades]) => {
+      const wins = patternTrades.filter((trade) => trade.result === 'win').length;
+      const losses = patternTrades.filter((trade) => trade.result === 'loss').length;
+      const expired = patternTrades.filter((trade) => trade.result === 'expired').length;
+      const closedTrades = wins + losses;
+
+      return {
+        patternId,
+        totalTrades: patternTrades.length,
+        wins,
+        losses,
+        expired,
+        winRate: closedTrades > 0 ? round((wins / closedTrades) * 100) : 0,
+        averageReturn: round(averageReturn(patternTrades)),
+        averageConfidence: round(averageConfidence(patternTrades)),
+      };
+    })
+    .sort((a, b) => b.totalTrades - a.totalTrades);
 }
 
 function averageRiskReward(trades: HistoricalTrade[]): number {
