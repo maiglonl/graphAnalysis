@@ -139,17 +139,33 @@ export type HistoricalTrade = {
   confidence: number;
 };
 
+export type HistoricalPatternStat = {
+  patternId: PatternIdEnum;
+  totalTrades: number;
+  wins: number;
+  losses: number;
+  expired: number;
+  winRate: number;
+  averageReturn: number;
+  averageConfidence: number;
+};
+
 export type HistoricalSimulationResult = {
   symbol: string;
   interval: IntervalEnum;
   trades: HistoricalTrade[];
+  patternStats: HistoricalPatternStat[];
   metrics: {
     totalTrades: number;
     wins: number;
     losses: number;
     expired: number;
     winRate: number;
+    lossRate: number;
     averageRiskReward: number;
+    averageReturn: number;
+    maxDrawdown: number;
+    averageConfidence: number;
   };
 };
 
