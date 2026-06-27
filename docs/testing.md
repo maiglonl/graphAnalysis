@@ -68,6 +68,7 @@ tests/
     indicators.test.ts
     riskPlan.test.ts
     scanner/
+      scanner.test.ts
       suggestionBuilder.test.ts
     detectors/
       helpers.test.ts
@@ -139,7 +140,23 @@ Cobre:
 - fallback para erro desconhecido;
 - fallback para valores não objeto.
 
-### Scanner e sugestão
+### Scanner
+
+Arquivo:
+
+```txt
+tests/utils/scanner/scanner.test.ts
+```
+
+Cobre:
+
+- input com candles insuficientes;
+- input com candles inválidos;
+- retorno de sinais dos detectores;
+- deduplicação de Bullish BOS quando Bullish CHOCH está presente;
+- deduplicação de Bearish BOS quando Bearish CHOCH está presente.
+
+### Sugestão
 
 Arquivo:
 
@@ -168,7 +185,8 @@ Cobre:
 
 - geração de chave de cache;
 - leitura antes da expiração;
-- expiração por TTL do timeframe.
+- expiração por TTL do timeframe;
+- limpeza explícita do cache.
 
 ### Simulação histórica
 
@@ -230,12 +248,10 @@ Cobre:
 
 - Market Structure;
 - BOS;
-- CHOCH;
-- deduplicação BOS/CHOCH.
+- CHOCH.
 
-### Scanner
+### Scanner e sugestão
 
-- `Scanner.scan()` com input inválido;
 - `Scanner.scan()` com confluência;
 - `SuggestionBuilder` com tendência alinhada/contrária;
 - `SuggestionBuilder` com estrutura BOS/CHOCH;
