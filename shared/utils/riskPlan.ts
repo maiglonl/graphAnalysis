@@ -18,23 +18,25 @@ export function buildRiskPlan(params: BuildRiskPlanParams): RiskPlan | null {
   if (!isPositiveNumber(params.entry)) return null;
   if (!isPositiveNumber(params.stop)) return null;
 
-  const stopDistance = Math.abs(params.entry - params.stop);
+  const entry = params.entry;
+  const stop = params.stop;
+  const stopDistance = Math.abs(entry - stop);
   if (stopDistance === 0) return null;
 
   const riskAmount = params.accountSize * (params.riskPercent / PERCENT_DIVISOR);
   const quantity = riskAmount / stopDistance;
-  const positionSize = quantity * params.entry;
+  const positionSize = quantity * entry;
 
   return {
     accountSize: round(params.accountSize),
     riskPercent: round(params.riskPercent),
     riskAmount: round(riskAmount),
-    entry: round(params.entry),
-    stop: round(params.stop),
+    entry: round(entry),
+    stop: round(stop),
     stopDistance: round(stopDistance),
     positionSize: round(positionSize),
     quantity: round(quantity, QUANTITY_DECIMALS),
-    riskRewardByTarget: (params.targets ?? []).map((target) => round(Math.abs(target - params.entry!) / stopDistance)),
+    riskRewardByTarget: (params.targets ?? []).map((target) => round(Math.abs(target - entry) / stopDistance)),
   };
 }
 
