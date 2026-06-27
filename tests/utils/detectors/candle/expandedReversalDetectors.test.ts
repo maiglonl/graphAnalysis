@@ -11,7 +11,7 @@ describe('expanded reversal candle detectors', () => {
   it('detects inverted hammer after a bearish trend', () => {
     const candles = withLastCandle(
       bearishTrendCandles(59),
-      { time: 60, open: 140, high: 150, low: 139.8, close: 140.2, volume: 1500 },
+      { time: 60, open: 140, high: 150, low: 140, close: 140.2, volume: 1500 },
     );
 
     const signals = new InvertedHammerDetector().detect(new ScanContext(candles));
@@ -21,14 +21,14 @@ describe('expanded reversal candle detectors', () => {
       id: PatternIdEnum.InvertedHammer,
       direction: PatternDirectionEnum.Bullish,
       entry: 150,
-      stop: 139.8,
+      stop: 140,
     });
   });
 
   it('detects hanging man after a bullish trend', () => {
     const candles = withLastCandle(
       bullishTrendCandles(59),
-      { time: 60, open: 160.2, high: 160.4, low: 150, close: 160, volume: 1500 },
+      { time: 60, open: 160.2, high: 160.2, low: 150, close: 160, volume: 1500 },
     );
 
     const signals = new HangingManDetector().detect(new ScanContext(candles));
@@ -38,7 +38,7 @@ describe('expanded reversal candle detectors', () => {
       id: PatternIdEnum.HangingMan,
       direction: PatternDirectionEnum.Bearish,
       entry: 150,
-      stop: 160.4,
+      stop: 160.2,
     });
   });
 

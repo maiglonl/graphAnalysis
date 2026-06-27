@@ -1,5 +1,6 @@
 import type { Candle } from '#shared/types/market';
 import { StructureTrendEnum } from '#shared/types/market';
+import { getTrend } from '#shared/utils/indicators';
 import type { ScanContext } from '#shared/utils/scanContext';
 import type { MatchResult } from '../CandlePatternDetector';
 import { CandlePatternDetector } from '../CandlePatternDetector';
@@ -14,7 +15,7 @@ export abstract class KickerDetector extends CandlePatternDetector {
     const previous = candles[index - 1];
     const current = candles[index];
     if (!previous || !current) return null;
-    if (ctx.trend() !== this.requiredTrend) return null;
+    if (getTrend(index - 1, previous.close, ctx.ema20, ctx.ema50) !== this.requiredTrend) return null;
 
     const prev = candleParts(previous);
     const curr = candleParts(current);
