@@ -13,6 +13,7 @@ const {
   scoreCalibration,
   timeframeSummary,
   analysisHistory,
+  simulationHistory,
   watchlist,
   watchlistSymbol,
   loading,
@@ -36,6 +37,7 @@ const {
   selectOpportunity,
   selectTimeframeItem,
   selectHistoryItem,
+  selectSimulationHistoryItem,
 } = useTechnicalScannerDashboard();
 </script>
 
@@ -85,6 +87,11 @@ const {
       :result="historicalSimulation"
       :loading="simulationLoading"
       @run="runSimulation"
+    />
+
+    <SimulationHistoryPanel
+      :items="simulationHistory"
+      @select="selectSimulationHistoryItem"
     />
 
     <HistoricalTimeframeSummaryPanel
