@@ -16,7 +16,27 @@ graphAnalysis.riskPercent
 
 ## Tela inicial
 
-`app/pages/index.vue` orquestra a análise individual e delega os blocos principais para componentes de painel.
+`app/pages/index.vue` orquestra a composição visual da tela e consome `useTechnicalScannerDashboard()`.
+
+A página não deve concentrar chamadas de API nem regra de estado. Essa responsabilidade fica no composable.
+
+## Composable principal
+
+```txt
+app/composables/useTechnicalScannerDashboard.ts
+```
+
+Responsabilidades:
+
+- estado persistido do scanner;
+- análise individual;
+- scan em lote;
+- simulação histórica;
+- confirmação por timeframe;
+- seleção de oportunidade;
+- seleção de timeframe;
+- limpeza de painéis derivados;
+- resolução centralizada de erros via `app/utils/apiErrors.ts`.
 
 ## Componentes de painel
 
