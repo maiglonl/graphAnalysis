@@ -1,10 +1,12 @@
 import type {
   AnalyzeResponse,
   HistoricalSimulationResult,
+  IntervalEnum,
   MultiTimeframeResponse,
   ScanListResponse,
 } from '#shared/types/market';
-import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
+import type { PatternScoreCalibration } from '#shared/utils/scoreCalibration';
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, TradeActionEnum } from '#shared/types/market';
 import { resolveApiErrorMessage } from '~/utils/apiErrors';
 
 export type OpportunityActionFilter = TradeActionEnum | 'all';
@@ -12,6 +14,12 @@ export type OpportunityActionFilter = TradeActionEnum | 'all';
 export type HistoricalTimeframeSummaryResponse = {
   symbol: string;
   items: HistoricalSimulationResult[];
+};
+
+export type HistoricalScoreCalibrationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  patternAdjustments: PatternScoreCalibration[];
 };
 
 export function useTechnicalScannerDashboard() {
@@ -29,11 +37,13 @@ export function useTechnicalScannerDashboard() {
   const scanResult = ref<ScanListResponse | null>(null);
   const historicalSimulation = ref<HistoricalSimulationResult | null>(null);
   const historicalTimeframeSummary = ref<HistoricalTimeframeSummaryResponse | null>(null);
+  const scoreCalibration = ref<HistoricalScoreCalibrationResult | null>(null);
   const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
   const loading = ref(false);
   const scanLoading = ref(false);
   const simulationLoading = ref(false);
   const historicalTimeframeLoading = ref(false);
+  const scoreCalibrationLoading = ref(false);
   const timeframeLoading = ref(false);
   const error = ref('');
 
@@ -111,6 +121,24 @@ export function useTechnicalScannerDashboard() {
     }
   }
 
+  async function loadScoreCalibration() {
+    scoreCalibrationLoading.value = true;
+    error.value = '';
+
+    try {
+      scoreCalibration.value = await $fetch<HistoricalScoreCalibrationResult>('/api/historical-score-calibration', {
+        query: {
+          symbol: symbol.value,
+          interval: interval.value,
+        },
+      });
+    } catch (err: unknown) {
+      error.value = resolveApiErrorMessage(err, t);
+    } finally {
+      scoreCalibrationLoading.value = false;
+    }
+  }
+
   async function loadTimeframeSummary() {
     timeframeLoading.value = true;
     error.value = '';
@@ -139,11 +167,13 @@ export function useTechnicalScannerDashboard() {
     interval.value = item.interval;
     result.value = item;
     historicalSimulation.value = null;
+    scoreCalibration.value = null;
   }
 
   function clearDerivedPanels() {
     historicalSimulation.value = null;
     historicalTimeframeSummary.value = null;
+    scoreCalibration.value = null;
     timeframeSummary.value = null;
   }
 
@@ -163,11 +193,13 @@ export function useTechnicalScannerDashboard() {
     result,
     historicalSimulation,
     historicalTimeframeSummary,
+    scoreCalibration,
     timeframeSummary,
     loading,
     scanLoading,
     simulationLoading,
     historicalTimeframeLoading,
+    scoreCalibrationLoading,
     timeframeLoading,
     error,
     scanItems,
@@ -175,6 +207,7 @@ export function useTechnicalScannerDashboard() {
     scanSymbols,
     runSimulation,
     loadHistoricalTimeframeSummary,
+    loadScoreCalibration,
     loadTimeframeSummary,
     selectOpportunity,
     selectTimeframeItem,
