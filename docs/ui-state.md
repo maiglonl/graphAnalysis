@@ -10,6 +10,7 @@ graphAnalysis.interval
 graphAnalysis.symbolsToScan
 graphAnalysis.actionFilter
 graphAnalysis.minConfidence
+graphAnalysis.analysisHistory
 graphAnalysis.accountSize
 graphAnalysis.riskPercent
 ```
@@ -44,9 +45,12 @@ app/composables/useTechnicalScannerDashboard.ts
 Responsabilidades:
 
 - estado persistido do scanner;
+- histórico recente de análises;
 - análise individual;
 - scan em lote;
 - simulação histórica;
+- simulação histórica multi-timeframe;
+- calibração informativa do score;
 - confirmação por timeframe;
 - seleção de oportunidade;
 - seleção de timeframe;
@@ -56,10 +60,17 @@ Responsabilidades:
 ## Componentes de painel
 
 ```txt
+app/components/AnalysisHistoryPanel.vue
 app/components/OpportunityRanking.vue
 app/components/TimeframeSummaryPanel.vue
 app/components/HistoricalSimulationPanel.vue
+app/components/HistoricalTimeframeSummaryPanel.vue
+app/components/ScoreCalibrationPanel.vue
 ```
+
+### `AnalysisHistoryPanel.vue`
+
+Controla a UI do histórico recente salvo em `graphAnalysis.analysisHistory`.
 
 ### `OpportunityRanking.vue`
 
@@ -72,6 +83,14 @@ Controla a UI de confirmação multi-timeframe usando os dados de `/api/timefram
 ### `HistoricalSimulationPanel.vue`
 
 Controla a UI da simulação histórica usando os dados de `/api/historical-simulation`.
+
+### `HistoricalTimeframeSummaryPanel.vue`
+
+Controla a UI de simulação histórica por timeframe usando os dados de `/api/historical-timeframe-summary`.
+
+### `ScoreCalibrationPanel.vue`
+
+Controla a UI da calibração informativa usando os dados de `/api/historical-score-calibration`.
 
 ## Card de sugestão
 
