@@ -66,6 +66,8 @@ tests/
     candleQuery.test.ts
     historicalSimulation.test.ts
     marketDataProviderError.test.ts
+    scanQuery.test.ts
+    timeframeSummaryQuery.test.ts
   utils/
     apiErrors.test.ts
     chartAnnotations.test.ts
@@ -226,12 +228,14 @@ Cobre:
 - retorno de preço e timestamp atuais;
 - fallback para `price` e `updatedAt` nulos sem candles.
 
-### Query de candles
+### Queries de API
 
-Arquivo:
+Arquivos:
 
 ```txt
 tests/server/candleQuery.test.ts
+tests/server/scanQuery.test.ts
+tests/server/timeframeSummaryQuery.test.ts
 ```
 
 Cobre:
@@ -240,6 +244,8 @@ Cobre:
 - sanitização de símbolo;
 - normalização de intervalo;
 - clamp de limite;
+- limite de símbolos por scan;
+- filtro e limite de timeframes;
 - erro de símbolo inválido;
 - erro de intervalo inválido.
 
