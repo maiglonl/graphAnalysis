@@ -59,6 +59,16 @@ node
 
 ```txt
 tests/
+  fixtures/
+    candles/
+      bearishPinBar.ts
+      doji.ts
+      engulfing.ts
+      factories.ts
+      fvg.ts
+      hammer.ts
+      insideBar.ts
+      shootingStar.ts
   server/
     analyzeMarket.test.ts
     binanceProvider.test.ts
@@ -87,6 +97,36 @@ tests/
         shootingStarDetector.test.ts
       structure/
         structureDetectors.test.ts
+```
+
+---
+
+## Fixtures de candles
+
+Arquivo base:
+
+```txt
+tests/fixtures/candles/factories.ts
+```
+
+Fornece factories para:
+
+- candles laterais;
+- candles laterais com range estreito;
+- tendência bullish;
+- tendência bearish;
+- composição de cenário com último candle customizado.
+
+Fixtures nomeadas já disponíveis:
+
+```txt
+tests/fixtures/candles/bearishPinBar.ts
+tests/fixtures/candles/doji.ts
+tests/fixtures/candles/engulfing.ts
+tests/fixtures/candles/fvg.ts
+tests/fixtures/candles/hammer.ts
+tests/fixtures/candles/insideBar.ts
+tests/fixtures/candles/shootingStar.ts
 ```
 
 ---
@@ -294,7 +334,12 @@ Cobre:
 - trade comprado vencedor;
 - trade vendido perdedor;
 - trade expirado;
-- ignorar sugestões sem ação operacional.
+- ignorar sugestões sem ação operacional;
+- taxa de perda;
+- retorno médio;
+- drawdown máximo;
+- confiança média;
+- estatísticas agrupadas por padrão.
 
 ### Erro de provider de mercado
 
@@ -368,24 +413,6 @@ Cobre:
 3. Não testar implementação interna quando o comportamento público for suficiente.
 4. Testar um detector por arquivo.
 5. Usar `PatternIdEnum`, `TradeActionEnum` e demais enums nos asserts.
-
----
-
-## Fixtures recomendadas
-
-```txt
-tests/fixtures/candles/
-  bullishTrend.ts
-  bearishTrend.ts
-  hammer.ts
-  bullishEngulfing.ts
-  bearishEngulfing.ts
-  bullishFvg.ts
-  bearishFvg.ts
-  bullishBos.ts
-  bearishBos.ts
-  bullishChoch.ts
-```
 
 ---
 
