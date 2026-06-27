@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { IntervalEnum, TradeActionEnum, type Candle, type TradeSuggestion } from '#shared/types/market';
+import { IntervalEnum, PatternIdEnum, TradeActionEnum, type Candle, type TradeSuggestion } from '#shared/types/market';
 
 const scannerMocks = vi.hoisted(() => ({
   scanPatterns: vi.fn(),
@@ -40,7 +40,7 @@ function makeSuggestion(overrides: Partial<TradeSuggestion> = {}): TradeSuggesti
     entry: 100,
     stop: 90,
     targets: [110],
-    reasons: [],
+    reasons: [PatternIdEnum.Hammer],
     scoreBreakdown,
     ...overrides,
   };
@@ -73,6 +73,18 @@ describe('historical simulation', () => {
       maxDrawdown: 0,
       averageConfidence: 60,
     });
+    expect(result.patternStats).toEqual([
+      {
+        patternId: PatternIdEnum.Hammer,
+        totalTrades: 1,
+        wins: 1,
+        losses: 0,
+        expired: 0,
+        winRate: 100,
+        averageReturn: 10,
+        averageConfidence: 60,
+      },
+    ]);
   });
 
   it('records a losing sell trade when stop is reached', () => {
@@ -130,5 +142,6 @@ describe('historical simulation', () => {
 
     expect(result.trades).toEqual([]);
     expect(result.metrics.totalTrades).toBe(0);
+    expect(result.patternStats).toEqual([]);
   });
 });
