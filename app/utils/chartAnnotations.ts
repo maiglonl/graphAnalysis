@@ -95,10 +95,6 @@ function isBearishStructureBreak(pattern: PatternSignal): boolean {
   return pattern.id === PatternIdEnum.BearishBos || pattern.id === PatternIdEnum.BearishChoch;
 }
 
-function isChochPattern(pattern: PatternSignal): boolean {
-  return pattern.id === PatternIdEnum.BullishChoch || pattern.id === PatternIdEnum.BearishChoch;
-}
-
 function isBosPattern(pattern: PatternSignal): boolean {
   return pattern.id === PatternIdEnum.BullishBos || pattern.id === PatternIdEnum.BearishBos;
 }
