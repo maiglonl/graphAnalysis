@@ -12,6 +12,7 @@ const {
   historicalTimeframeSummary,
   scoreCalibration,
   timeframeSummary,
+  analysisHistory,
   loading,
   scanLoading,
   simulationLoading,
@@ -28,6 +29,7 @@ const {
   loadTimeframeSummary,
   selectOpportunity,
   selectTimeframeItem,
+  selectHistoryItem,
 } = useTechnicalScannerDashboard();
 </script>
 
@@ -39,6 +41,11 @@ const {
       :loading="loading"
       :intervals="intervals"
       @analyze="analyze"
+    />
+
+    <AnalysisHistoryPanel
+      :items="analysisHistory"
+      @select="selectHistoryItem"
     />
 
     <OpportunityRanking
