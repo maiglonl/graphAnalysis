@@ -179,13 +179,18 @@ type HistoricalSimulationResult = {
   symbol: string
   interval: IntervalEnum
   trades: HistoricalTrade[]
+  patternStats: HistoricalPatternStat[]
   metrics: {
     totalTrades: number
     wins: number
     losses: number
     expired: number
     winRate: number
+    lossRate: number
     averageRiskReward: number
+    averageReturn: number
+    maxDrawdown: number
+    averageConfidence: number
   }
 }
 ```
@@ -196,6 +201,69 @@ type HistoricalSimulationResult = {
 - Usa `HISTORICAL_SIMULATION.minConfidence` para filtrar sinais fracos.
 - Considera o primeiro alvo da sugestão como alvo da operação simulada.
 - Esta simulação é uma métrica técnica auxiliar, não uma recomendação financeira.
+
+---
+
+## `GET /api/historical-timeframe-summary`
+
+Executa simulação histórica em múltiplos timeframes para o mesmo ativo.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `intervals` | `string` | não | Lista de timeframes separada por vírgula. Default: `15m,1h,4h,1d`. |
+
+### Exemplo
+
+```txt
+/api/historical-timeframe-summary?symbol=BTCUSDT&intervals=15m,1h,4h,1d
+```
+
+### Retorno
+
+```ts
+type HistoricalTimeframeSummaryResponse = {
+  symbol: string
+  items: HistoricalSimulationResult[]
+}
+```
+
+---
+
+## `GET /api/historical-score-calibration`
+
+Calcula ajustes informativos de score por padrão usando a simulação histórica.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `interval` | `IntervalEnum` | não | Timeframe. Default: `1h`. |
+
+### Exemplo
+
+```txt
+/api/historical-score-calibration?symbol=BTCUSDT&interval=1h
+```
+
+### Retorno
+
+```ts
+type HistoricalScoreCalibrationResult = {
+  symbol: string
+  interval: IntervalEnum
+  patternAdjustments: PatternScoreCalibration[]
+}
+```
+
+### Observações
+
+- A calibração atual é informativa.
+- A confiança operacional do scanner ainda não é alterada automaticamente.
+- Padrões com amostra baixa recebem ajuste neutro.
 
 ---
 
