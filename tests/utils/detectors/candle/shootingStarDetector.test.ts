@@ -2,16 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { ShootingStarDetector } from '#shared/utils/detectors/candle/shootingStar';
 import { ScanContext } from '#shared/utils/scanContext';
-import { bullishTrendCandles, withLastCandle } from '../../../fixtures/candles/factories';
+import { bearishPinBarCandles, earlyBearishPinBarCandles } from '../../../fixtures/candles/bearishPinBar';
 
 describe('ShootingStarDetector', () => {
   it('detects shooting star after a bullish trend', () => {
-    const candles = withLastCandle(
-      bullishTrendCandles(59),
-      { time: 60, open: 160.2, high: 170, low: 160, close: 160, volume: 1500 },
-    );
-
-    const signals = new ShootingStarDetector().detect(new ScanContext(candles));
+    const signals = new ShootingStarDetector().detect(new ScanContext(bearishPinBarCandles()));
 
     expect(signals).toHaveLength(1);
     expect(signals[0]).toMatchObject({
@@ -23,12 +18,7 @@ describe('ShootingStarDetector', () => {
   });
 
   it('ignores shooting-star shape outside a bullish trend', () => {
-    const candles = withLastCandle(
-      bullishTrendCandles(10),
-      { time: 11, open: 160.2, high: 170, low: 160, close: 160, volume: 1500 },
-    );
-
-    const signals = new ShootingStarDetector().detect(new ScanContext(candles));
+    const signals = new ShootingStarDetector().detect(new ScanContext(earlyBearishPinBarCandles()));
 
     expect(signals).toEqual([]);
   });
