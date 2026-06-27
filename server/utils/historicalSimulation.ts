@@ -1,6 +1,7 @@
 import {
   TradeActionEnum,
   type Candle,
+  type HistoricalPatternStat,
   type HistoricalSimulationResult,
   type HistoricalTrade,
   type IntervalEnum,
@@ -15,30 +16,7 @@ export type RunHistoricalSimulationParams = {
   candles: Candle[];
 };
 
-export type HistoricalSimulationExtraMetrics = {
-  lossRate: number;
-  averageReturn: number;
-  maxDrawdown: number;
-  averageConfidence: number;
-};
-
-export type HistoricalPatternStat = {
-  patternId: PatternIdEnum;
-  totalTrades: number;
-  wins: number;
-  losses: number;
-  expired: number;
-  winRate: number;
-  averageReturn: number;
-  averageConfidence: number;
-};
-
-export type ExtendedHistoricalSimulationResult = HistoricalSimulationResult & {
-  metrics: HistoricalSimulationResult['metrics'] & HistoricalSimulationExtraMetrics;
-  patternStats: HistoricalPatternStat[];
-};
-
-export function runHistoricalSimulation(params: RunHistoricalSimulationParams): ExtendedHistoricalSimulationResult {
+export function runHistoricalSimulation(params: RunHistoricalSimulationParams): HistoricalSimulationResult {
   const trades: HistoricalTrade[] = [];
 
   for (let index = SCANNER.minCandles; index < params.candles.length - 1; index += 1) {
@@ -118,7 +96,7 @@ function resolveTrade(params: ResolveTradeParams): HistoricalTrade {
   };
 }
 
-function buildMetrics(trades: HistoricalTrade[]): ExtendedHistoricalSimulationResult['metrics'] {
+function buildMetrics(trades: HistoricalTrade[]): HistoricalSimulationResult['metrics'] {
   const wins = trades.filter((trade) => trade.result === 'win').length;
   const losses = trades.filter((trade) => trade.result === 'loss').length;
   const expired = trades.filter((trade) => trade.result === 'expired').length;
