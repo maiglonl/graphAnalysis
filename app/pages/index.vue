@@ -13,6 +13,8 @@ const {
   scoreCalibration,
   timeframeSummary,
   analysisHistory,
+  watchlist,
+  watchlistSymbol,
   loading,
   scanLoading,
   simulationLoading,
@@ -27,6 +29,10 @@ const {
   loadHistoricalTimeframeSummary,
   loadScoreCalibration,
   loadTimeframeSummary,
+  addSymbolToWatchlist,
+  addCurrentSymbolToWatchlist,
+  removeSymbolFromWatchlist,
+  selectWatchlistSymbol,
   selectOpportunity,
   selectTimeframeItem,
   selectHistoryItem,
@@ -41,6 +47,15 @@ const {
       :loading="loading"
       :intervals="intervals"
       @analyze="analyze"
+    />
+
+    <WatchlistPanel
+      v-model="watchlistSymbol"
+      :items="watchlist"
+      @add="addSymbolToWatchlist"
+      @add-current="addCurrentSymbolToWatchlist"
+      @remove="removeSymbolFromWatchlist"
+      @select="selectWatchlistSymbol"
     />
 
     <AnalysisHistoryPanel
