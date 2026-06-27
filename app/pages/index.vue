@@ -4,10 +4,10 @@ import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from '#shared/types/ma
 
 const { t } = useI18n();
 
-const symbol = ref(DEFAULT_SYMBOL);
-const interval = ref<IntervalEnum>(DEFAULT_INTERVAL);
+const symbol = usePersistedRef('graphAnalysis.symbol', DEFAULT_SYMBOL);
+const interval = usePersistedRef<IntervalEnum>('graphAnalysis.interval', DEFAULT_INTERVAL);
 const intervals = Object.values(IntervalEnum) as IntervalEnum[];
-const symbolsToScan = ref('BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT');
+const symbolsToScan = usePersistedRef('graphAnalysis.symbolsToScan', 'BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT');
 
 const result = ref<AnalyzeResponse | null>(null);
 const scanResult = ref<ScanListResponse | null>(null);
