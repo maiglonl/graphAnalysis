@@ -121,6 +121,40 @@ type ScanListResponse = {
 
 ---
 
+## `GET /api/timeframe-summary`
+
+Executa análise do mesmo ativo em múltiplos timeframes.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `intervals` | `string` | não | Lista de timeframes separada por vírgula. Default: `15m,1h,4h,1d`. |
+
+### Exemplo
+
+```txt
+/api/timeframe-summary?symbol=BTCUSDT&intervals=15m,1h,4h,1d
+```
+
+### Retorno
+
+```ts
+type MultiTimeframeResponse = {
+  symbol: string
+  items: AnalyzeResponse[]
+}
+```
+
+### Observações
+
+- O limite atual é de 4 timeframes por chamada.
+- A execução é sequencial para reduzir pressão no provider externo.
+- A UI usa este endpoint para comparar ação e confiança por timeframe.
+
+---
+
 ## `GET /api/historical-simulation`
 
 Executa uma simulação histórica simples para um ativo usando os candles disponíveis.
