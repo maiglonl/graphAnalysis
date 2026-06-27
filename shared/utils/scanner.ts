@@ -11,6 +11,10 @@ import { BullishEngulfingDetector } from '#shared/utils/detectors/candle/bullish
 import { BearishEngulfingDetector } from '#shared/utils/detectors/candle/bearishEngulfing';
 import { BullishHaramiDetector } from '#shared/utils/detectors/candle/bullishHarami';
 import { BearishHaramiDetector } from '#shared/utils/detectors/candle/bearishHarami';
+import { BullishThreeCandleReversalDetector } from '#shared/utils/detectors/candle/bullishThreeCandleReversal';
+import { BearishThreeCandleReversalDetector } from '#shared/utils/detectors/candle/bearishThreeCandleReversal';
+import { TweezerBottomDetector } from '#shared/utils/detectors/candle/tweezerBottom';
+import { TweezerTopDetector } from '#shared/utils/detectors/candle/tweezerTop';
 import { InsideBarDetector } from '#shared/utils/detectors/candle/insideBar';
 import { BullishFvgDetector } from '#shared/utils/detectors/candle/bullishFvg';
 import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
@@ -256,6 +260,10 @@ const defaultScanner = new Scanner([
   new BearishEngulfingDetector(),
   new BullishHaramiDetector(),
   new BearishHaramiDetector(),
+  new BullishThreeCandleReversalDetector(),
+  new BearishThreeCandleReversalDetector(),
+  new TweezerBottomDetector(),
+  new TweezerTopDetector(),
   new InsideBarDetector(),
   new BullishFvgDetector(),
   new BearishFvgDetector(),
