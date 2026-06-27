@@ -22,6 +22,10 @@ Bullish Kicker
 Bearish Kicker
 Three White Soldiers
 Three Black Crows
+Rising Three Methods
+Falling Three Methods
+Bullish Separating Lines
+Bearish Separating Lines
 Bullish Engulfing
 Bearish Engulfing
 Bullish Harami
@@ -43,7 +47,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 34 padrões/sinais.
+Total ativo aproximado: 38 padrões/sinais.
 
 ### IDs e traduções preparados, mas detectores ainda pendentes
 
@@ -56,14 +60,10 @@ Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores 
 
 ## Próximos lotes sugeridos
 
-### Lote 2 — Continuação e compressão
+### Lote 2 — Continuação e compressão restante
 
 ```txt
-Rising Three Methods
-Falling Three Methods
 Mat Hold
-Separating Lines Bullish
-Separating Lines Bearish
 Upside Tasuki Gap
 Downside Tasuki Gap
 On Neck
