@@ -11,6 +11,10 @@ export const EXTRA_CONFIDENCE = {
   bearishKicker: 78,
   threeWhiteSoldiers: 76,
   threeBlackCrows: 76,
+  risingThreeMethods: 70,
+  fallingThreeMethods: 70,
+  bullishSeparatingLines: 64,
+  bearishSeparatingLines: 64,
   bullishHarami: 62,
   bearishHarami: 62,
   piercingLine: 66,
@@ -35,4 +39,6 @@ export const EXTRA_THRESHOLDS = {
   dragonflyUpperShadowMaxPct: 0.1,
   gravestoneLowerShadowMaxPct: 0.1,
   threeCandleSequenceMinBodyPct: 0.5,
+  continuationPullbackMaxBodyPct: 0.45,
+  separatingLinesOpenTolerancePct: 0.001,
 } as const;
