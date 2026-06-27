@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnalyzeResponse, ScanListResponse } from '#shared/types/market';
+import type { AnalyzeResponse, HistoricalSimulationResult, ScanListResponse } from '#shared/types/market';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 
 type OpportunityActionFilter = TradeActionEnum | 'all';
@@ -16,8 +16,10 @@ const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityA
 
 const result = ref<AnalyzeResponse | null>(null);
 const scanResult = ref<ScanListResponse | null>(null);
+const historicalSimulation = ref<HistoricalSimulationResult | null>(null);
 const loading = ref(false);
 const scanLoading = ref(false);
+const simulationLoading = ref(false);
 const error = ref('');
 
 const filteredScanItems = computed(() => {
@@ -71,10 +73,31 @@ async function scanSymbols() {
   }
 }
 
+async function runSimulation() {
+  simulationLoading.value = true;
+  error.value = '';
+
+  try {
+    historicalSimulation.value = await $fetch<HistoricalSimulationResult>('/api/historical-simulation', {
+      query: {
+        symbol: symbol.value,
+        interval: interval.value,
+      },
+    });
+  } catch (err: any) {
+    const messageKey = err?.data?.message || err?.message;
+
+    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } finally {
+    simulationLoading.value = false;
+  }
+}
+
 function selectOpportunity(item: AnalyzeResponse) {
   symbol.value = item.symbol;
   interval.value = item.interval;
   result.value = item;
+  historicalSimulation.value = null;
 }
 
 function actionFilterLabel(filter: OpportunityActionFilter): string {
@@ -188,6 +211,64 @@ onMounted(() => {
 
         <p v-else class="text-slate-500 mb-0">
           {{ $t('opportunities.empty') }}
+        </p>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-2xl p-4 mb-5">
+        <div class="flex justify-between items-start gap-3 mb-3 max-md:flex-col">
+          <div>
+            <h2 class="m-0 text-xl">
+              {{ $t('simulation.title') }}
+            </h2>
+
+            <p class="mt-1 mb-0 text-slate-500">
+              {{ $t('simulation.subtitle') }}
+            </p>
+          </div>
+
+          <button
+            :disabled="simulationLoading"
+            class="h-10 px-4 border-0 rounded-xl bg-blue-600 text-white cursor-pointer disabled:opacity-50"
+            @click="runSimulation"
+          >
+            {{ simulationLoading ? $t('common.analyzing') : $t('simulation.run') }}
+          </button>
+        </div>
+
+        <dl v-if="historicalSimulation" class="grid gap-3 m-0 md:grid-cols-3 lg:grid-cols-6">
+          <div class="border border-slate-200 rounded-xl p-3">
+            <dt class="text-sm text-slate-500">{{ $t('simulation.totalTrades') }}</dt>
+            <dd class="m-0 text-2xl font-bold">{{ historicalSimulation.metrics.totalTrades }}</dd>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-3">
+            <dt class="text-sm text-slate-500">{{ $t('simulation.wins') }}</dt>
+            <dd class="m-0 text-2xl font-bold">{{ historicalSimulation.metrics.wins }}</dd>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-3">
+            <dt class="text-sm text-slate-500">{{ $t('simulation.losses') }}</dt>
+            <dd class="m-0 text-2xl font-bold">{{ historicalSimulation.metrics.losses }}</dd>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-3">
+            <dt class="text-sm text-slate-500">{{ $t('simulation.expired') }}</dt>
+            <dd class="m-0 text-2xl font-bold">{{ historicalSimulation.metrics.expired }}</dd>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-3">
+            <dt class="text-sm text-slate-500">{{ $t('simulation.winRate') }}</dt>
+            <dd class="m-0 text-2xl font-bold">{{ historicalSimulation.metrics.winRate }}%</dd>
+          </div>
+
+          <div class="border border-slate-200 rounded-xl p-3">
+            <dt class="text-sm text-slate-500">{{ $t('simulation.averageRiskReward') }}</dt>
+            <dd class="m-0 text-2xl font-bold">{{ historicalSimulation.metrics.averageRiskReward }}</dd>
+          </div>
+        </dl>
+
+        <p v-else class="text-slate-500 mb-0">
+          {{ $t('simulation.empty') }}
         </p>
       </section>
 
