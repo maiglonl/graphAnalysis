@@ -23,7 +23,7 @@ Para cada candle histórico com janela mínima suficiente:
 
 ## Métricas atuais
 
-O retorno mantém as métricas públicas já usadas pela UI:
+O retorno da simulação inclui:
 
 ```txt
 totalTrades
@@ -31,33 +31,47 @@ wins
 losses
 expired
 winRate
-averageRiskReward
-```
-
-O utilitário também calcula métricas extras para evoluções de backtest:
-
-```txt
 lossRate
+averageRiskReward
 averageReturn
 maxDrawdown
 averageConfidence
 ```
 
-Essas métricas extras ainda usam tipo local estendido porque o tipo compartilhado não foi alterado nesta etapa.
+## Estatísticas por padrão
+
+O resultado também inclui:
+
+```txt
+patternStats
+```
+
+Cada item agrupa:
+
+```txt
+patternId
+totalTrades
+wins
+losses
+expired
+winRate
+averageReturn
+averageConfidence
+```
+
+Isso prepara a próxima etapa de calibrar pesos do scanner a partir da performance histórica por padrão.
 
 ## Limitações conhecidas
 
 1. Usa apenas o primeiro alvo.
 2. Não calcula retorno composto.
-3. Não separa performance por padrão.
-4. Não separa performance por timeframe.
-5. Não persiste execuções.
-6. Não considera custos, slippage ou spread.
+3. Não separa performance por timeframe.
+4. Não persiste execuções.
+5. Não considera custos, slippage ou spread.
 
 ## Próximas evoluções
 
-1. Persistir execuções de simulação.
-2. Agrupar resultado por padrão.
-3. Agrupar resultado por timeframe.
-4. Calcular retorno por operação com mais detalhes.
-5. Usar métricas históricas para calibrar pesos do scanner.
+1. Agrupar resultado por timeframe.
+2. Calcular retorno por operação com mais detalhes.
+3. Usar métricas históricas para calibrar pesos do scanner.
+4. Persistir execuções de simulação.
