@@ -25,6 +25,8 @@ export const EXTRA_CONFIDENCE = {
   bearishBreakawayGap: 68,
   runawayGapUp: 64,
   runawayGapDown: 64,
+  exhaustionGapUp: 62,
+  exhaustionGapDown: 62,
   gapFillBullish: 60,
   gapFillBearish: 60,
   islandReversalBottom: 74,
