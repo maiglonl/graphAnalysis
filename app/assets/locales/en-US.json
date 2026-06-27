@@ -8,35 +8,15 @@
     "providerUnavailable": "Market data provider is currently unavailable.",
     "analyzeDefault": "Error analyzing asset."
   },
-  "common": {
-    "entry": "Entry",
-    "stop": "Stop",
-    "targets": "Targets",
-    "confidence": "Estimated confidence",
-    "analyzing": "Analyzing...",
-    "disclaimer": "This is not financial advice. It is an automated reading based on technical patterns."
-  },
+  "common": { "entry": "Entry", "stop": "Stop", "targets": "Targets", "confidence": "Estimated confidence", "analyzing": "Analyzing...", "disclaimer": "This is not financial advice. It is an automated reading based on technical patterns." },
   "analysisForm": { "symbolPlaceholder": "Symbol", "analyze": "Analyze" },
-  "opportunities": {
-    "title": "Opportunity ranking",
-    "subtitle": "Analyze multiple assets and select the best result to open it on the chart.",
-    "refresh": "Refresh ranking",
-    "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT",
-    "confidence": "Confidence: {value}%",
-    "empty": "No opportunities loaded yet."
-  },
-  "chart": {
-    "targetLine": "Target {n}", "fvgStart": "FVG start", "fvgEnd": "FVG end", "brokenLevel": "Broken level", "fvgZone": "FVG zone", "swingHigh": "SH", "swingLow": "SL", "higherHigh": "HH", "higherLow": "HL", "lowerHigh": "LH", "lowerLow": "LL"
-  },
+  "opportunities": { "title": "Opportunity ranking", "subtitle": "Analyze multiple assets and select the best result to open it on the chart.", "refresh": "Refresh ranking", "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT", "confidence": "Confidence: {value}%", "empty": "No opportunities loaded yet." },
+  "risk": { "title": "Risk management", "accountSize": "Account size", "riskPercent": "Risk per trade (%)", "riskAmount": "Risk amount", "stopDistance": "Stop distance", "positionSize": "Position size", "quantity": "Quantity", "riskReward": "R/R by target", "unavailable": "Risk plan unavailable without valid entry and stop." },
+  "chart": { "targetLine": "Target {n}", "fvgStart": "FVG start", "fvgEnd": "FVG end", "brokenLevel": "Broken level", "fvgZone": "FVG zone", "swingHigh": "SH", "swingLow": "SL", "higherHigh": "HH", "higherLow": "HL", "lowerHigh": "LH", "lowerLow": "LL" },
   "scanner": { "title": "Technical Scanner", "subtitle": "Automated suggestions based on technical patterns, structure and price action.", "currentPrice": "Current price: {price}" },
-  "suggestion": {
-    "title": "Trade plan",
-    "reasons": "Reasons",
-    "scoreBreakdown": { "title": "Confidence breakdown", "patternScore": "Patterns", "structureScore": "Structure", "trendScore": "Trend", "volumeScore": "Volume", "confluenceBonus": "Confluence", "conflictPenalty": "Conflict" }
-  },
+  "suggestion": { "title": "Trade plan", "reasons": "Reasons", "scoreBreakdown": { "title": "Confidence breakdown", "patternScore": "Patterns", "structureScore": "Structure", "trendScore": "Trend", "volumeScore": "Volume", "confluenceBonus": "Confluence", "conflictPenalty": "Conflict" } },
   "patterns": {
-    "title": "Detected patterns",
-    "empty": "No relevant pattern detected on the current candle.",
+    "title": "Detected patterns", "empty": "No relevant pattern detected on the current candle.",
     "hammer": { "name": "Hammer", "reason": "Hammer after a downtrend, with long lower shadow and seller rejection." },
     "shootingStar": { "name": "Shooting Star", "reason": "Shooting star after an uptrend, with buyer rejection at the top." },
     "doji": { "name": "Doji", "reason": "Opening and closing nearly equal, indicating indecision." },
