@@ -10,6 +10,8 @@ import { CloseToPriorCloseDownContinuationDetector } from '#shared/utils/detecto
 import { DeepCloseDownContinuationDetector } from '#shared/utils/detectors/candle/deepCloseDownContinuation';
 import { DownsideTasukiGapDetector } from '#shared/utils/detectors/candle/downsideTasukiGap';
 import { DragonflyDojiDetector } from '#shared/utils/detectors/candle/dragonflyDoji';
+import { ExhaustionGapDownDetector } from '#shared/utils/detectors/candle/exhaustionGapDown';
+import { ExhaustionGapUpDetector } from '#shared/utils/detectors/candle/exhaustionGapUp';
 import { FallingThreeMethodsDetector } from '#shared/utils/detectors/candle/fallingThreeMethods';
 import { GapFillBearishDetector } from '#shared/utils/detectors/candle/gapFillBearish';
 import { GapFillBullishDetector } from '#shared/utils/detectors/candle/gapFillBullish';
@@ -54,6 +56,8 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new BearishBreakawayGapDetector(),
     new RunawayGapUpDetector(),
     new RunawayGapDownDetector(),
+    new ExhaustionGapUpDetector(),
+    new ExhaustionGapDownDetector(),
     new GapFillBullishDetector(),
     new GapFillBearishDetector(),
     new IslandReversalBottomDetector(),
