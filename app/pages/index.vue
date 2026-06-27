@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import type { AnalyzeResponse, HistoricalSimulationResult, ScanListResponse } from '#shared/types/market';
+import type {
+  AnalyzeResponse,
+  HistoricalSimulationResult,
+  MultiTimeframeResponse,
+  ScanListResponse,
+} from '#shared/types/market';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 
 type OpportunityActionFilter = TradeActionEnum | 'all';
@@ -17,9 +22,11 @@ const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityA
 const result = ref<AnalyzeResponse | null>(null);
 const scanResult = ref<ScanListResponse | null>(null);
 const historicalSimulation = ref<HistoricalSimulationResult | null>(null);
+const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
 const loading = ref(false);
 const scanLoading = ref(false);
 const simulationLoading = ref(false);
+const timeframeLoading = ref(false);
 const error = ref('');
 
 const filteredScanItems = computed(() => {
@@ -93,8 +100,34 @@ async function runSimulation() {
   }
 }
 
+async function loadTimeframeSummary() {
+  timeframeLoading.value = true;
+  error.value = '';
+
+  try {
+    timeframeSummary.value = await $fetch<MultiTimeframeResponse>('/api/timeframe-summary', {
+      query: {
+        symbol: symbol.value,
+      },
+    });
+  } catch (err: any) {
+    const messageKey = err?.data?.message || err?.message;
+
+    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } finally {
+    timeframeLoading.value = false;
+  }
+}
+
 function selectOpportunity(item: AnalyzeResponse) {
   symbol.value = item.symbol;
+  interval.value = item.interval;
+  result.value = item;
+  historicalSimulation.value = null;
+  timeframeSummary.value = null;
+}
+
+function selectTimeframeItem(item: AnalyzeResponse) {
   interval.value = item.interval;
   result.value = item;
   historicalSimulation.value = null;
@@ -211,6 +244,53 @@ onMounted(() => {
 
         <p v-else class="text-slate-500 mb-0">
           {{ $t('opportunities.empty') }}
+        </p>
+      </section>
+
+      <section class="bg-white border border-slate-200 rounded-2xl p-4 mb-5">
+        <div class="flex justify-between items-start gap-3 mb-3 max-md:flex-col">
+          <div>
+            <h2 class="m-0 text-xl">
+              {{ $t('timeframes.title') }}
+            </h2>
+
+            <p class="mt-1 mb-0 text-slate-500">
+              {{ $t('timeframes.subtitle') }}
+            </p>
+          </div>
+
+          <button
+            :disabled="timeframeLoading"
+            class="h-10 px-4 border-0 rounded-xl bg-slate-900 text-white cursor-pointer disabled:opacity-50"
+            @click="loadTimeframeSummary"
+          >
+            {{ timeframeLoading ? $t('common.analyzing') : $t('timeframes.refresh') }}
+          </button>
+        </div>
+
+        <div v-if="timeframeSummary?.items.length" class="grid gap-2 md:grid-cols-2 lg:grid-cols-4">
+          <button
+            v-for="item in timeframeSummary.items"
+            :key="item.interval"
+            class="border border-slate-200 rounded-xl p-3 bg-white cursor-pointer text-left hover:bg-slate-50"
+            @click="selectTimeframeItem(item)"
+          >
+            <div class="flex justify-between items-center gap-3">
+              <strong>{{ item.interval }}</strong>
+
+              <span class="px-2 py-1 rounded-full text-xs font-bold uppercase" :class="getActionClass(item.suggestion.action)">
+                {{ $t(`actions.${item.suggestion.action}`) }}
+              </span>
+            </div>
+
+            <p class="mt-2 mb-0 text-sm text-slate-500">
+              {{ $t('opportunities.confidence', { value: item.suggestion.confidence }) }}
+            </p>
+          </button>
+        </div>
+
+        <p v-else class="text-slate-500 mb-0">
+          {{ $t('timeframes.empty') }}
         </p>
       </section>
 
