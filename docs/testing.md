@@ -74,7 +74,12 @@ tests/
     detectors/
       helpers.test.ts
       candle/
+        dojiDetector.test.ts
+        engulfingDetector.test.ts
+        fvgDetector.test.ts
         hammerDetector.test.ts
+        insideBarDetector.test.ts
+        shootingStarDetector.test.ts
 ```
 
 ---
@@ -241,31 +246,33 @@ Cobre:
 - default status;
 - type guard `isMarketDataProviderError()`.
 
-### Detector Hammer
+### Detectores de candle
 
-Arquivo:
+Arquivos:
 
 ```txt
+tests/utils/detectors/candle/dojiDetector.test.ts
+tests/utils/detectors/candle/engulfingDetector.test.ts
+tests/utils/detectors/candle/fvgDetector.test.ts
 tests/utils/detectors/candle/hammerDetector.test.ts
+tests/utils/detectors/candle/insideBarDetector.test.ts
+tests/utils/detectors/candle/shootingStarDetector.test.ts
 ```
 
 Cobre:
 
-- detecção de Hammer após tendência baixista.
-
----
-
-## Próximos testes recomendados
-
-### Detectores de candle
-
-- Shooting Star;
+- Hammer;
 - Doji;
+- Shooting Star;
 - Bullish Engulfing;
 - Bearish Engulfing;
 - Inside Bar;
 - Bullish FVG;
 - Bearish FVG.
+
+---
+
+## Próximos testes recomendados
 
 ### Detectores de estrutura
 
