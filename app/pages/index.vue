@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AnalyzeResponse, ScanListResponse } from '#shared/types/market';
-import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from '#shared/types/market';
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
+
+type OpportunityActionFilter = TradeActionEnum | 'all';
 
 const { t } = useI18n();
 
@@ -8,12 +10,22 @@ const symbol = usePersistedRef('graphAnalysis.symbol', DEFAULT_SYMBOL);
 const interval = usePersistedRef<IntervalEnum>('graphAnalysis.interval', DEFAULT_INTERVAL);
 const intervals = Object.values(IntervalEnum) as IntervalEnum[];
 const symbolsToScan = usePersistedRef('graphAnalysis.symbolsToScan', 'BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT');
+const actionFilter = usePersistedRef<OpportunityActionFilter>('graphAnalysis.actionFilter', 'all');
+const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityActionFilter[];
 
 const result = ref<AnalyzeResponse | null>(null);
 const scanResult = ref<ScanListResponse | null>(null);
 const loading = ref(false);
 const scanLoading = ref(false);
 const error = ref('');
+
+const filteredScanItems = computed(() => {
+  const items = scanResult.value?.items ?? [];
+
+  if (actionFilter.value === 'all') return items;
+
+  return items.filter((item) => item.suggestion.action === actionFilter.value);
+});
 
 async function analyze() {
   loading.value = true;
@@ -59,6 +71,10 @@ function selectOpportunity(item: AnalyzeResponse) {
   symbol.value = item.symbol;
   interval.value = item.interval;
   result.value = item;
+}
+
+function actionFilterLabel(filter: OpportunityActionFilter): string {
+  return filter === 'all' ? t('opportunities.filters.all') : t(`actions.${filter}`);
 }
 
 onMounted(() => {
@@ -120,9 +136,21 @@ onMounted(() => {
           @keyup.enter="scanSymbols"
         >
 
-        <div v-if="scanResult?.items.length" class="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+        <div class="flex flex-wrap gap-2 mb-3">
           <button
-            v-for="item in scanResult.items"
+            v-for="filter in actionFilters"
+            :key="filter"
+            class="px-3 py-1.5 rounded-full border border-slate-200 cursor-pointer text-sm"
+            :class="actionFilter === filter ? 'bg-slate-900 text-white' : 'bg-white text-slate-600 hover:bg-slate-50'"
+            @click="actionFilter = filter"
+          >
+            {{ actionFilterLabel(filter) }}
+          </button>
+        </div>
+
+        <div v-if="filteredScanItems.length" class="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+          <button
+            v-for="item in filteredScanItems"
             :key="item.symbol"
             class="border border-slate-200 rounded-xl p-3 bg-white cursor-pointer text-left hover:bg-slate-50"
             @click="selectOpportunity(item)"
