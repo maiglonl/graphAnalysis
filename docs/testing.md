@@ -61,6 +61,7 @@ node
 tests/
   server/
     analyzeMarket.test.ts
+    binanceProvider.test.ts
     candleCache.test.ts
     historicalSimulation.test.ts
     marketDataProviderError.test.ts
@@ -224,6 +225,23 @@ Cobre:
 - retorno de preço e timestamp atuais;
 - fallback para `price` e `updatedAt` nulos sem candles.
 
+### Provider Binance
+
+Arquivo:
+
+```txt
+tests/server/binanceProvider.test.ts
+```
+
+Cobre:
+
+- chamada ao endpoint público de klines;
+- normalização de klines para `Candle[]`;
+- erro de resposta vazia;
+- erro de símbolo inválido;
+- erro de timeout;
+- erro de rate limit.
+
 ### Cache de candles
 
 Arquivo:
@@ -315,7 +333,6 @@ Cobre:
 
 ### API/server utils
 
-- `BinanceProvider` com mock;
 - endpoints Nuxt com mocks de provider.
 
 ---
