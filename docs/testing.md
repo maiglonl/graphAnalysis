@@ -80,6 +80,8 @@ tests/
         hammerDetector.test.ts
         insideBarDetector.test.ts
         shootingStarDetector.test.ts
+      structure/
+        structureDetectors.test.ts
 ```
 
 ---
@@ -270,15 +272,25 @@ Cobre:
 - Bullish FVG;
 - Bearish FVG.
 
+### Detectores de estrutura
+
+Arquivo:
+
+```txt
+tests/utils/detectors/structure/structureDetectors.test.ts
+```
+
+Cobre:
+
+- Market Structure;
+- Bullish BOS;
+- Bearish BOS;
+- Bullish CHOCH;
+- filtro de CHOCH fora da tendência oposta.
+
 ---
 
 ## Próximos testes recomendados
-
-### Detectores de estrutura
-
-- Market Structure;
-- BOS;
-- CHOCH.
 
 ### Scanner e sugestão
 
