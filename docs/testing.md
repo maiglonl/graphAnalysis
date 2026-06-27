@@ -63,6 +63,7 @@ tests/
     analyzeMarket.test.ts
     binanceProvider.test.ts
     candleCache.test.ts
+    candleQuery.test.ts
     historicalSimulation.test.ts
     marketDataProviderError.test.ts
   utils/
@@ -224,6 +225,23 @@ Cobre:
 - integração com `buildSuggestion()`;
 - retorno de preço e timestamp atuais;
 - fallback para `price` e `updatedAt` nulos sem candles.
+
+### Query de candles
+
+Arquivo:
+
+```txt
+tests/server/candleQuery.test.ts
+```
+
+Cobre:
+
+- defaults de query vazia;
+- sanitização de símbolo;
+- normalização de intervalo;
+- clamp de limite;
+- erro de símbolo inválido;
+- erro de intervalo inválido.
 
 ### Provider Binance
 
