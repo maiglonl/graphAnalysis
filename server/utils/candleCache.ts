@@ -42,3 +42,7 @@ export function setCachedCandles(key: CandleCacheKey, interval: IntervalEnum, ca
     expiresAt: Date.now() + TTL_BY_INTERVAL[interval],
   });
 }
+
+export function clearCandleCache(): void {
+  cache.clear();
+}
