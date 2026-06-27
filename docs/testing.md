@@ -59,7 +59,12 @@ node
 
 ```txt
 tests/
+  server/
+    candleCache.test.ts
+    historicalSimulation.test.ts
+    marketDataProviderError.test.ts
   utils/
+    apiErrors.test.ts
     indicators.test.ts
     riskPlan.test.ts
     detectors/
@@ -117,6 +122,65 @@ Cobre:
 - risco/retorno por alvo;
 - retorno `null` sem entrada e stop válidos.
 
+### Erros de API
+
+Arquivo:
+
+```txt
+tests/utils/apiErrors.test.ts
+```
+
+Cobre:
+
+- tradução de erro vindo de `data.message`;
+- tradução de erro vindo de `message`;
+- fallback para erro desconhecido;
+- fallback para valores não objeto.
+
+### Cache de candles
+
+Arquivo:
+
+```txt
+tests/server/candleCache.test.ts
+```
+
+Cobre:
+
+- geração de chave de cache;
+- leitura antes da expiração;
+- expiração por TTL do timeframe.
+
+### Simulação histórica
+
+Arquivo:
+
+```txt
+tests/server/historicalSimulation.test.ts
+```
+
+Cobre:
+
+- trade comprado vencedor;
+- trade vendido perdedor;
+- trade expirado;
+- ignorar sugestões sem ação operacional.
+
+### Erro de provider de mercado
+
+Arquivo:
+
+```txt
+tests/server/marketDataProviderError.test.ts
+```
+
+Cobre:
+
+- código de erro;
+- status HTTP;
+- default status;
+- type guard `isMarketDataProviderError()`.
+
 ### Detector Hammer
 
 Arquivo:
@@ -161,10 +225,9 @@ Cobre:
 
 ### API/server utils
 
-- `candleCache`;
 - `BinanceProvider` com mock;
-- `MarketDataProviderError`;
-- `analyzeMarket` com candles mockados.
+- `analyzeMarket` com candles mockados;
+- endpoints Nuxt com mocks de provider.
 
 ---
 
