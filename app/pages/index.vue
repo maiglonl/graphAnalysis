@@ -6,6 +6,7 @@ import type {
   ScanListResponse,
 } from '#shared/types/market';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
+import { resolveApiErrorMessage } from '~/utils/apiErrors';
 
 type OpportunityActionFilter = TradeActionEnum | 'all';
 
@@ -44,10 +45,8 @@ async function analyze() {
     });
     historicalSimulation.value = null;
     timeframeSummary.value = null;
-  } catch (err: any) {
-    const messageKey = err?.data?.message || err?.message;
-
-    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } catch (err: unknown) {
+    error.value = resolveApiErrorMessage(err, t);
   } finally {
     loading.value = false;
   }
@@ -64,10 +63,8 @@ async function scanSymbols() {
         interval: interval.value,
       },
     });
-  } catch (err: any) {
-    const messageKey = err?.data?.message || err?.message;
-
-    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } catch (err: unknown) {
+    error.value = resolveApiErrorMessage(err, t);
   } finally {
     scanLoading.value = false;
   }
@@ -84,10 +81,8 @@ async function runSimulation() {
         interval: interval.value,
       },
     });
-  } catch (err: any) {
-    const messageKey = err?.data?.message || err?.message;
-
-    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } catch (err: unknown) {
+    error.value = resolveApiErrorMessage(err, t);
   } finally {
     simulationLoading.value = false;
   }
@@ -103,10 +98,8 @@ async function loadTimeframeSummary() {
         symbol: symbol.value,
       },
     });
-  } catch (err: any) {
-    const messageKey = err?.data?.message || err?.message;
-
-    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } catch (err: unknown) {
+    error.value = resolveApiErrorMessage(err, t);
   } finally {
     timeframeLoading.value = false;
   }
