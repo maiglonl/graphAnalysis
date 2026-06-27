@@ -154,6 +154,7 @@ Cobre:
 - criação de markers de padrão;
 - filtro de rompimentos estruturais nos markers genéricos;
 - deduplicação visual BOS/CHOCH;
+- markers de estrutura de mercado;
 - linhas de plano de trade;
 - linhas de FVG e rompimento;
 - deduplicação de price lines;
@@ -278,10 +279,6 @@ Cobre:
 - `SuggestionBuilder` com tendência alinhada/contrária;
 - `SuggestionBuilder` com confluência máxima.
 
-### UI utils
-
-- markers de estrutura de mercado.
-
 ### API/server utils
 
 - `BinanceProvider` com mock;
@@ -314,7 +311,6 @@ tests/fixtures/candles/
   bullishBos.ts
   bearishBos.ts
   bullishChoch.ts
-  bearishChoch.ts
 ```
 
 ---
