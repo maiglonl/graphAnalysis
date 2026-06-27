@@ -3,10 +3,14 @@ import { PatternDirectionEnum, PatternIdEnum, StructureTrendEnum, TradeActionEnu
 import { ScanContext } from '#shared/utils/scanContext';
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
 import { HammerDetector } from '#shared/utils/detectors/candle/hammer';
+import { InvertedHammerDetector } from '#shared/utils/detectors/candle/invertedHammer';
+import { HangingManDetector } from '#shared/utils/detectors/candle/hangingMan';
 import { ShootingStarDetector } from '#shared/utils/detectors/candle/shootingStar';
 import { DojiDetector } from '#shared/utils/detectors/candle/doji';
 import { BullishEngulfingDetector } from '#shared/utils/detectors/candle/bullishEngulfing';
 import { BearishEngulfingDetector } from '#shared/utils/detectors/candle/bearishEngulfing';
+import { BullishHaramiDetector } from '#shared/utils/detectors/candle/bullishHarami';
+import { BearishHaramiDetector } from '#shared/utils/detectors/candle/bearishHarami';
 import { InsideBarDetector } from '#shared/utils/detectors/candle/insideBar';
 import { BullishFvgDetector } from '#shared/utils/detectors/candle/bullishFvg';
 import { BearishFvgDetector } from '#shared/utils/detectors/candle/bearishFvg';
@@ -244,10 +248,14 @@ export class SuggestionBuilder {
 
 const defaultScanner = new Scanner([
   new HammerDetector(),
+  new InvertedHammerDetector(),
+  new HangingManDetector(),
   new ShootingStarDetector(),
   new DojiDetector(),
   new BullishEngulfingDetector(),
   new BearishEngulfingDetector(),
+  new BullishHaramiDetector(),
+  new BearishHaramiDetector(),
   new InsideBarDetector(),
   new BullishFvgDetector(),
   new BearishFvgDetector(),
