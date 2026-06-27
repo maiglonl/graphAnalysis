@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnalyzeResponse } from '#shared/types/market';
+import type { AnalyzeResponse, ScanListResponse } from '#shared/types/market';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum } from '#shared/types/market';
 
 const { t } = useI18n();
@@ -7,9 +7,12 @@ const { t } = useI18n();
 const symbol = ref(DEFAULT_SYMBOL);
 const interval = ref<IntervalEnum>(DEFAULT_INTERVAL);
 const intervals = Object.values(IntervalEnum) as IntervalEnum[];
+const symbolsToScan = ref('BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT');
 
 const result = ref<AnalyzeResponse | null>(null);
+const scanResult = ref<ScanListResponse | null>(null);
 const loading = ref(false);
+const scanLoading = ref(false);
 const error = ref('');
 
 async function analyze() {
@@ -32,8 +35,35 @@ async function analyze() {
   }
 }
 
+async function scanSymbols() {
+  scanLoading.value = true;
+  error.value = '';
+
+  try {
+    scanResult.value = await $fetch<ScanListResponse>('/api/scan', {
+      query: {
+        symbols: symbolsToScan.value,
+        interval: interval.value,
+      },
+    });
+  } catch (err: any) {
+    const messageKey = err?.data?.message || err?.message;
+
+    error.value = messageKey?.startsWith?.('errors.') ? t(messageKey) : t('errors.analyzeDefault');
+  } finally {
+    scanLoading.value = false;
+  }
+}
+
+function selectOpportunity(item: AnalyzeResponse) {
+  symbol.value = item.symbol;
+  interval.value = item.interval;
+  result.value = item;
+}
+
 onMounted(() => {
   analyze();
+  scanSymbols();
 });
 </script>
 
@@ -61,6 +91,60 @@ onMounted(() => {
         :intervals="intervals"
         @analyze="analyze"
       />
+
+      <section class="bg-white border border-slate-200 rounded-2xl p-4 mb-5">
+        <div class="flex justify-between items-start gap-3 mb-3 max-md:flex-col">
+          <div>
+            <h2 class="m-0 text-xl">
+              {{ $t('opportunities.title') }}
+            </h2>
+
+            <p class="mt-1 mb-0 text-slate-500">
+              {{ $t('opportunities.subtitle') }}
+            </p>
+          </div>
+
+          <button
+            :disabled="scanLoading"
+            class="h-10 px-4 border-0 rounded-xl bg-slate-900 text-white cursor-pointer disabled:opacity-50"
+            @click="scanSymbols"
+          >
+            {{ scanLoading ? $t('common.analyzing') : $t('opportunities.refresh') }}
+          </button>
+        </div>
+
+        <input
+          v-model="symbolsToScan"
+          class="w-full h-10 px-3 border border-slate-300 rounded-xl mb-3"
+          :placeholder="$t('opportunities.symbolsPlaceholder')"
+          @keyup.enter="scanSymbols"
+        >
+
+        <div v-if="scanResult?.items.length" class="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+          <button
+            v-for="item in scanResult.items"
+            :key="item.symbol"
+            class="border border-slate-200 rounded-xl p-3 bg-white cursor-pointer text-left hover:bg-slate-50"
+            @click="selectOpportunity(item)"
+          >
+            <div class="flex justify-between items-center gap-3">
+              <strong>{{ item.symbol }} · {{ item.interval }}</strong>
+
+              <span class="px-2 py-1 rounded-full text-xs font-bold uppercase" :class="getActionClass(item.suggestion.action)">
+                {{ $t(`actions.${item.suggestion.action}`) }}
+              </span>
+            </div>
+
+            <p class="mt-2 mb-0 text-sm text-slate-500">
+              {{ $t('opportunities.confidence', { value: item.suggestion.confidence }) }}
+            </p>
+          </button>
+        </div>
+
+        <p v-else class="text-slate-500 mb-0">
+          {{ $t('opportunities.empty') }}
+        </p>
+      </section>
 
       <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
         {{ error }}
