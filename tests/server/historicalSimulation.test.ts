@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { IntervalEnum, PatternDirectionEnum, TradeActionEnum, type Candle, type TradeSuggestion } from '#shared/types/market';
+import { IntervalEnum, TradeActionEnum, type Candle, type TradeSuggestion } from '#shared/types/market';
 
 const scannerMocks = vi.hoisted(() => ({
   scanPatterns: vi.fn(),
