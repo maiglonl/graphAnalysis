@@ -86,6 +86,39 @@ type AnalyzeResponse = {
 
 ---
 
+## `GET /api/analyze-calibrated`
+
+Executa análise completa e aplica calibração histórica de score de forma explícita.
+
+### Query params
+
+| Param | Tipo | Obrigatório | Descrição |
+| --- | --- | --- | --- |
+| `symbol` | `string` | não | Ativo analisado. Default: `BTCUSDT`. |
+| `interval` | `IntervalEnum` | não | Timeframe. Default: `1h`. |
+
+### Exemplo
+
+```txt
+/api/analyze-calibrated?symbol=ETHUSDT&interval=4h
+```
+
+### Retorno
+
+```ts
+type AnalyzeMarketWithCalibrationResponse = AnalyzeResponse & {
+  calibrationAdjustment: number
+}
+```
+
+### Observações
+
+- Endpoint experimental separado de `/api/analyze`.
+- Usa a simulação histórica do mesmo ativo/timeframe para gerar `patternStats`.
+- Aplica o ajuste com `applyScoreCalibration()`.
+
+---
+
 ## `GET /api/scan`
 
 Executa análise em lote para até 10 ativos e retorna os itens ordenados por confiança.
@@ -262,7 +295,7 @@ type HistoricalScoreCalibrationResult = {
 ### Observações
 
 - A calibração atual é informativa.
-- A confiança operacional do scanner ainda não é alterada automaticamente.
+- A confiança operacional do scanner padrão ainda não é alterada automaticamente.
 - Padrões com amostra baixa recebem ajuste neutro.
 
 ---
