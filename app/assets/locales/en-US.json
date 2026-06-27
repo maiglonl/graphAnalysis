@@ -17,6 +17,14 @@
     "disclaimer": "This is not financial advice. It is an automated reading based on technical patterns."
   },
   "analysisForm": { "symbolPlaceholder": "Symbol", "analyze": "Analyze" },
+  "opportunities": {
+    "title": "Opportunity ranking",
+    "subtitle": "Analyze multiple assets and select the best result to open it on the chart.",
+    "refresh": "Refresh ranking",
+    "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT",
+    "confidence": "Confidence: {value}%",
+    "empty": "No opportunities loaded yet."
+  },
   "chart": {
     "targetLine": "Target {n}", "fvgStart": "FVG start", "fvgEnd": "FVG end", "brokenLevel": "Broken level", "fvgZone": "FVG zone", "swingHigh": "SH", "swingLow": "SL", "higherHigh": "HH", "higherLow": "HL", "lowerHigh": "LH", "lowerLow": "LL"
   },
