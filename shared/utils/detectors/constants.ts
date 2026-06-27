@@ -57,6 +57,11 @@ export const SCORING = {
   lowVolumePenalty: 4,
 } as const;
 
+export const HISTORICAL_SIMULATION = {
+  maxLookaheadCandles: 24,
+  minConfidence: 50,
+} as const;
+
 export const API = {
   candleLimit: 500,
   candleLimitMin: 50,
