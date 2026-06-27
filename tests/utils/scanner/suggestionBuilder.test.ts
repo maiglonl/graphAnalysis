@@ -19,6 +19,12 @@ function makeHighVolumeCandles(): Candle[] {
   return candles;
 }
 
+function makeLowVolumeCandles(): Candle[] {
+  const candles = makeCandles(100);
+  candles[candles.length - 1] = { ...candles[candles.length - 1]!, volume: 1 };
+  return candles;
+}
+
 function pattern(overrides: Partial<PatternSignal>): PatternSignal {
   return {
     id: PatternIdEnum.Hammer,
@@ -86,5 +92,32 @@ describe('SuggestionBuilder', () => {
 
     expect(suggestion.scoreBreakdown.volumeScore).toBe(6);
     expect(suggestion.confidence).toBe(76);
+  });
+
+  it('subtracts low relative volume score for patterns that need confirmation', () => {
+    const suggestion = new SuggestionBuilder().build(makeLowVolumeCandles(), [
+      pattern({ id: PatternIdEnum.BullishFvg, confidence: 70 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.volumeScore).toBe(-4);
+    expect(suggestion.confidence).toBe(66);
+  });
+
+  it('adds structure break score for BOS and CHOCH patterns', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ id: PatternIdEnum.BullishBos, confidence: 76 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.structureScore).toBe(10);
+    expect(suggestion.confidence).toBe(86);
+  });
+
+  it('adds market structure score for HH HL LH LL patterns', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ id: PatternIdEnum.HigherHigh, confidence: 58 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.structureScore).toBe(6);
+    expect(suggestion.confidence).toBe(64);
   });
 });
