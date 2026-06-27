@@ -13,6 +13,21 @@ function makeCandles(volume = 100): Candle[] {
   }));
 }
 
+function makeBullishTrendCandles(): Candle[] {
+  return Array.from({ length: 60 }, (_, index) => {
+    const close = 100 + index;
+
+    return {
+      time: index + 1,
+      open: close - 0.5,
+      high: close + 1,
+      low: close - 1,
+      close,
+      volume: 100,
+    };
+  });
+}
+
 function makeHighVolumeCandles(): Candle[] {
   const candles = makeCandles(100);
   candles[candles.length - 1] = { ...candles[candles.length - 1]!, volume: 1000 };
@@ -119,5 +134,36 @@ describe('SuggestionBuilder', () => {
 
     expect(suggestion.scoreBreakdown.structureScore).toBe(6);
     expect(suggestion.confidence).toBe(64);
+  });
+
+  it('adds trend score when suggestion direction follows the current trend', () => {
+    const suggestion = new SuggestionBuilder().build(makeBullishTrendCandles(), [
+      pattern({ id: PatternIdEnum.Hammer, confidence: 60 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.trendScore).toBe(8);
+    expect(suggestion.confidence).toBe(68);
+  });
+
+  it('subtracts trend score when suggestion direction conflicts with the current trend', () => {
+    const suggestion = new SuggestionBuilder().build(makeBullishTrendCandles(), [
+      pattern({ id: PatternIdEnum.BearishEngulfing, direction: PatternDirectionEnum.Bearish, confidence: 60 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.trendScore).toBe(-8);
+    expect(suggestion.confidence).toBe(52);
+  });
+
+  it('limits confluence bonus to configured maximum', () => {
+    const suggestion = new SuggestionBuilder().build(makeCandles(), [
+      pattern({ confidence: 50 }),
+      pattern({ confidence: 50 }),
+      pattern({ confidence: 50 }),
+      pattern({ confidence: 50 }),
+      pattern({ confidence: 50 }),
+    ]);
+
+    expect(suggestion.scoreBreakdown.confluenceBonus).toBe(15);
+    expect(suggestion.confidence).toBe(65);
   });
 });
