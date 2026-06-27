@@ -8,6 +8,8 @@ import type { PatternScoreCalibration } from '#shared/utils/scoreCalibration';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 import { resolveApiErrorMessage } from '~/utils/apiErrors';
 
+const ANALYSIS_HISTORY_MAX_ITEMS = 10;
+
 export type OpportunityActionFilter = TradeActionEnum | 'all';
 
 export type HistoricalTimeframeSummaryResponse = {
@@ -21,6 +23,15 @@ export type HistoricalScoreCalibrationResult = {
   patternAdjustments: PatternScoreCalibration[];
 };
 
+export type AnalysisHistorySnapshot = {
+  symbol: string;
+  interval: IntervalEnum;
+  price: number | null;
+  action: TradeActionEnum;
+  confidence: number;
+  createdAt: number;
+};
+
 export function useTechnicalScannerDashboard() {
   const { t } = useI18n();
 
@@ -31,6 +42,7 @@ export function useTechnicalScannerDashboard() {
   const actionFilter = usePersistedRef<OpportunityActionFilter>('graphAnalysis.actionFilter', 'all');
   const minConfidence = usePersistedRef('graphAnalysis.minConfidence', 0);
   const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityActionFilter[];
+  const analysisHistory = usePersistedJsonRef<AnalysisHistorySnapshot[]>('graphAnalysis.analysisHistory', []);
 
   const result = ref<AnalyzeResponse | null>(null);
   const scanResult = ref<ScanListResponse | null>(null);
@@ -59,6 +71,7 @@ export function useTechnicalScannerDashboard() {
           interval: interval.value,
         },
       });
+      recordAnalysis(result.value);
       clearDerivedPanels();
     } catch (err: unknown) {
       error.value = resolveApiErrorMessage(err, t);
@@ -159,14 +172,42 @@ export function useTechnicalScannerDashboard() {
     symbol.value = item.symbol;
     interval.value = item.interval;
     result.value = item;
+    recordAnalysis(item);
     clearDerivedPanels();
   }
 
   function selectTimeframeItem(item: AnalyzeResponse) {
     interval.value = item.interval;
     result.value = item;
+    recordAnalysis(item);
     historicalSimulation.value = null;
     scoreCalibration.value = null;
+  }
+
+  async function selectHistoryItem(item: AnalysisHistorySnapshot) {
+    symbol.value = item.symbol;
+    interval.value = item.interval;
+    await analyze();
+  }
+
+  function recordAnalysis(item: AnalyzeResponse) {
+    const snapshot = buildAnalysisSnapshot(item);
+    const historyWithoutDuplicate = analysisHistory.value.filter(
+      (historyItem) => historyItem.symbol !== snapshot.symbol || historyItem.interval !== snapshot.interval,
+    );
+
+    analysisHistory.value = [snapshot, ...historyWithoutDuplicate].slice(0, ANALYSIS_HISTORY_MAX_ITEMS);
+  }
+
+  function buildAnalysisSnapshot(item: AnalyzeResponse): AnalysisHistorySnapshot {
+    return {
+      symbol: item.symbol,
+      interval: item.interval,
+      price: item.price,
+      action: item.suggestion.action,
+      confidence: item.suggestion.confidence,
+      createdAt: Date.now(),
+    };
   }
 
   function clearDerivedPanels() {
@@ -194,6 +235,7 @@ export function useTechnicalScannerDashboard() {
     historicalTimeframeSummary,
     scoreCalibration,
     timeframeSummary,
+    analysisHistory,
     loading,
     scanLoading,
     simulationLoading,
@@ -210,5 +252,6 @@ export function useTechnicalScannerDashboard() {
     loadTimeframeSummary,
     selectOpportunity,
     selectTimeframeItem,
+    selectHistoryItem,
   };
 }
