@@ -1,4 +1,6 @@
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
+import { BearishKickerDetector } from '#shared/utils/detectors/candle/bearishKicker';
+import { BullishKickerDetector } from '#shared/utils/detectors/candle/bullishKicker';
 import { BullishMarubozuDetector } from '#shared/utils/detectors/candle/bullishMarubozu';
 import { DragonflyDojiDetector } from '#shared/utils/detectors/candle/dragonflyDoji';
 import { GravestoneDojiDetector } from '#shared/utils/detectors/candle/gravestoneDoji';
@@ -14,5 +16,7 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new SpinningTopDetector(),
     new BullishMarubozuDetector(),
     new RedMarubozuDetector(),
+    new BullishKickerDetector(),
+    new BearishKickerDetector(),
   ];
 }
