@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { IntervalEnum, type Candle } from '#shared/types/market';
-import { createCandleCacheKey, getCachedCandles, setCachedCandles } from '../../server/utils/candleCache';
+import { clearCandleCache, createCandleCacheKey, getCachedCandles, setCachedCandles } from '../../server/utils/candleCache';
 
 const candles: Candle[] = [
   { time: 1, open: 10, high: 12, low: 9, close: 11, volume: 100 },
@@ -9,6 +9,7 @@ const candles: Candle[] = [
 describe('candle cache', () => {
   afterEach(() => {
     vi.useRealTimers();
+    clearCandleCache();
   });
 
   it('builds stable cache keys', () => {
@@ -34,6 +35,15 @@ describe('candle cache', () => {
 
     setCachedCandles(key, IntervalEnum.OneMinute, candles);
     vi.setSystemTime(new Date('2026-01-01T00:00:16.000Z'));
+
+    expect(getCachedCandles(key)).toBeNull();
+  });
+
+  it('clears cached candles explicitly', () => {
+    const key = createCandleCacheKey('BNBUSDT', IntervalEnum.OneHour, 500);
+
+    setCachedCandles(key, IntervalEnum.OneHour, candles);
+    clearCandleCache();
 
     expect(getCachedCandles(key)).toBeNull();
   });
