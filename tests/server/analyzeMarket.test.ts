@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   IntervalEnum,
   StructureTrendEnum,
@@ -59,6 +59,11 @@ describe('analyzeMarket', () => {
     scannerMocks.scanPatterns.mockReturnValue([]);
     scannerMocks.buildSuggestion.mockReturnValue(suggestion);
     marketStructureMocks.getMarketStructure.mockReturnValue(structure);
+  });
+
+  afterEach(() => {
+    vi.clearAllMocks();
+    vi.unstubAllGlobals();
   });
 
   it('fetches candles and returns analysis response', async () => {
