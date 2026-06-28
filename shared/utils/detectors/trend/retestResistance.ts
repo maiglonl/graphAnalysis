@@ -11,7 +11,7 @@ export class RetestResistanceDetector extends TrendPatternDetector {
 
   protected override matches(ctx: ScanContext): boolean {
     const current = ctx.currentCandle;
-    if (!current || ctx.index < 4) return false;
+    if (!current || ctx.index < EXTRA_THRESHOLDS.retestMinIndex) return false;
     const swingHighs = getSwingHighs(ctx.candles, ctx.index, 1);
     if (swingHighs.length === 0) return false;
     const resistance = swingHighs[0]!.price;

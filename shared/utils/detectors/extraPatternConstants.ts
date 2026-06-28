@@ -129,4 +129,5 @@ export const EXTRA_THRESHOLDS = {
   maPullbackTolerancePct: 0.01,
   trendlineBreakLookback: 12,
   retestTolerancePct: 0.006,
+  retestMinIndex: 4,
 } as const;
