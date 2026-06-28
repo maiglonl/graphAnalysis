@@ -6,6 +6,7 @@ import { BullishBreakawayGapDetector } from '#shared/utils/detectors/candle/bull
 import { BullishKickerDetector } from '#shared/utils/detectors/candle/bullishKicker';
 import { BullishMarubozuDetector } from '#shared/utils/detectors/candle/bullishMarubozu';
 import { BullishSeparatingLinesDetector } from '#shared/utils/detectors/candle/bullishSeparatingLines';
+import { DarkCloudCoverDetector } from '#shared/utils/detectors/candle/darkCloudCover';
 import { DragonflyDojiDetector } from '#shared/utils/detectors/candle/dragonflyDoji';
 import { FallingThreeMethodsDetector } from '#shared/utils/detectors/candle/fallingThreeMethods';
 import { GapFillBearishDetector } from '#shared/utils/detectors/candle/gapFillBearish';
@@ -50,5 +51,6 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new InNeckDetector(),
     new ThrustingDetector(),
     new PiercingLineDetector(),
+    new DarkCloudCoverDetector(),
   ];
 }
