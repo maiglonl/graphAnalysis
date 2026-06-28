@@ -53,6 +53,8 @@ export enum PatternIdEnum {
   DoubleBottom = 'doubleBottom',
   TripleTop = 'tripleTop',
   TripleBottom = 'tripleBottom',
+  HeadAndShoulders = 'headAndShoulders',
+  InverseHeadAndShoulders = 'inverseHeadAndShoulders',
   BullishEngulfing = 'bullishEngulfing',
   BearishEngulfing = 'bearishEngulfing',
   BullishHarami = 'bullishHarami',
