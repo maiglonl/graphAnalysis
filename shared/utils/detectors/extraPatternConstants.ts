@@ -31,6 +31,10 @@ export const EXTRA_CONFIDENCE = {
   gapFillBearish: 60,
   islandReversalBottom: 74,
   islandReversalTop: 74,
+  doubleTop: 70,
+  doubleBottom: 70,
+  tripleTop: 74,
+  tripleBottom: 74,
   bullishHarami: 62,
   bearishHarami: 62,
   piercingLine: 66,
@@ -61,4 +65,6 @@ export const EXTRA_THRESHOLDS = {
   onNeckTolerancePct: 0.05,
   inNeckMaxBodyPenetration: 0.25,
   neckLineTolerancePct: 0.0015,
+  swingPatternTolerancePct: 0.006,
+  swingPatternMinBreakPct: 0.002,
 } as const;
