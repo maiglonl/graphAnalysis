@@ -3,7 +3,7 @@ import { PatternDirectionEnum } from '#shared/types/market';
 import type { ScanContext } from '#shared/utils/scanContext';
 import { PatternDetector } from '../PatternDetector';
 import { calculateTargets } from '../helpers';
-import { RANGE_PATTERN_THRESHOLDS } from './rangePatternConstants';
+import { EXTRA_THRESHOLDS } from '../extraPatternConstants';
 
 export abstract class RangePatternDetector extends PatternDetector {
   protected abstract readonly id: PatternSignal['id'];
@@ -15,7 +15,7 @@ export abstract class RangePatternDetector extends PatternDetector {
     const current = ctx.currentCandle;
     if (!current) return [];
 
-    const lookback = RANGE_PATTERN_THRESHOLDS.rangePatternLookback;
+    const lookback = EXTRA_THRESHOLDS.rangePatternLookback;
     if (ctx.index < lookback) return [];
 
     const rangeCandles = ctx.candles.slice(ctx.index - lookback, ctx.index);
@@ -26,12 +26,12 @@ export abstract class RangePatternDetector extends PatternDetector {
     if (rangeHigh <= rangeLow) return [];
 
     const heightPct = (rangeHigh - rangeLow) / current.close;
-    if (heightPct > RANGE_PATTERN_THRESHOLDS.rangeMaxHeightPct) return [];
+    if (heightPct > EXTRA_THRESHOLDS.rangeMaxHeightPct) return [];
 
     const risk = rangeHigh - rangeLow;
     const entry = current.close;
-    const breakThreshold = current.close * RANGE_PATTERN_THRESHOLDS.breakoutThresholdPct;
-    const rejectionTolerance = current.close * RANGE_PATTERN_THRESHOLDS.rangeRejectionTolerancePct;
+    const breakThreshold = current.close * EXTRA_THRESHOLDS.swingPatternMinBreakPct;
+    const rejectionTolerance = current.close * EXTRA_THRESHOLDS.rangeRejectionTolerancePct;
 
     if (this.signalType === 'breakout') {
       const broke = this.direction === PatternDirectionEnum.Bullish
