@@ -505,6 +505,46 @@
     "retestResistance": {
       "name": "Retest Resistance",
       "reason": "Retesteo de resistencia con rechazo vendedor."
+    },
+    "rsiBullishDivergence": {
+      "name": "RSI Bullish Divergence",
+      "reason": "El precio marca un mínimo más bajo mientras el RSI marca un mínimo más alto, sugiriendo pérdida de presión vendedora."
+    },
+    "rsiBearishDivergence": {
+      "name": "RSI Bearish Divergence",
+      "reason": "El precio marca un máximo más alto mientras el RSI marca un máximo más bajo, sugiriendo pérdida de presión compradora."
+    },
+    "macdBullishCross": {
+      "name": "MACD Bullish Cross",
+      "reason": "La línea MACD cruzó por encima de la línea de señal, sugiriendo mejora del momentum."
+    },
+    "macdBearishCross": {
+      "name": "MACD Bearish Cross",
+      "reason": "La línea MACD cruzó por debajo de la línea de señal, sugiriendo deterioro del momentum."
+    },
+    "macdBullishDivergence": {
+      "name": "MACD Bullish Divergence",
+      "reason": "El precio marca un mínimo más bajo mientras el MACD mejora, sugiriendo posible reversión alcista."
+    },
+    "macdBearishDivergence": {
+      "name": "MACD Bearish Divergence",
+      "reason": "El precio marca un máximo más alto mientras el MACD se debilita, sugiriendo posible reversión bajista."
+    },
+    "stochasticOversoldReversal": {
+      "name": "Stochastic Oversold Reversal",
+      "reason": "El estocástico revierte desde zona de sobreventa, sugiriendo reacción compradora."
+    },
+    "stochasticOverboughtReversal": {
+      "name": "Stochastic Overbought Reversal",
+      "reason": "El estocástico revierte desde zona de sobrecompra, sugiriendo reacción vendedora."
+    },
+    "momentumBreakout": {
+      "name": "Momentum Breakout",
+      "reason": "El precio rompe el rango reciente con impulso, sugiriendo aceleración direccional."
+    },
+    "momentumExhaustion": {
+      "name": "Momentum Exhaustion",
+      "reason": "Momentum extremo con vela de rechazo, sugiriendo posible agotamiento del movimiento."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }

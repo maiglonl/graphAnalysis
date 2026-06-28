@@ -496,6 +496,46 @@
     "retestResistance": {
       "name": "Retest Resistance",
       "reason": "Retest of a resistance level with a bearish rejection."
+    },
+    "rsiBullishDivergence": {
+      "name": "RSI Bullish Divergence",
+      "reason": "Price makes a lower low while RSI makes a higher low, suggesting weakening selling pressure."
+    },
+    "rsiBearishDivergence": {
+      "name": "RSI Bearish Divergence",
+      "reason": "Price makes a higher high while RSI makes a lower high, suggesting weakening buying pressure."
+    },
+    "macdBullishCross": {
+      "name": "MACD Bullish Cross",
+      "reason": "MACD line crossed above the signal line, suggesting improving momentum."
+    },
+    "macdBearishCross": {
+      "name": "MACD Bearish Cross",
+      "reason": "MACD line crossed below the signal line, suggesting deteriorating momentum."
+    },
+    "macdBullishDivergence": {
+      "name": "MACD Bullish Divergence",
+      "reason": "Price makes a lower low while MACD improves, suggesting a possible bullish reversal."
+    },
+    "macdBearishDivergence": {
+      "name": "MACD Bearish Divergence",
+      "reason": "Price makes a higher high while MACD weakens, suggesting a possible bearish reversal."
+    },
+    "stochasticOversoldReversal": {
+      "name": "Stochastic Oversold Reversal",
+      "reason": "Stochastic reverses from oversold territory, suggesting a bullish reaction."
+    },
+    "stochasticOverboughtReversal": {
+      "name": "Stochastic Overbought Reversal",
+      "reason": "Stochastic reverses from overbought territory, suggesting a bearish reaction."
+    },
+    "momentumBreakout": {
+      "name": "Momentum Breakout",
+      "reason": "Price breaks out of the recent range with momentum, suggesting directional acceleration."
+    },
+    "momentumExhaustion": {
+      "name": "Momentum Exhaustion",
+      "reason": "Extreme momentum with a rejection candle, suggesting possible exhaustion of the move."
     }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }

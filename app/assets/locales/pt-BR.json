@@ -493,6 +493,46 @@
     "retestResistance": {
       "name": "Retest Resistance",
       "reason": "Reteste de resistência com reação vendedora."
+    },
+    "rsiBullishDivergence": {
+      "name": "RSI Bullish Divergence",
+      "reason": "Preço faz fundo mais baixo enquanto o RSI faz fundo mais alto, sugerindo perda de força vendedora."
+    },
+    "rsiBearishDivergence": {
+      "name": "RSI Bearish Divergence",
+      "reason": "Preço faz topo mais alto enquanto o RSI faz topo mais baixo, sugerindo perda de força compradora."
+    },
+    "macdBullishCross": {
+      "name": "MACD Bullish Cross",
+      "reason": "Linha MACD cruzou acima da linha de sinal, sugerindo melhora de momentum."
+    },
+    "macdBearishCross": {
+      "name": "MACD Bearish Cross",
+      "reason": "Linha MACD cruzou abaixo da linha de sinal, sugerindo piora de momentum."
+    },
+    "macdBullishDivergence": {
+      "name": "MACD Bullish Divergence",
+      "reason": "Preço faz fundo mais baixo enquanto o MACD melhora, sugerindo possível reversão altista."
+    },
+    "macdBearishDivergence": {
+      "name": "MACD Bearish Divergence",
+      "reason": "Preço faz topo mais alto enquanto o MACD enfraquece, sugerindo possível reversão baixista."
+    },
+    "stochasticOversoldReversal": {
+      "name": "Stochastic Oversold Reversal",
+      "reason": "Estocástico reverte a partir de região sobrevendida, sugerindo reação compradora."
+    },
+    "stochasticOverboughtReversal": {
+      "name": "Stochastic Overbought Reversal",
+      "reason": "Estocástico reverte a partir de região sobrecomprada, sugerindo reação vendedora."
+    },
+    "momentumBreakout": {
+      "name": "Momentum Breakout",
+      "reason": "Preço rompe range recente com impulso, sugerindo aceleração direcional."
+    },
+    "momentumExhaustion": {
+      "name": "Momentum Exhaustion",
+      "reason": "Momentum extremo com candle de rejeição, sugerindo possível exaustão do movimento."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }

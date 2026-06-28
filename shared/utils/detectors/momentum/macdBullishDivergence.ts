@@ -1,45 +1,37 @@
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
-import type { PatternSignal } from '#shared/types/market';
-import { macd } from '#shared/utils/indicators';
+import { getLastSwingLow, macd } from '#shared/utils/indicators';
 import type { ScanContext } from '#shared/utils/scanContext';
-import { PatternDetector } from '../PatternDetector';
-import { calculateTargets } from '../helpers';
 import { EXTRA_CONFIDENCE, EXTRA_THRESHOLDS } from '../extraPatternConstants';
+import { MomentumPatternDetector } from './MomentumPatternDetector';
 
-export class MacdBullishDivergenceDetector extends PatternDetector {
-  detect(ctx: ScanContext): PatternSignal[] {
+export class MacdBullishDivergenceDetector extends MomentumPatternDetector {
+  detect(ctx: ScanContext) {
     const current = ctx.currentCandle;
-    if (!current) return [];
+    if (!current || ctx.index < EXTRA_THRESHOLDS.divergenceLookback) return [];
 
-    const lookback = EXTRA_THRESHOLDS.divergenceLookback;
-    if (ctx.index < lookback) return [];
+    const lastSwingLow = getLastSwingLow(ctx.candles, ctx.index);
+    if (!lastSwingLow) return [];
+    if (ctx.index - lastSwingLow.index > EXTRA_THRESHOLDS.divergenceLookback) return [];
 
-    const closes = ctx.candles.map((candle) => candle.close);
-    const values = macd(closes).histogram;
-    const currentMacd = values[ctx.index];
-    const previousIndex = ctx.index - lookback;
-    const previousClose = closes[previousIndex];
-    const previousMacd = values[previousIndex];
+    const priorSwingLow = getLastSwingLow(ctx.candles, lastSwingLow.index);
+    if (!priorSwingLow) return [];
+    if (lastSwingLow.price >= priorSwingLow.price) return [];
 
+    const histogram = macd(ctx.candles.map((c) => c.close)).histogram;
+    const histAtLast = histogram[lastSwingLow.index];
+    const histAtPrior = histogram[priorSwingLow.index];
     if (
-      previousClose === undefined || previousMacd === undefined || currentMacd === undefined ||
-      !Number.isFinite(previousMacd) || !Number.isFinite(currentMacd) ||
-      current.close >= previousClose || currentMacd <= previousMacd
+      histAtLast === undefined || histAtPrior === undefined ||
+      !Number.isFinite(histAtLast) || !Number.isFinite(histAtPrior) ||
+      histAtLast <= histAtPrior
     ) return [];
 
-    const risk = Math.max(ctx.currentAtr, current.high - current.low);
-    if (risk <= 0) return [];
-    const entry = current.close;
-
-    return [{
-      id: PatternIdEnum.MacdBullishDivergence,
-      direction: PatternDirectionEnum.Bullish,
-      confidence: EXTRA_CONFIDENCE.macdBullishDivergence,
-      price: current.close,
-      entry,
-      stop: entry - risk,
-      targets: calculateTargets(entry, risk, 'up'),
-      meta: { macdHistogram: currentMacd, previousMacdHistogram: previousMacd },
-    }];
+    return this.buildSignal(
+      ctx,
+      PatternIdEnum.MacdBullishDivergence,
+      PatternDirectionEnum.Bullish,
+      EXTRA_CONFIDENCE.macdBullishDivergence,
+      { macdHistogram: histAtLast, previousMacdHistogram: histAtPrior },
+    );
   }
 }

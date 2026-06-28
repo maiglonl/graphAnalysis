@@ -103,15 +103,6 @@ Trendline Break Up
 Trendline Break Down
 Retest Support
 Retest Resistance
-```
-
-Total ativo aproximado: 96 padrões/sinais.
-
-## Próximos lotes sugeridos
-
-### Lote 8 — Momentum e divergências
-
-```txt
 RSI Bullish Divergence
 RSI Bearish Divergence
 MACD Bullish Cross
@@ -123,6 +114,10 @@ Stochastic Overbought Reversal
 Momentum Breakout
 Momentum Exhaustion
 ```
+
+Total ativo aproximado: 106 padrões/sinais.
+
+## Próximos lotes sugeridos
 
 ### Lote 9 — Ordem e liquidez
 

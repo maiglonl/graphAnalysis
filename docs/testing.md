@@ -157,7 +157,10 @@ Cobre:
 - `sma()`;
 - `ema()`;
 - `atr()`;
-- `relativeVolume()`.
+- `relativeVolume()`;
+- `rsi()`;
+- `macd()`;
+- `stochastic()`.
 
 ### Helpers de detectores
 
@@ -468,6 +471,18 @@ tests/utils/detectors/trend/trendlineRetestDetectors.test.ts
 ```
 
 Cobre: Golden Cross, Death Cross, EMA Bullish Stack, EMA Bearish Stack, MA Pullback Bullish, MA Pullback Bearish, Trendline Break Up, Trendline Break Down, Retest Support, Retest Resistance.
+
+### Detectores de momentum e divergências
+
+Arquivos:
+
+```txt
+tests/utils/detectors/momentum/macdAndStochasticDetectors.test.ts
+tests/utils/detectors/momentum/divergenceDetectors.test.ts
+tests/utils/detectors/momentum/momentumBreakoutDetectors.test.ts
+```
+
+Cobre: MACD Bullish Cross, MACD Bearish Cross, Stochastic Oversold Reversal, Stochastic Overbought Reversal, RSI Bullish Divergence, RSI Bearish Divergence, MACD Bullish Divergence, MACD Bearish Divergence, Momentum Breakout (bullish e bearish), Momentum Exhaustion (bullish e bearish).
 
 ### Detectores de estrutura
 

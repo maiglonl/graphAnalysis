@@ -1,45 +1,37 @@
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
-import type { PatternSignal } from '#shared/types/market';
-import { rsi } from '#shared/utils/indicators';
+import { getLastSwingHigh, rsi } from '#shared/utils/indicators';
 import type { ScanContext } from '#shared/utils/scanContext';
-import { PatternDetector } from '../PatternDetector';
-import { calculateTargets } from '../helpers';
 import { EXTRA_CONFIDENCE, EXTRA_THRESHOLDS } from '../extraPatternConstants';
+import { MomentumPatternDetector } from './MomentumPatternDetector';
 
-export class RsiBearishDivergenceDetector extends PatternDetector {
-  detect(ctx: ScanContext): PatternSignal[] {
+export class RsiBearishDivergenceDetector extends MomentumPatternDetector {
+  detect(ctx: ScanContext) {
     const current = ctx.currentCandle;
-    if (!current) return [];
+    if (!current || ctx.index < EXTRA_THRESHOLDS.divergenceLookback) return [];
 
-    const lookback = EXTRA_THRESHOLDS.divergenceLookback;
-    if (ctx.index < lookback) return [];
+    const lastSwingHigh = getLastSwingHigh(ctx.candles, ctx.index);
+    if (!lastSwingHigh) return [];
+    if (ctx.index - lastSwingHigh.index > EXTRA_THRESHOLDS.divergenceLookback) return [];
 
-    const closes = ctx.candles.map((candle) => candle.close);
-    const values = rsi(closes);
-    const currentRsi = values[ctx.index];
-    const previousIndex = ctx.index - lookback;
-    const previousClose = closes[previousIndex];
-    const previousRsi = values[previousIndex];
+    const priorSwingHigh = getLastSwingHigh(ctx.candles, lastSwingHigh.index);
+    if (!priorSwingHigh) return [];
+    if (lastSwingHigh.price <= priorSwingHigh.price) return [];
 
+    const rsiValues = rsi(ctx.candles.map((c) => c.close));
+    const rsiAtLast = rsiValues[lastSwingHigh.index];
+    const rsiAtPrior = rsiValues[priorSwingHigh.index];
     if (
-      previousClose === undefined || previousRsi === undefined || currentRsi === undefined ||
-      !Number.isFinite(previousRsi) || !Number.isFinite(currentRsi) ||
-      current.close <= previousClose || currentRsi >= previousRsi
+      rsiAtLast === undefined || rsiAtPrior === undefined ||
+      !Number.isFinite(rsiAtLast) || !Number.isFinite(rsiAtPrior) ||
+      rsiAtLast >= rsiAtPrior
     ) return [];
 
-    const risk = Math.max(ctx.currentAtr, current.high - current.low);
-    if (risk <= 0) return [];
-    const entry = current.close;
-
-    return [{
-      id: PatternIdEnum.RsiBearishDivergence,
-      direction: PatternDirectionEnum.Bearish,
-      confidence: EXTRA_CONFIDENCE.rsiBearishDivergence,
-      price: current.close,
-      entry,
-      stop: entry + risk,
-      targets: calculateTargets(entry, risk, 'down'),
-      meta: { rsi: currentRsi, previousRsi },
-    }];
+    return this.buildSignal(
+      ctx,
+      PatternIdEnum.RsiBearishDivergence,
+      PatternDirectionEnum.Bearish,
+      EXTRA_CONFIDENCE.rsiBearishDivergence,
+      { rsi: rsiAtLast, previousRsi: rsiAtPrior },
+    );
   }
 }
