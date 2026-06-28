@@ -12,15 +12,13 @@ export class StopHuntHighDetector extends PatternDetector {
     const range = current ? getLiquidityRange(ctx.candles, ctx.index) : null;
     if (!current || !range) return [];
 
-    const bodyLow = Math.min(current.open, current.close);
     const wickSize = current.high - Math.max(current.open, current.close);
     const rangeSize = current.high - current.low;
     if (
       current.high <= range.high ||
       current.close >= range.high ||
       rangeSize <= 0 ||
-      wickSize / rangeSize < EXTRA_THRESHOLDS.continuationPullbackMaxBodyPct ||
-      bodyLow <= range.high
+      wickSize / rangeSize < EXTRA_THRESHOLDS.continuationPullbackMaxBodyPct
     ) return [];
 
     const risk = current.high - current.close;
