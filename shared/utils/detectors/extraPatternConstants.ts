@@ -35,6 +35,8 @@ export const EXTRA_CONFIDENCE = {
   doubleBottom: 70,
   tripleTop: 74,
   tripleBottom: 74,
+  headAndShoulders: 78,
+  inverseHeadAndShoulders: 78,
   bullishHarami: 62,
   bearishHarami: 62,
   piercingLine: 66,
@@ -67,4 +69,6 @@ export const EXTRA_THRESHOLDS = {
   neckLineTolerancePct: 0.0015,
   swingPatternTolerancePct: 0.006,
   swingPatternMinBreakPct: 0.002,
+  shoulderTolerancePct: 0.02,
+  headProminencePct: 0.015,
 } as const;
