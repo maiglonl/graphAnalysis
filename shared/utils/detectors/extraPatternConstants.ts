@@ -21,6 +21,9 @@ export const EXTRA_CONFIDENCE = {
   runawayGapDown: 64,
   gapFillBullish: 60,
   gapFillBearish: 60,
+  onNeck: 54,
+  inNeck: 56,
+  thrusting: 58,
   bullishHarami: 62,
   bearishHarami: 62,
   piercingLine: 66,
@@ -48,4 +51,6 @@ export const EXTRA_THRESHOLDS = {
   continuationPullbackMaxBodyPct: 0.45,
   separatingLinesOpenTolerancePct: 0.001,
   gapMinPct: 0.002,
+  onNeckTolerancePct: 0.05,
+  inNeckMaxBodyPenetration: 0.25,
 } as const;
