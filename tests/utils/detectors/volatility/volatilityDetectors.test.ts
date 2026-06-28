@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import { AtrCompressionDetector } from '#shared/utils/detectors/volatility/atrCompression';
 import { AtrExpansionBreakoutDetector } from '#shared/utils/detectors/volatility/atrExpansionBreakout';
-import { CompressionSqueezeDetector } from '#shared/utils/detectors/volatility/compressionSqueeze';
+import { VolatilitySqueezeDetector } from '#shared/utils/detectors/volatility/volatilitySqueeze';
 import { WideRangeCandleDetector } from '#shared/utils/detectors/volatility/wideRangeCandle';
 import { ScanContext } from '#shared/utils/scanContext';
 import { flatCandles, narrowFlatCandles, withLastCandle } from '../../../fixtures/candles/factories';
@@ -33,7 +33,7 @@ describe('volatility detectors', () => {
   });
 
   it('detects volatility squeeze', () => {
-    const signals = new CompressionSqueezeDetector().detect(new ScanContext(narrowFlatCandles(60)));
+    const signals = new VolatilitySqueezeDetector().detect(new ScanContext(narrowFlatCandles(60)));
 
     expect(signals[0]).toMatchObject({
       id: PatternIdEnum.VolatilitySqueeze,

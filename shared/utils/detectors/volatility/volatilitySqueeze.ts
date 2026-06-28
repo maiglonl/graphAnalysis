@@ -4,7 +4,7 @@ import type { ScanContext } from '#shared/utils/scanContext';
 import { PatternDetector } from '../PatternDetector';
 import { EXTRA_CONFIDENCE, EXTRA_THRESHOLDS } from '../extraPatternConstants';
 
-export class CompressionSqueezeDetector extends PatternDetector {
+export class VolatilitySqueezeDetector extends PatternDetector {
   detect(ctx: ScanContext): PatternSignal[] {
     const current = ctx.currentCandle;
     if (!current) return [];

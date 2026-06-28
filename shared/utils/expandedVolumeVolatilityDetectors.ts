@@ -1,7 +1,7 @@
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
 import { AtrCompressionDetector } from '#shared/utils/detectors/volatility/atrCompression';
 import { AtrExpansionBreakoutDetector } from '#shared/utils/detectors/volatility/atrExpansionBreakout';
-import { CompressionSqueezeDetector } from '#shared/utils/detectors/volatility/compressionSqueeze';
+import { VolatilitySqueezeDetector } from '#shared/utils/detectors/volatility/volatilitySqueeze';
 import { WideRangeCandleDetector } from '#shared/utils/detectors/volatility/wideRangeCandle';
 import { ClimaxVolumeBottomDetector } from '#shared/utils/detectors/volume/climaxVolumeBottom';
 import { ClimaxVolumeTopDetector } from '#shared/utils/detectors/volume/climaxVolumeTop';
@@ -20,7 +20,7 @@ export function createExpandedVolumeVolatilityDetectors(): PatternDetector[] {
     new LowVolumePullbackBearishDetector(),
     new AtrExpansionBreakoutDetector(),
     new AtrCompressionDetector(),
-    new CompressionSqueezeDetector(),
+    new VolatilitySqueezeDetector(),
     new WideRangeCandleDetector(),
   ];
 }
