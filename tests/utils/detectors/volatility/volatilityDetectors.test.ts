@@ -5,7 +5,7 @@ import { AtrExpansionBreakoutDetector } from '#shared/utils/detectors/volatility
 import { VolatilitySqueezeDetector } from '#shared/utils/detectors/volatility/volatilitySqueeze';
 import { WideRangeCandleDetector } from '#shared/utils/detectors/volatility/wideRangeCandle';
 import { ScanContext } from '#shared/utils/scanContext';
-import { flatCandles, narrowFlatCandles, withLastCandle } from '../../../fixtures/candles/factories';
+import { narrowFlatCandles, withLastCandle } from '../../../fixtures/candles/factories';
 
 describe('volatility detectors', () => {
   it('detects atr expansion breakout', () => {
@@ -21,10 +21,17 @@ describe('volatility detectors', () => {
   });
 
   it('detects atr compression', () => {
-    const signals = new AtrCompressionDetector().detect(new ScanContext([
-      ...flatCandles(59),
-      { time: 60, open: 100, high: 100.5, low: 99.5, close: 100, volume: 1000 },
-    ]));
+    // Wide candles first (high ATR, range=30), then 14 narrow candles (low ATR, range=2).
+    // ATR uses SMA(14): currentAtr window (all narrow) = 2, referenceAtr at idx-14 window (all wide) = 30.
+    // Ratio = 2/30 ≈ 0.067 < atrCompressionRatioMax (0.75) → signal fires.
+    const wideCandles = Array.from({ length: 40 }, (_, i) => ({
+      time: i + 1, open: 100, high: 115, low: 85, close: 100, volume: 1000,
+    }));
+    const narrowCandles = Array.from({ length: 14 }, (_, i) => ({
+      time: 41 + i, open: 100, high: 101, low: 99, close: 100, volume: 1000,
+    }));
+
+    const signals = new AtrCompressionDetector().detect(new ScanContext([...wideCandles, ...narrowCandles]));
 
     expect(signals[0]).toMatchObject({
       id: PatternIdEnum.AtrCompression,
