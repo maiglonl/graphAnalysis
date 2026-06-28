@@ -14,6 +14,7 @@ import { GravestoneDojiDetector } from '#shared/utils/detectors/candle/graveston
 import { InNeckDetector } from '#shared/utils/detectors/candle/inNeck';
 import { LongLeggedDojiDetector } from '#shared/utils/detectors/candle/longLeggedDoji';
 import { OnNeckDetector } from '#shared/utils/detectors/candle/onNeck';
+import { PiercingLineDetector } from '#shared/utils/detectors/candle/piercingLine';
 import { RedMarubozuDetector } from '#shared/utils/detectors/candle/redMarubozu';
 import { RisingThreeMethodsDetector } from '#shared/utils/detectors/candle/risingThreeMethods';
 import { RunawayGapDownDetector } from '#shared/utils/detectors/candle/runawayGapDown';
@@ -48,5 +49,6 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new OnNeckDetector(),
     new InNeckDetector(),
     new ThrustingDetector(),
+    new PiercingLineDetector(),
   ];
 }
