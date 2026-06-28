@@ -65,16 +65,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 54 padrões/sinais.
-
-### IDs e traduções preparados, mas detectores ainda pendentes
-
-```txt
-Piercing Line
-Dark Cloud Cover
-```
-
-Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores ainda não foram ativados porque a criação dos arquivos foi bloqueada pelo conector.
+Total ativo aproximado: 56 padrões/sinais.
 
 ## Próximos lotes sugeridos
 
