@@ -26,6 +26,7 @@ import { createExpandedCandleDetectors } from '#shared/utils/expandedCandleDetec
 import { createExpandedPriceActionDetectors } from '#shared/utils/expandedPriceActionDetectors';
 import { createExpandedVolumeVolatilityDetectors } from '#shared/utils/expandedVolumeVolatilityDetectors';
 import { createExpandedTrendDetectors } from '#shared/utils/expandedTrendDetectors';
+import { createExpandedMomentumDetectors } from '#shared/utils/expandedMomentumDetectors';
 
 const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
   patternScore: 0,
@@ -225,7 +226,8 @@ export class SuggestionBuilder {
       pattern.id === PatternIdEnum.ClimaxVolumeTop ||
       pattern.id === PatternIdEnum.ClimaxVolumeBottom ||
       pattern.id === PatternIdEnum.AtrExpansionBreakout ||
-      pattern.id === PatternIdEnum.WideRangeCandle
+      pattern.id === PatternIdEnum.WideRangeCandle ||
+      pattern.id === PatternIdEnum.MomentumBreakout
     );
   }
 
@@ -258,6 +260,7 @@ const defaultScanner = new Scanner([
   ...createExpandedPriceActionDetectors(),
   ...createExpandedVolumeVolatilityDetectors(),
   ...createExpandedTrendDetectors(),
+  ...createExpandedMomentumDetectors(),
   new BullishEngulfingDetector(),
   new BearishEngulfingDetector(),
   new BullishHaramiDetector(),
