@@ -154,7 +154,7 @@ type ScanListResponse = {
 
 ---
 
-## `GET /api/timeframe-summary`
+## `GET /api/multi-timeframe`
 
 Executa análise do mesmo ativo em múltiplos timeframes.
 
@@ -168,7 +168,7 @@ Executa análise do mesmo ativo em múltiplos timeframes.
 ### Exemplo
 
 ```txt
-/api/timeframe-summary?symbol=BTCUSDT&intervals=15m,1h,4h,1d
+/api/multi-timeframe?symbol=BTCUSDT&intervals=15m,1h,4h,1d
 ```
 
 ### Retorno
@@ -185,6 +185,7 @@ type MultiTimeframeResponse = {
 - O limite atual é de 4 timeframes por chamada.
 - A execução é sequencial para reduzir pressão no provider externo.
 - A UI usa este endpoint para comparar ação e confiança por timeframe.
+- O alias `/api/timeframe-summary` continua disponível para compatibilidade.
 
 ---
 

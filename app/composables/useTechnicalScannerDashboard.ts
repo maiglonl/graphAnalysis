@@ -166,7 +166,7 @@ export function useTechnicalScannerDashboard() {
     error.value = '';
 
     try {
-      timeframeSummary.value = await $fetch<MultiTimeframeResponse>('/api/timeframe-summary', {
+      timeframeSummary.value = await $fetch<MultiTimeframeResponse>('/api/multi-timeframe', {
         query: {
           symbol: symbol.value,
         },
