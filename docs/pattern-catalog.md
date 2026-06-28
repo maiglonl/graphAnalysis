@@ -83,15 +83,6 @@ Rectangle Breakout Down
 Range Rejection High
 Range Rejection Low
 Channel Breakout
-```
-
-Total ativo aproximado: 76 padrões/sinais.
-
-## Próximos lotes sugeridos
-
-### Lote 6 — Volume e volatilidade (próxima prioridade)
-
-```txt
 Volume Spike Bullish
 Volume Spike Bearish
 Climax Volume Top
@@ -102,11 +93,6 @@ ATR Expansion Breakout
 ATR Compression
 Volatility Squeeze
 Wide Range Candle
-```
-
-### Lote 7 — Médias e tendência
-
-```txt
 Golden Cross
 Death Cross
 EMA Bullish Stack
@@ -118,6 +104,10 @@ Trendline Break Down
 Retest Support
 Retest Resistance
 ```
+
+Total ativo aproximado: 96 padrões/sinais.
+
+## Próximos lotes sugeridos
 
 ### Lote 8 — Momentum e divergências
 

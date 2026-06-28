@@ -446,6 +446,29 @@ Arquivo: `tests/utils/detectors/priceAction/wedgeAndChannelDetectors.test.ts`
 
 Cobre: RisingWedge, FallingWedge, ChannelBreakout (bullish e bearish).
 
+### Detectores de volume
+
+Arquivo: `tests/utils/detectors/volume/volumeDetectors.test.ts`
+
+Cobre: Volume Spike Bullish, Volume Spike Bearish, Climax Volume Top, Climax Volume Bottom, Low Volume Pullback Bullish, Low Volume Pullback Bearish.
+
+### Detectores de volatilidade
+
+Arquivo: `tests/utils/detectors/volatility/volatilityDetectors.test.ts`
+
+Cobre: ATR Expansion Breakout, ATR Compression, Volatility Squeeze, Wide Range Candle.
+
+### Detectores de tendência e médias móveis
+
+Arquivos:
+
+```txt
+tests/utils/detectors/trend/movingAverageDetectors.test.ts
+tests/utils/detectors/trend/trendlineRetestDetectors.test.ts
+```
+
+Cobre: Golden Cross, Death Cross, EMA Bullish Stack, EMA Bearish Stack, MA Pullback Bullish, MA Pullback Bearish, Trendline Break Up, Trendline Break Down, Retest Support, Retest Resistance.
+
 ### Detectores de estrutura
 
 Arquivo:
