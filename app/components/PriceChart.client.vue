@@ -106,42 +106,21 @@ function colorWithAlpha(hex: string, alpha: number): string {
 }
 
 function getLineColor(line: ChartPriceLine): string {
-  if (line.kind === ChartPriceLineKindEnum.Stop) {
-    return MARKET_COLORS.stop;
-  }
-
-  if (line.kind === ChartPriceLineKindEnum.Target) {
-    return MARKET_COLORS.target;
-  }
-
-  if (line.direction) {
-    return directionColor(line.direction);
-  }
-
-  if (props.suggestion) {
-    return actionColor(props.suggestion.action);
-  }
-
+  if (line.kind === ChartPriceLineKindEnum.Stop) return MARKET_COLORS.stop;
+  if (line.kind === ChartPriceLineKindEnum.Target) return MARKET_COLORS.target;
+  if (line.direction) return directionColor(line.direction);
+  if (props.suggestion) return actionColor(props.suggestion.action);
   return MARKET_COLORS.neutral;
 }
 
 function getLineStyle(line: ChartPriceLine): LineStyle {
-  if (line.kind === ChartPriceLineKindEnum.Entry) {
-    return LineStyle.Solid;
-  }
-
-  if (line.kind === ChartPriceLineKindEnum.Stop) {
-    return LineStyle.Dashed;
-  }
-
+  if (line.kind === ChartPriceLineKindEnum.Entry) return LineStyle.Solid;
+  if (line.kind === ChartPriceLineKindEnum.Stop) return LineStyle.Dashed;
   return LineStyle.Dotted;
 }
 
 function getLineWidth(line: ChartPriceLine): 1 | 2 | 3 | 4 {
-  if (line.kind === ChartPriceLineKindEnum.Entry || line.kind === ChartPriceLineKindEnum.Stop) {
-    return 2;
-  }
-
+  if (line.kind === ChartPriceLineKindEnum.Entry || line.kind === ChartPriceLineKindEnum.Stop) return 2;
   return 1;
 }
 

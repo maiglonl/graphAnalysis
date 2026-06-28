@@ -5,15 +5,15 @@ const ALLOWED_INTERVALS = new Set<string>(Object.values(IntervalEnum));
 
 export type NormalizedCandleQuery =
   | {
-    ok: true;
-    symbol: string;
-    interval: IntervalEnum;
-    limit: number;
-  }
+      ok: true;
+      symbol: string;
+      interval: IntervalEnum;
+      limit: number;
+    }
   | {
-    ok: false;
-    errorCode: MarketDataErrorCodeEnum;
-  };
+      ok: false;
+      errorCode: MarketDataErrorCodeEnum;
+    };
 
 export function normalizeCandleQuery(query: Record<string, unknown>): NormalizedCandleQuery {
   const rawLimit = Number(query.limit || API.candleLimit);
@@ -27,19 +27,8 @@ export function normalizeCandleQuery(query: Record<string, unknown>): Normalized
     .toUpperCase()
     .replace(/[^A-Z0-9]/g, '');
 
-  if (!symbol) {
-    return {
-      ok: false,
-      errorCode: MarketDataErrorCodeEnum.InvalidSymbol,
-    };
-  }
-
-  if (!interval) {
-    return {
-      ok: false,
-      errorCode: MarketDataErrorCodeEnum.InvalidInterval,
-    };
-  }
+  if (!symbol) return { ok: false, errorCode: MarketDataErrorCodeEnum.InvalidSymbol };
+  if (!interval) return { ok: false, errorCode: MarketDataErrorCodeEnum.InvalidInterval };
 
   return {
     ok: true,

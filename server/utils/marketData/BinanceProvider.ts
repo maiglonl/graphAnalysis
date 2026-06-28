@@ -2,20 +2,7 @@ import { MarketDataErrorCodeEnum, type Candle } from '#shared/types/market';
 import type { GetCandlesParams, MarketDataProvider } from './MarketDataProvider';
 import { MarketDataProviderError } from './MarketDataProviderError';
 
-type BinanceKline = [
-  number,
-  string,
-  string,
-  string,
-  string,
-  string,
-  number,
-  string,
-  number,
-  string,
-  string,
-  string,
-];
+type BinanceKline = [number, string, string, string, string, string, number, string, number, string, string, string];
 
 export class BinanceProvider implements MarketDataProvider {
   async getCandles(params: GetCandlesParams): Promise<Candle[]> {
@@ -41,23 +28,14 @@ export class BinanceProvider implements MarketDataProvider {
         volume: Number(item[5]),
       }));
     } catch (error: unknown) {
-      if (error instanceof MarketDataProviderError) {
-        throw error;
-      }
-
+      if (error instanceof MarketDataProviderError) throw error;
       const statusCode = getErrorStatusCode(error);
 
-      if (statusCode === 400) {
-        throw new MarketDataProviderError(MarketDataErrorCodeEnum.InvalidSymbol, 400);
-      }
-
-      if (statusCode === 408 || statusCode === 504) {
+      if (statusCode === 400) throw new MarketDataProviderError(MarketDataErrorCodeEnum.InvalidSymbol, 400);
+      if (statusCode === 408 || statusCode === 504)
         throw new MarketDataProviderError(MarketDataErrorCodeEnum.Timeout, 504);
-      }
-
-      if (statusCode === 418 || statusCode === 429) {
+      if (statusCode === 418 || statusCode === 429)
         throw new MarketDataProviderError(MarketDataErrorCodeEnum.RateLimited, 429);
-      }
 
       throw new MarketDataProviderError(MarketDataErrorCodeEnum.ProviderUnavailable, 502);
     }

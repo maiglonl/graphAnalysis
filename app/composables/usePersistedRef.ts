@@ -16,7 +16,7 @@ export function usePersistedRef<T extends string | number | boolean>(key: string
     (value) => {
       localStorage.setItem(key, String(value));
     },
-    { flush: 'post' },
+    { flush: 'post' }
   );
 
   return state;
@@ -28,9 +28,7 @@ function parseStoredValue<T extends string | number | boolean>(stored: string, d
     return (Number.isFinite(value) ? value : defaultValue) as T;
   }
 
-  if (typeof defaultValue === 'boolean') {
-    return (stored === 'true') as T;
-  }
+  if (typeof defaultValue === 'boolean') return (stored === 'true') as T;
 
   return stored as T;
 }

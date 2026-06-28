@@ -138,7 +138,7 @@ export class SuggestionBuilder {
     selectedPatterns: PatternSignal[],
     bullish: PatternSignal[],
     bearish: PatternSignal[],
-    direction: PatternDirectionEnum,
+    direction: PatternDirectionEnum
   ): SuggestionScoreBreakdown {
     const ctx = new ScanContext(candles);
     const patternScore = this.calculatePatternScore(selectedPatterns);
@@ -165,20 +165,12 @@ export class SuggestionBuilder {
   }
 
   private calculateConfluenceBonus(patterns: PatternSignal[]): number {
-    return Math.min(
-      SCANNER.maxConfluenceBonus,
-      Math.max(0, patterns.length - 1) * SCANNER.confluenceBonusStep,
-    );
+    return Math.min(SCANNER.maxConfluenceBonus, Math.max(0, patterns.length - 1) * SCANNER.confluenceBonusStep);
   }
 
   private calculateStructureScore(patterns: PatternSignal[]): number {
-    if (patterns.some((pattern) => this.isStructureBreakPattern(pattern))) {
-      return SCORING.structureBreakScore;
-    }
-
-    if (patterns.some((pattern) => this.isMarketStructurePattern(pattern))) {
-      return SCORING.marketStructureScore;
-    }
+    if (patterns.some((pattern) => this.isStructureBreakPattern(pattern))) return SCORING.structureBreakScore;
+    if (patterns.some((pattern) => this.isMarketStructurePattern(pattern))) return SCORING.marketStructureScore;
 
     return 0;
   }
@@ -187,8 +179,10 @@ export class SuggestionBuilder {
     const trend = ctx.trend();
 
     if (trend === StructureTrendEnum.Neutral) return 0;
-    if (trend === StructureTrendEnum.Bullish && direction === PatternDirectionEnum.Bullish) return SCORING.trendAlignmentBonus;
-    if (trend === StructureTrendEnum.Bearish && direction === PatternDirectionEnum.Bearish) return SCORING.trendAlignmentBonus;
+    if (trend === StructureTrendEnum.Bullish && direction === PatternDirectionEnum.Bullish)
+      return SCORING.trendAlignmentBonus;
+    if (trend === StructureTrendEnum.Bearish && direction === PatternDirectionEnum.Bearish)
+      return SCORING.trendAlignmentBonus;
 
     return -SCORING.trendConflictPenalty;
   }
@@ -196,20 +190,14 @@ export class SuggestionBuilder {
   private calculateVolumeScore(ctx: ScanContext, patterns: PatternSignal[]): number {
     if (!patterns.some((pattern) => this.needsVolumeConfirmation(pattern))) return 0;
 
-    if (ctx.currentRelativeVolume >= VOLUME.highRelativeVolume) {
-      return SCORING.highVolumeBonus;
-    }
-
-    if (ctx.currentRelativeVolume > 0 && ctx.currentRelativeVolume <= VOLUME.lowRelativeVolume) {
+    if (ctx.currentRelativeVolume >= VOLUME.highRelativeVolume) return SCORING.highVolumeBonus;
+    if (ctx.currentRelativeVolume > 0 && ctx.currentRelativeVolume <= VOLUME.lowRelativeVolume)
       return -SCORING.lowVolumePenalty;
-    }
-
     return 0;
   }
 
   private calculateConflictPenalty(bullish: PatternSignal[], bearish: PatternSignal[]): number {
     if (bullish.length === 0 || bearish.length === 0) return 0;
-
     return SCORING.conflictPenalty;
   }
 

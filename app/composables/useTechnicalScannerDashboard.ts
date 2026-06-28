@@ -42,10 +42,13 @@ export type AnalysisHistorySnapshot = {
 export function useTechnicalScannerDashboard() {
   const { t } = useI18n();
 
-  const symbol = usePersistedRef('graphAnalysis.symbol', DEFAULT_SYMBOL);
+  const symbol = usePersistedRef<string>('graphAnalysis.symbol', DEFAULT_SYMBOL);
   const interval = usePersistedRef<IntervalEnum>('graphAnalysis.interval', DEFAULT_INTERVAL);
   const intervals = Object.values(IntervalEnum) as IntervalEnum[];
-  const symbolsToScan = usePersistedRef('graphAnalysis.symbolsToScan', 'BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT');
+  const symbolsToScan = usePersistedRef<string>(
+    'graphAnalysis.symbolsToScan',
+    'BTCUSDT,ETHUSDT,SOLUSDT,BNBUSDT,XRPUSDT'
+  );
   const actionFilter = usePersistedRef<OpportunityActionFilter>('graphAnalysis.actionFilter', 'all');
   const minConfidence = usePersistedRef('graphAnalysis.minConfidence', 0);
   const actionFilters = ['all', ...Object.values(TradeActionEnum)] as OpportunityActionFilter[];
@@ -134,11 +137,14 @@ export function useTechnicalScannerDashboard() {
     error.value = '';
 
     try {
-      historicalTimeframeSummary.value = await $fetch<HistoricalTimeframeSummaryResponse>('/api/historical-timeframe-summary', {
-        query: {
-          symbol: symbol.value,
-        },
-      });
+      historicalTimeframeSummary.value = await $fetch<HistoricalTimeframeSummaryResponse>(
+        '/api/historical-timeframe-summary',
+        {
+          query: {
+            symbol: symbol.value,
+          },
+        }
+      );
     } catch (err: unknown) {
       error.value = resolveApiErrorMessage(err, t);
     } finally {
@@ -230,7 +236,7 @@ export function useTechnicalScannerDashboard() {
   function recordAnalysis(item: AnalyzeResponse) {
     const snapshot = buildAnalysisSnapshot(item);
     const historyWithoutDuplicate = analysisHistory.value.filter(
-      (historyItem) => historyItem.symbol !== snapshot.symbol || historyItem.interval !== snapshot.interval,
+      (historyItem) => historyItem.symbol !== snapshot.symbol || historyItem.interval !== snapshot.interval
     );
 
     analysisHistory.value = [snapshot, ...historyWithoutDuplicate].slice(0, ANALYSIS_HISTORY_MAX_ITEMS);
@@ -239,7 +245,7 @@ export function useTechnicalScannerDashboard() {
   function recordSimulation(item: HistoricalSimulationResult) {
     simulationHistory.value = addSimulationHistorySnapshot(
       simulationHistory.value,
-      buildSimulationHistorySnapshot(item),
+      buildSimulationHistorySnapshot(item)
     );
   }
 
