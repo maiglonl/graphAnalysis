@@ -13,6 +13,8 @@ import {
   type SimulationHistorySnapshot,
 } from '~/utils/simulationHistory';
 import { addWatchlistSymbol, removeWatchlistSymbol } from '~/utils/watchlist';
+import { computeRankingSummary } from '~/utils/rankingSummary';
+import type { RankingSummary } from '~/utils/rankingSummary';
 
 const ANALYSIS_HISTORY_MAX_ITEMS = 10;
 
@@ -68,6 +70,8 @@ export function useTechnicalScannerDashboard() {
   const error = ref('');
 
   const scanItems = computed(() => scanResult.value?.items ?? []);
+
+  const rankingSummary = computed<RankingSummary>(() => computeRankingSummary(scanItems.value));
 
   async function analyze() {
     loading.value = true;
@@ -288,6 +292,7 @@ export function useTechnicalScannerDashboard() {
     timeframeLoading,
     error,
     scanItems,
+    rankingSummary,
     analyze,
     scanSymbols,
     runSimulation,
