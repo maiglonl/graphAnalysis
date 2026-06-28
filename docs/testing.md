@@ -84,6 +84,7 @@ tests/
     chartAnnotations.test.ts
     indicators.test.ts
     riskPlan.test.ts
+    rankingSummary.test.ts
     scanner/
       scanner.test.ts
       suggestionBuilder.test.ts
@@ -96,6 +97,8 @@ tests/
         hammerDetector.test.ts
         insideBarDetector.test.ts
         shootingStarDetector.test.ts
+        continuationDetectors.test.ts   (updated: added On Neck / In Neck / Thrusting)
+        reversalTwoCandleDetectors.test.ts
       structure/
         structureDetectors.test.ts
 ```
@@ -229,6 +232,20 @@ Cobre:
 - confluência entre múltiplos detectores;
 - deduplicação de Bullish BOS quando Bullish CHOCH está presente;
 - deduplicação de Bearish BOS quando Bearish CHOCH está presente.
+
+### Ranking de padrões
+
+Arquivo:
+
+```txt
+tests/app/utils/rankingSummary.test.ts
+```
+
+Cobre:
+
+- sumarização de rankings por padrão;
+- ordenação por score total;
+- agregação de confiança média.
 
 ### Sugestão
 
@@ -382,6 +399,8 @@ tests/utils/detectors/candle/fvgDetector.test.ts
 tests/utils/detectors/candle/hammerDetector.test.ts
 tests/utils/detectors/candle/insideBarDetector.test.ts
 tests/utils/detectors/candle/shootingStarDetector.test.ts
+tests/utils/detectors/candle/continuationDetectors.test.ts
+tests/utils/detectors/candle/reversalTwoCandleDetectors.test.ts
 ```
 
 Cobre:
@@ -393,7 +412,12 @@ Cobre:
 - Bearish Engulfing;
 - Inside Bar;
 - Bullish FVG;
-- Bearish FVG.
+- Bearish FVG;
+- On Neck;
+- In Neck;
+- Thrusting;
+- Piercing Line;
+- Dark Cloud Cover.
 
 ### Detectores de estrutura
 

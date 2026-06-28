@@ -32,10 +32,15 @@ Runaway Gap Up
 Runaway Gap Down
 Gap Fill Bullish
 Gap Fill Bearish
+On Neck
+In Neck
+Thrusting
 Bullish Engulfing
 Bearish Engulfing
 Bullish Harami
 Bearish Harami
+Piercing Line
+Dark Cloud Cover
 Morning Star
 Evening Star
 Tweezer Bottom
@@ -53,16 +58,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 44 padrões/sinais.
-
-### IDs e traduções preparados, mas detectores ainda pendentes
-
-```txt
-Piercing Line
-Dark Cloud Cover
-```
-
-Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores ainda não foram ativados porque a criação dos arquivos foi bloqueada pelo conector.
+Total ativo aproximado: 56 padrões/sinais.
 
 ## Próximos lotes sugeridos
 
@@ -72,9 +68,6 @@ Esses padrões foram adicionados ao enum e aos arquivos i18n, mas os detectores 
 Mat Hold
 Upside Tasuki Gap
 Downside Tasuki Gap
-On Neck
-In Neck
-Thrusting
 ```
 
 ### Lote 3 — Gaps e janelas restantes
@@ -86,7 +79,7 @@ Island Reversal Top
 Island Reversal Bottom
 ```
 
-### Lote 4 — Estrutura e price action
+### Lote 4 — Estrutura e price action (próxima prioridade após gaps)
 
 ```txt
 Double Top
