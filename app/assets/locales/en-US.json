@@ -416,6 +416,46 @@
     "channelBreakout": {
       "name": "Channel Breakout",
       "reason": "Price broke out of a trending price channel, signaling a potential directional acceleration."
+    },
+    "volumeSpikeBullish": {
+      "name": "Volume Spike Bullish",
+      "reason": "Bullish candle with elevated relative volume, signaling unusual buying pressure."
+    },
+    "volumeSpikeBearish": {
+      "name": "Volume Spike Bearish",
+      "reason": "Bearish candle with elevated relative volume, signaling unusual selling pressure."
+    },
+    "climaxVolumeTop": {
+      "name": "Climax Volume Top",
+      "reason": "Extreme volume at a top after an uptrend, suggesting possible buyer exhaustion."
+    },
+    "climaxVolumeBottom": {
+      "name": "Climax Volume Bottom",
+      "reason": "Extreme volume at a bottom after a downtrend, suggesting possible seller exhaustion."
+    },
+    "lowVolumePullbackBullish": {
+      "name": "Low Volume Pullback Bullish",
+      "reason": "Pullback on low volume within an uptrend, suggesting a healthy pause."
+    },
+    "lowVolumePullbackBearish": {
+      "name": "Low Volume Pullback Bearish",
+      "reason": "Bounce on low volume within a downtrend, suggesting a healthy pause."
+    },
+    "atrExpansionBreakout": {
+      "name": "ATR Expansion Breakout",
+      "reason": "Breakout accompanied by ATR expansion, indicating increasing directional volatility."
+    },
+    "atrCompression": {
+      "name": "ATR Compression",
+      "reason": "ATR compression, indicating reduced volatility and possible coiling before a breakout."
+    },
+    "volatilitySqueeze": {
+      "name": "Volatility Squeeze",
+      "reason": "Narrow range and volatility compression, suggesting a potential strong move ahead."
+    },
+    "wideRangeCandle": {
+      "name": "Wide Range Candle",
+      "reason": "Candle with above-average range relative to ATR, indicating strength or exhaustion."
     }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }

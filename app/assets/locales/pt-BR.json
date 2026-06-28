@@ -413,6 +413,46 @@
     "channelBreakout": {
       "name": "Rompimento de Canal",
       "reason": "Preço rompeu um canal de tendência, indicando possível aceleração direcional."
+    },
+    "volumeSpikeBullish": {
+      "name": "Volume Spike Bullish",
+      "reason": "Candle comprador com volume relativo elevado, indicando pressão compradora incomum."
+    },
+    "volumeSpikeBearish": {
+      "name": "Volume Spike Bearish",
+      "reason": "Candle vendedor com volume relativo elevado, indicando pressão vendedora incomum."
+    },
+    "climaxVolumeTop": {
+      "name": "Climax Volume Top",
+      "reason": "Volume extremo em topo após tendência de alta, sugerindo possível exaustão compradora."
+    },
+    "climaxVolumeBottom": {
+      "name": "Climax Volume Bottom",
+      "reason": "Volume extremo em fundo após tendência de baixa, sugerindo possível exaustão vendedora."
+    },
+    "lowVolumePullbackBullish": {
+      "name": "Low Volume Pullback Bullish",
+      "reason": "Recuo com baixo volume dentro de tendência de alta, sugerindo pausa saudável."
+    },
+    "lowVolumePullbackBearish": {
+      "name": "Low Volume Pullback Bearish",
+      "reason": "Repique com baixo volume dentro de tendência de baixa, sugerindo pausa saudável."
+    },
+    "atrExpansionBreakout": {
+      "name": "ATR Expansion Breakout",
+      "reason": "Rompimento acompanhado de expansão de ATR, indicando aumento de volatilidade direcional."
+    },
+    "atrCompression": {
+      "name": "ATR Compression",
+      "reason": "Compressão de ATR, indicando redução de volatilidade e possível preparação para rompimento."
+    },
+    "volatilitySqueeze": {
+      "name": "Volatility Squeeze",
+      "reason": "Range estreito e compressão de volatilidade, sugerindo possível movimento forte adiante."
+    },
+    "wideRangeCandle": {
+      "name": "Wide Range Candle",
+      "reason": "Candle com amplitude acima do normal em relação ao ATR, indicando força ou exaustão."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }
