@@ -58,7 +58,7 @@ Lower High
 Lower Low
 ```
 
-Total ativo aproximado: 56 padrões/sinais.
+Total ativo aproximado: 49 padrões/sinais.
 
 ## Próximos lotes sugeridos
 

@@ -243,9 +243,11 @@ tests/app/utils/rankingSummary.test.ts
 
 Cobre:
 
-- sumarização de rankings por padrão;
-- ordenação por score total;
-- agregação de confiança média.
+- empty list handling;
+- buy/sell/wait counts;
+- actionable count (buy+sell only);
+- best symbol by confidence;
+- null best for non-actionable items only.
 
 ### Sugestão
 

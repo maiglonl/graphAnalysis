@@ -13,8 +13,7 @@ import {
   type SimulationHistorySnapshot,
 } from '~/utils/simulationHistory';
 import { addWatchlistSymbol, removeWatchlistSymbol } from '~/utils/watchlist';
-import { computeRankingSummary } from '~/utils/rankingSummary';
-import type { RankingSummary } from '~/utils/rankingSummary';
+import { computeRankingSummary, type RankingSummary } from '~/utils/rankingSummary';
 
 const ANALYSIS_HISTORY_MAX_ITEMS = 10;
 
