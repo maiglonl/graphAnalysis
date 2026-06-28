@@ -456,6 +456,46 @@
     "wideRangeCandle": {
       "name": "Wide Range Candle",
       "reason": "Candle with above-average range relative to ATR, indicating strength or exhaustion."
+    },
+    "goldenCross": {
+      "name": "Golden Cross",
+      "reason": "Short EMA crossed above the long EMA, signaling a bullish reversal or continuation."
+    },
+    "deathCross": {
+      "name": "Death Cross",
+      "reason": "Short EMA crossed below the long EMA, signaling a bearish reversal or continuation."
+    },
+    "emaBullishStack": {
+      "name": "EMA Bullish Stack",
+      "reason": "Price above both EMAs with short EMA above long EMA, confirming bullish alignment."
+    },
+    "emaBearishStack": {
+      "name": "EMA Bearish Stack",
+      "reason": "Price below both EMAs with short EMA below long EMA, confirming bearish alignment."
+    },
+    "maPullbackBullish": {
+      "name": "MA Pullback Bullish",
+      "reason": "Pullback to the moving average in an uptrend, followed by a bullish reaction."
+    },
+    "maPullbackBearish": {
+      "name": "MA Pullback Bearish",
+      "reason": "Rally to the moving average in a downtrend, followed by a bearish rejection."
+    },
+    "trendlineBreakUp": {
+      "name": "Trendline Break Up",
+      "reason": "Breakout above a trendline or dynamic resistance level."
+    },
+    "trendlineBreakDown": {
+      "name": "Trendline Break Down",
+      "reason": "Breakdown below a trendline or dynamic support level."
+    },
+    "retestSupport": {
+      "name": "Retest Support",
+      "reason": "Retest of a support level with a bullish reaction."
+    },
+    "retestResistance": {
+      "name": "Retest Resistance",
+      "reason": "Retest of a resistance level with a bearish rejection."
     }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }

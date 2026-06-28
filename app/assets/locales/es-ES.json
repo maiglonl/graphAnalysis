@@ -465,6 +465,46 @@
     "wideRangeCandle": {
       "name": "Wide Range Candle",
       "reason": "Vela con amplitud superior a la normal respecto al ATR, indicando fuerza o agotamiento."
+    },
+    "goldenCross": {
+      "name": "Golden Cross",
+      "reason": "La EMA corta cruzó por encima de la EMA larga, indicando un giro o continuación alcista."
+    },
+    "deathCross": {
+      "name": "Death Cross",
+      "reason": "La EMA corta cruzó por debajo de la EMA larga, indicando un giro o continuación bajista."
+    },
+    "emaBullishStack": {
+      "name": "EMA Bullish Stack",
+      "reason": "Precio por encima de ambas EMAs con la media corta sobre la larga, confirmando alineación alcista."
+    },
+    "emaBearishStack": {
+      "name": "EMA Bearish Stack",
+      "reason": "Precio por debajo de ambas EMAs con la media corta bajo la larga, confirmando alineación bajista."
+    },
+    "maPullbackBullish": {
+      "name": "MA Pullback Bullish",
+      "reason": "Retroceso a la media móvil en tendencia alcista, seguido de reacción compradora."
+    },
+    "maPullbackBearish": {
+      "name": "MA Pullback Bearish",
+      "reason": "Rebote hacia la media móvil en tendencia bajista, seguido de rechazo vendedor."
+    },
+    "trendlineBreakUp": {
+      "name": "Trendline Break Up",
+      "reason": "Ruptura por encima de una línea de tendencia o resistencia dinámica."
+    },
+    "trendlineBreakDown": {
+      "name": "Trendline Break Down",
+      "reason": "Ruptura por debajo de una línea de tendencia o soporte dinámico."
+    },
+    "retestSupport": {
+      "name": "Retest Support",
+      "reason": "Retesteo de soporte con reacción compradora."
+    },
+    "retestResistance": {
+      "name": "Retest Resistance",
+      "reason": "Retesteo de resistencia con rechazo vendedor."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }
