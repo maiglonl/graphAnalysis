@@ -27,6 +27,7 @@ describe('head and shoulders price action detectors', () => {
       flatCandles(59),
       { time: 60, open: 101, high: 102, low: 97, close: 99, volume: 1000 },
     );
+
     const signals = new HeadAndShouldersDetector().detect(new ScanContext(candles));
 
     expect(signals[0]).toMatchObject({
@@ -50,6 +51,7 @@ describe('head and shoulders price action detectors', () => {
       flatCandles(59),
       { time: 60, open: 99, high: 103, low: 98, close: 101, volume: 1000 },
     );
+
     const signals = new InverseHeadAndShouldersDetector().detect(new ScanContext(candles));
 
     expect(signals[0]).toMatchObject({
@@ -73,6 +75,47 @@ describe('head and shoulders price action detectors', () => {
       flatCandles(59),
       { time: 60, open: 103, high: 104, low: 100, close: 100.1, volume: 1000 },
     );
+
+    const signals = new HeadAndShouldersDetector().detect(new ScanContext(candles));
+
+    expect(signals).toHaveLength(0);
+  });
+
+  it('ignores head and shoulders when head is not prominent above shoulders', () => {
+    marketStructureMocks.getSwingHighs.mockReturnValue([
+      { index: 55, price: 110, type: SwingPointTypeEnum.High },
+      { index: 48, price: 111, type: SwingPointTypeEnum.High },
+      { index: 41, price: 110, type: SwingPointTypeEnum.High },
+    ]);
+    marketStructureMocks.getSwingLows.mockReturnValue([
+      { index: 46, price: 100, type: SwingPointTypeEnum.Low },
+    ]);
+
+    const candles = withLastCandle(
+      flatCandles(59),
+      { time: 60, open: 100, high: 101, low: 98, close: 99, volume: 1000 },
+    );
+
+    const signals = new HeadAndShouldersDetector().detect(new ScanContext(candles));
+
+    expect(signals).toHaveLength(0);
+  });
+
+  it('ignores head and shoulders when shoulders are too asymmetric', () => {
+    marketStructureMocks.getSwingHighs.mockReturnValue([
+      { index: 55, price: 108, type: SwingPointTypeEnum.High },
+      { index: 48, price: 120, type: SwingPointTypeEnum.High },
+      { index: 41, price: 100, type: SwingPointTypeEnum.High },
+    ]);
+    marketStructureMocks.getSwingLows.mockReturnValue([
+      { index: 46, price: 90, type: SwingPointTypeEnum.Low },
+    ]);
+
+    const candles = withLastCandle(
+      flatCandles(59),
+      { time: 60, open: 90, high: 91, low: 88, close: 89, volume: 1000 },
+    );
+
     const signals = new HeadAndShouldersDetector().detect(new ScanContext(candles));
 
     expect(signals).toHaveLength(0);

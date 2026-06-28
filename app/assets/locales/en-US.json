@@ -352,6 +352,30 @@
     "tripleBottom": {
       "name": "Triple Bottom",
       "reason": "Three similar lows with a neckline break, suggesting a stronger bullish reversal."
+    },
+    "headAndShoulders": {
+      "name": "Head and Shoulders",
+      "reason": "Top with left shoulder, higher head, and right shoulder, followed by a neckline break."
+    },
+    "inverseHeadAndShoulders": {
+      "name": "Inverse Head and Shoulders",
+      "reason": "Bottom with left shoulder, lower head, and right shoulder, followed by a neckline break."
+    },
+    "bullishFlag": {
+      "name": "Bullish Flag",
+      "reason": "Bullish continuation after a short consolidation and breakout above the range."
+    },
+    "bearishFlag": {
+      "name": "Bearish Flag",
+      "reason": "Bearish continuation after a short consolidation and breakout below the range."
+    },
+    "bullishPennant": {
+      "name": "Bullish Pennant",
+      "reason": "Bullish continuation after range compression and breakout above the pennant."
+    },
+    "bearishPennant": {
+      "name": "Bearish Pennant",
+      "reason": "Bearish continuation after range compression and breakout below the pennant."
     }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }

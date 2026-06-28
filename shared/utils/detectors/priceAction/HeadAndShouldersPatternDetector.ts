@@ -17,21 +17,20 @@ export abstract class HeadAndShouldersPatternDetector extends PatternDetector {
 
     const highs = getSwingHighs(ctx.candles, ctx.index, 3);
     const lows = getSwingLows(ctx.candles, ctx.index, 3);
-    if (highs.length < 3 || lows.length === 0) return [];
+    const isBearish = this.direction === PatternDirectionEnum.Bearish;
+    if (isBearish ? (highs.length < 3 || lows.length === 0) : (lows.length < 3 || highs.length === 0)) return [];
 
-    const patternOk = this.direction === PatternDirectionEnum.Bearish
-      ? this.matchesRegular(highs)
-      : this.matchesInverse(lows);
+    const patternOk = isBearish ? this.matchesRegular(highs) : this.matchesInverse(lows);
     if (!patternOk) return [];
 
-    const neckline = this.direction === PatternDirectionEnum.Bearish ? lows[0]!.price : highs[0]!.price;
+    const neckline = isBearish ? lows[0]!.price : highs[0]!.price;
     const breakThreshold = neckline * EXTRA_THRESHOLDS.swingPatternMinBreakPct;
-    const hasBreak = this.direction === PatternDirectionEnum.Bearish
+    const hasBreak = isBearish
       ? current.close < neckline - breakThreshold
       : current.close > neckline + breakThreshold;
     if (!hasBreak) return [];
 
-    const head = this.direction === PatternDirectionEnum.Bearish
+    const head = isBearish
       ? Math.max(...highs.slice(0, 3).map((swing) => swing.price))
       : Math.min(...lows.slice(0, 3).map((swing) => swing.price));
     const risk = Math.abs(head - neckline);
@@ -39,6 +38,7 @@ export abstract class HeadAndShouldersPatternDetector extends PatternDetector {
 
     const entry = current.close;
     const stop = head;
+    const targets = calculateTargets(entry, risk, isBearish ? 'down' : 'up');
 
     return [{
       id: this.id,
@@ -47,7 +47,7 @@ export abstract class HeadAndShouldersPatternDetector extends PatternDetector {
       price: current.close,
       entry,
       stop,
-      targets: calculateTargets(entry, risk, this.direction === PatternDirectionEnum.Bearish ? 'down' : 'up'),
+      targets,
       meta: { neckline, head },
     }];
   }

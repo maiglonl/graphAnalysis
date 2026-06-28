@@ -67,15 +67,6 @@ Double Top
 Double Bottom
 Triple Top
 Triple Bottom
-```
-
-Total ativo aproximado: 60 padrões/sinais.
-
-## Próximos lotes sugeridos
-
-### Lote 5 — Estrutura e price action
-
-```txt
 Head and Shoulders
 Inverse Head and Shoulders
 Bullish Flag
@@ -83,6 +74,10 @@ Bearish Flag
 Bullish Pennant
 Bearish Pennant
 ```
+
+Total ativo aproximado: 66 padrões/sinais.
+
+## Próximos lotes sugeridos
 
 ### Lote 5 — Canais, triângulos e ranges
 

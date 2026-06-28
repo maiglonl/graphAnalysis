@@ -349,6 +349,30 @@
     "tripleBottom": {
       "name": "Triple Bottom",
       "reason": "Três fundos similares com rompimento do neckline, sugerindo reversão altista mais forte."
+    },
+    "headAndShoulders": {
+      "name": "Head and Shoulders",
+      "reason": "Topo com ombro esquerdo, cabeça mais alta e ombro direito, seguido de rompimento do neckline."
+    },
+    "inverseHeadAndShoulders": {
+      "name": "Inverse Head and Shoulders",
+      "reason": "Fundo com ombro esquerdo, cabeça mais baixa e ombro direito, seguido de rompimento do neckline."
+    },
+    "bullishFlag": {
+      "name": "Bullish Flag",
+      "reason": "Continuação altista após consolidação curta e rompimento acima do range."
+    },
+    "bearishFlag": {
+      "name": "Bearish Flag",
+      "reason": "Continuação baixista após consolidação curta e rompimento abaixo do range."
+    },
+    "bullishPennant": {
+      "name": "Bullish Pennant",
+      "reason": "Continuação altista após compressão de range e rompimento acima da flâmula."
+    },
+    "bearishPennant": {
+      "name": "Bearish Pennant",
+      "reason": "Continuação baixista após compressão de range e rompimento abaixo da flâmula."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }

@@ -361,6 +361,30 @@
     "tripleBottom": {
       "name": "Triple Suelo",
       "reason": "Tres mínimos similares con ruptura del neckline, sugiriendo reversión alcista más fuerte."
+    },
+    "headAndShoulders": {
+      "name": "Hombro-Cabeza-Hombro",
+      "reason": "Techo con hombro izquierdo, cabeza más alta y hombro derecho, seguido de ruptura del neckline."
+    },
+    "inverseHeadAndShoulders": {
+      "name": "Hombro-Cabeza-Hombro Invertido",
+      "reason": "Suelo con hombro izquierdo, cabeza más baja y hombro derecho, seguido de ruptura del neckline."
+    },
+    "bullishFlag": {
+      "name": "Bandera Alcista",
+      "reason": "Continuación alcista tras una consolidación corta y ruptura por encima del rango."
+    },
+    "bearishFlag": {
+      "name": "Bandera Bajista",
+      "reason": "Continuación bajista tras una consolidación corta y ruptura por debajo del rango."
+    },
+    "bullishPennant": {
+      "name": "Banderín Alcista",
+      "reason": "Continuación alcista tras compresión de rango y ruptura por encima del banderín."
+    },
+    "bearishPennant": {
+      "name": "Banderín Bajista",
+      "reason": "Continuación bajista tras compresión de rango y ruptura por debajo del banderín."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }

@@ -5,6 +5,10 @@ import { HeadAndShouldersDetector } from '#shared/utils/detectors/priceAction/he
 import { InverseHeadAndShouldersDetector } from '#shared/utils/detectors/priceAction/inverseHeadAndShoulders';
 import { TripleBottomDetector } from '#shared/utils/detectors/priceAction/tripleBottom';
 import { TripleTopDetector } from '#shared/utils/detectors/priceAction/tripleTop';
+import { BullishFlagDetector } from '#shared/utils/detectors/priceAction/bullishFlag';
+import { BearishFlagDetector } from '#shared/utils/detectors/priceAction/bearishFlag';
+import { BullishPennantDetector } from '#shared/utils/detectors/priceAction/bullishPennant';
+import { BearishPennantDetector } from '#shared/utils/detectors/priceAction/bearishPennant';
 
 export function createExpandedPriceActionDetectors(): PatternDetector[] {
   return [
@@ -14,5 +18,9 @@ export function createExpandedPriceActionDetectors(): PatternDetector[] {
     new TripleBottomDetector(),
     new HeadAndShouldersDetector(),
     new InverseHeadAndShouldersDetector(),
+    new BullishFlagDetector(),
+    new BearishFlagDetector(),
+    new BullishPennantDetector(),
+    new BearishPennantDetector(),
   ];
 }

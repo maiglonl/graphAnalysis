@@ -103,6 +103,8 @@ tests/
         structureDetectors.test.ts
       priceAction/
         swingReversalDetectors.test.ts
+        headAndShouldersDetectors.test.ts
+        continuationBreakoutDetectors.test.ts
 ```
 
 ---
