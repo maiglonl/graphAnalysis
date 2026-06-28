@@ -44,6 +44,69 @@ export function relativeVolume(candles: Candle[], period = 20): number[] {
   });
 }
 
+export function rsi(values: number[], period = 14): number[] {
+  return values.map((_, index) => {
+    if (index < period) return NaN;
+
+    let gains = 0;
+    let losses = 0;
+    for (let i = index - period + 1; i <= index; i++) {
+      const current = values[i] ?? 0;
+      const previous = values[i - 1] ?? current;
+      const change = current - previous;
+      if (change >= 0) gains += change;
+      else losses += Math.abs(change);
+    }
+
+    const averageGain = gains / period;
+    const averageLoss = losses / period;
+    if (averageLoss === 0) return 100;
+    const relativeStrength = averageGain / averageLoss;
+    return 100 - 100 / (1 + relativeStrength);
+  });
+}
+
+export type MacdResult = {
+  macd: number[];
+  signal: number[];
+  histogram: number[];
+};
+
+export function macd(values: number[], fastPeriod = 12, slowPeriod = 26, signalPeriod = 9): MacdResult {
+  const fast = ema(values, fastPeriod);
+  const slow = ema(values, slowPeriod);
+  const macdLine = values.map((_, index) => {
+    const fastValue = fast[index];
+    const slowValue = slow[index];
+    if (fastValue === undefined || slowValue === undefined) return NaN;
+    return fastValue - slowValue;
+  });
+  const signal = ema(macdLine.map((value) => (Number.isFinite(value) ? value : 0)), signalPeriod);
+  const histogram = macdLine.map((value, index) => {
+    const signalValue = signal[index];
+    if (!Number.isFinite(value) || signalValue === undefined) return NaN;
+    return value - signalValue;
+  });
+  return { macd: macdLine, signal, histogram };
+}
+
+export type StochasticResult = {
+  k: number[];
+  d: number[];
+};
+
+export function stochastic(candles: Candle[], period = 14, signalPeriod = 3): StochasticResult {
+  const k = candles.map((candle, index) => {
+    if (index < period - 1) return NaN;
+    const slice = candles.slice(index - period + 1, index + 1);
+    const high = Math.max(...slice.map((c) => c.high));
+    const low = Math.min(...slice.map((c) => c.low));
+    if (high <= low) return 0;
+    return ((candle.close - low) / (high - low)) * 100;
+  });
+  return { k, d: sma(k.map((value) => (Number.isFinite(value) ? value : 0)), signalPeriod) };
+}
+
 /**
  * Retorna a tendência a partir de EMAs pré-computadas.
  * Use esta função quando EMAs já estiverem disponíveis (ex: ScanContext).
