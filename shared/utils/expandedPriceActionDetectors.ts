@@ -9,6 +9,16 @@ import { BullishFlagDetector } from '#shared/utils/detectors/priceAction/bullish
 import { BearishFlagDetector } from '#shared/utils/detectors/priceAction/bearishFlag';
 import { BullishPennantDetector } from '#shared/utils/detectors/priceAction/bullishPennant';
 import { BearishPennantDetector } from '#shared/utils/detectors/priceAction/bearishPennant';
+import { AscendingTriangleDetector } from '#shared/utils/detectors/priceAction/ascendingTriangle';
+import { DescendingTriangleDetector } from '#shared/utils/detectors/priceAction/descendingTriangle';
+import { SymmetricalTriangleDetector } from '#shared/utils/detectors/priceAction/symmetricalTriangle';
+import { RisingWedgeDetector } from '#shared/utils/detectors/priceAction/risingWedge';
+import { FallingWedgeDetector } from '#shared/utils/detectors/priceAction/fallingWedge';
+import { RectangleBreakoutUpDetector } from '#shared/utils/detectors/priceAction/rectangleBreakoutUp';
+import { RectangleBreakoutDownDetector } from '#shared/utils/detectors/priceAction/rectangleBreakoutDown';
+import { RangeRejectionHighDetector } from '#shared/utils/detectors/priceAction/rangeRejectionHigh';
+import { RangeRejectionLowDetector } from '#shared/utils/detectors/priceAction/rangeRejectionLow';
+import { ChannelBreakoutDetector } from '#shared/utils/detectors/priceAction/channelBreakout';
 
 export function createExpandedPriceActionDetectors(): PatternDetector[] {
   return [
@@ -22,5 +32,15 @@ export function createExpandedPriceActionDetectors(): PatternDetector[] {
     new BearishFlagDetector(),
     new BullishPennantDetector(),
     new BearishPennantDetector(),
+    new AscendingTriangleDetector(),
+    new DescendingTriangleDetector(),
+    new SymmetricalTriangleDetector(),
+    new RisingWedgeDetector(),
+    new FallingWedgeDetector(),
+    new RectangleBreakoutUpDetector(),
+    new RectangleBreakoutDownDetector(),
+    new RangeRejectionHighDetector(),
+    new RangeRejectionLowDetector(),
+    new ChannelBreakoutDetector(),
   ];
 }
