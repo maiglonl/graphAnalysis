@@ -1,6 +1,7 @@
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import type { ScanContext } from '#shared/utils/scanContext';
 import { EXTRA_CONFIDENCE, EXTRA_THRESHOLDS } from '../extraPatternConstants';
+import { calculateTargets } from '../helpers';
 import { VolatilityPatternDetector } from './VolatilityPatternDetector';
 
 export class WideRangeCandleDetector extends VolatilityPatternDetector {
@@ -24,7 +25,7 @@ export class WideRangeCandleDetector extends VolatilityPatternDetector {
       price: current.close,
       entry,
       stop,
-      targets: direction === PatternDirectionEnum.Bullish ? [entry + risk, entry + risk * 2, entry + risk * 3] : [entry - risk, entry - risk * 2, entry - risk * 3],
+      targets: calculateTargets(entry, risk, direction === PatternDirectionEnum.Bullish ? 'up' : 'down'),
       meta: { atr: ctx.currentAtr },
     }];
   }
