@@ -373,6 +373,46 @@
     "bearishPennant": {
       "name": "Bearish Pennant",
       "reason": "Continuação baixista após compressão de range e rompimento abaixo da flâmula."
+    },
+    "ascendingTriangle": {
+      "name": "Triângulo Ascendente",
+      "reason": "Resistência plana com fundos ascendentes e rompimento acima da resistência."
+    },
+    "descendingTriangle": {
+      "name": "Triângulo Descendente",
+      "reason": "Suporte plano com topos descendentes e rompimento abaixo do suporte."
+    },
+    "symmetricalTriangle": {
+      "name": "Triângulo Simétrico",
+      "reason": "Compressão entre topos descendentes e fundos ascendentes, seguida de rompimento direcional."
+    },
+    "risingWedge": {
+      "name": "Cunha Ascendente",
+      "reason": "Cunha de alta com perda de força, seguida de rompimento para baixo."
+    },
+    "fallingWedge": {
+      "name": "Cunha Descendente",
+      "reason": "Cunha de baixa com perda de pressão vendedora, seguida de rompimento para cima."
+    },
+    "rectangleBreakoutUp": {
+      "name": "Rompimento de Range para Cima",
+      "reason": "Rompimento acima de range lateral consolidado."
+    },
+    "rectangleBreakoutDown": {
+      "name": "Rompimento de Range para Baixo",
+      "reason": "Rompimento abaixo de range lateral consolidado."
+    },
+    "rangeRejectionHigh": {
+      "name": "Rejeição na Resistência do Range",
+      "reason": "Preço tocou o topo do range mas fechou abaixo, sugerindo reação vendedora."
+    },
+    "rangeRejectionLow": {
+      "name": "Rejeição no Suporte do Range",
+      "reason": "Preço tocou o fundo do range mas fechou acima, sugerindo reação compradora."
+    },
+    "channelBreakout": {
+      "name": "Rompimento de Canal",
+      "reason": "Preço rompeu um canal de tendência, indicando possível aceleração direcional."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }

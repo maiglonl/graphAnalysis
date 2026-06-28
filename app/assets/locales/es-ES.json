@@ -385,6 +385,46 @@
     "bearishPennant": {
       "name": "Banderín Bajista",
       "reason": "Continuación bajista tras compresión de rango y ruptura por debajo del banderín."
+    },
+    "ascendingTriangle": {
+      "name": "Triángulo Ascendente",
+      "reason": "Resistencia plana con mínimos ascendentes y ruptura por encima de la resistencia."
+    },
+    "descendingTriangle": {
+      "name": "Triángulo Descendente",
+      "reason": "Soporte plano con máximos descendentes y ruptura por debajo del soporte."
+    },
+    "symmetricalTriangle": {
+      "name": "Triángulo Simétrico",
+      "reason": "Compresión entre máximos descendentes y mínimos ascendentes, seguida de una ruptura direccional."
+    },
+    "risingWedge": {
+      "name": "Cuña Ascendente",
+      "reason": "Cuña alcista que pierde impulso con ruptura hacia abajo."
+    },
+    "fallingWedge": {
+      "name": "Cuña Descendente",
+      "reason": "Cuña bajista que pierde presión vendedora con ruptura hacia arriba."
+    },
+    "rectangleBreakoutUp": {
+      "name": "Ruptura de Rango al Alza",
+      "reason": "Ruptura por encima de un rango lateral consolidado."
+    },
+    "rectangleBreakoutDown": {
+      "name": "Ruptura de Rango a la Baja",
+      "reason": "Ruptura por debajo de un rango lateral consolidado."
+    },
+    "rangeRejectionHigh": {
+      "name": "Rechazo en la Resistencia del Rango",
+      "reason": "El precio tocó el techo del rango pero cerró por debajo, indicando reacción vendedora."
+    },
+    "rangeRejectionLow": {
+      "name": "Rechazo en el Soporte del Rango",
+      "reason": "El precio tocó el suelo del rango pero cerró por encima, indicando reacción compradora."
+    },
+    "channelBreakout": {
+      "name": "Ruptura de Canal",
+      "reason": "El precio rompió un canal de tendencia, señalando una posible aceleración direccional."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }

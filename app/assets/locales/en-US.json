@@ -376,6 +376,46 @@
     "bearishPennant": {
       "name": "Bearish Pennant",
       "reason": "Bearish continuation after range compression and breakout below the pennant."
+    },
+    "ascendingTriangle": {
+      "name": "Ascending Triangle",
+      "reason": "Flat resistance with ascending lows and a breakout above the resistance level."
+    },
+    "descendingTriangle": {
+      "name": "Descending Triangle",
+      "reason": "Flat support with descending highs and a breakout below the support level."
+    },
+    "symmetricalTriangle": {
+      "name": "Symmetrical Triangle",
+      "reason": "Compression between descending highs and ascending lows, followed by a directional breakout."
+    },
+    "risingWedge": {
+      "name": "Rising Wedge",
+      "reason": "Converging ascending highs and lows losing momentum, with a breakout to the downside."
+    },
+    "fallingWedge": {
+      "name": "Falling Wedge",
+      "reason": "Converging descending highs and lows losing selling pressure, with a breakout to the upside."
+    },
+    "rectangleBreakoutUp": {
+      "name": "Rectangle Breakout Up",
+      "reason": "Breakout above a consolidating lateral range."
+    },
+    "rectangleBreakoutDown": {
+      "name": "Rectangle Breakout Down",
+      "reason": "Breakout below a consolidating lateral range."
+    },
+    "rangeRejectionHigh": {
+      "name": "Range Rejection High",
+      "reason": "Price touched the top of the range but closed lower, indicating a bearish reaction."
+    },
+    "rangeRejectionLow": {
+      "name": "Range Rejection Low",
+      "reason": "Price touched the bottom of the range but closed higher, indicating a bullish reaction."
+    },
+    "channelBreakout": {
+      "name": "Channel Breakout",
+      "reason": "Price broke out of a trending price channel, signaling a potential directional acceleration."
     }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }
