@@ -1,12 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
-import { CloseToPriorCloseDownContinuationDetector } from '#shared/utils/detectors/candle/closeToPriorCloseDownContinuation';
-import { DeepCloseDownContinuationDetector } from '#shared/utils/detectors/candle/deepCloseDownContinuation';
 import { DownsideTasukiGapDetector } from '#shared/utils/detectors/candle/downsideTasukiGap';
+import { InNeckDetector } from '#shared/utils/detectors/candle/inNeck';
 import { IslandReversalBottomDetector } from '#shared/utils/detectors/candle/islandReversalBottom';
 import { IslandReversalTopDetector } from '#shared/utils/detectors/candle/islandReversalTop';
 import { MatHoldDetector } from '#shared/utils/detectors/candle/matHold';
-import { SlightCloseDownContinuationDetector } from '#shared/utils/detectors/candle/slightCloseDownContinuation';
+import { OnNeckDetector } from '#shared/utils/detectors/candle/onNeck';
+import { ThrustingDetector } from '#shared/utils/detectors/candle/thrusting';
 import { UpsideTasukiGapDetector } from '#shared/utils/detectors/candle/upsideTasukiGap';
 import { ScanContext } from '#shared/utils/scanContext';
 import { bearishTrendCandles, bullishTrendCandles, flatCandles } from '../../../fixtures/candles/factories';
@@ -46,17 +46,17 @@ describe('remaining continuation candle detectors', () => {
   });
 
   it('detects neck and thrusting continuations', () => {
-    const onNeckSignals = new CloseToPriorCloseDownContinuationDetector().detect(new ScanContext([
+    const onNeckSignals = new OnNeckDetector().detect(new ScanContext([
       ...bearishTrendCandles(58),
       { time: 59, open: 160, high: 161, low: 149, close: 150, volume: 1000 },
       { time: 60, open: 148, high: 151, low: 147, close: 150.1, volume: 1000 },
     ]));
-    const inNeckSignals = new SlightCloseDownContinuationDetector().detect(new ScanContext([
+    const inNeckSignals = new InNeckDetector().detect(new ScanContext([
       ...bearishTrendCandles(58),
       { time: 59, open: 160, high: 161, low: 149, close: 150, volume: 1000 },
       { time: 60, open: 148, high: 152, low: 147, close: 151, volume: 1000 },
     ]));
-    const thrustingSignals = new DeepCloseDownContinuationDetector().detect(new ScanContext([
+    const thrustingSignals = new ThrustingDetector().detect(new ScanContext([
       ...bearishTrendCandles(58),
       { time: 59, open: 160, high: 161, low: 149, close: 150, volume: 1000 },
       { time: 60, open: 148, high: 157, low: 147, close: 156, volume: 1000 },
