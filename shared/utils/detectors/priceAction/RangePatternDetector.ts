@@ -3,7 +3,7 @@ import { PatternDirectionEnum } from '#shared/types/market';
 import type { ScanContext } from '#shared/utils/scanContext';
 import { PatternDetector } from '../PatternDetector';
 import { calculateTargets } from '../helpers';
-import { EXTRA_THRESHOLDS } from '../extraPatternConstants';
+import { RANGE_PATTERN_THRESHOLDS } from './rangePatternConstants';
 
 export abstract class RangePatternDetector extends PatternDetector {
   protected abstract readonly id: PatternSignal['id'];
@@ -15,7 +15,7 @@ export abstract class RangePatternDetector extends PatternDetector {
     const current = ctx.currentCandle;
     if (!current) return [];
 
-    const lookback = EXTRA_THRESHOLDS.rangePatternLookback;
+    const lookback = RANGE_PATTERN_THRESHOLDS.rangePatternLookback;
     if (ctx.index < lookback) return [];
 
     const rangeCandles = ctx.candles.slice(ctx.index - lookback, ctx.index);
@@ -26,12 +26,12 @@ export abstract class RangePatternDetector extends PatternDetector {
     if (rangeHigh <= rangeLow) return [];
 
     const heightPct = (rangeHigh - rangeLow) / current.close;
-    if (heightPct > EXTRA_THRESHOLDS.rangeMaxHeightPct) return [];
+    if (heightPct > RANGE_PATTERN_THRESHOLDS.rangeMaxHeightPct) return [];
 
     const risk = rangeHigh - rangeLow;
     const entry = current.close;
-    const breakThreshold = current.close * EXTRA_THRESHOLDS.swingPatternMinBreakPct;
-    const rejectionTolerance = current.close * EXTRA_THRESHOLDS.rangeRejectionTolerancePct;
+    const breakThreshold = current.close * RANGE_PATTERN_THRESHOLDS.breakoutThresholdPct;
+    const rejectionTolerance = current.close * RANGE_PATTERN_THRESHOLDS.rangeRejectionTolerancePct;
 
     if (this.signalType === 'breakout') {
       const broke = this.direction === PatternDirectionEnum.Bullish
@@ -52,7 +52,6 @@ export abstract class RangePatternDetector extends PatternDetector {
       }];
     }
 
-    // rejection type
     if (this.direction === PatternDirectionEnum.Bearish) {
       const nearHigh = current.high >= rangeHigh - rejectionTolerance;
       const closedBelow = current.close < rangeHigh;
