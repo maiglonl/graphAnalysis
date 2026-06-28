@@ -11,7 +11,9 @@ import { FallingThreeMethodsDetector } from '#shared/utils/detectors/candle/fall
 import { GapFillBearishDetector } from '#shared/utils/detectors/candle/gapFillBearish';
 import { GapFillBullishDetector } from '#shared/utils/detectors/candle/gapFillBullish';
 import { GravestoneDojiDetector } from '#shared/utils/detectors/candle/gravestoneDoji';
+import { InNeckDetector } from '#shared/utils/detectors/candle/inNeck';
 import { LongLeggedDojiDetector } from '#shared/utils/detectors/candle/longLeggedDoji';
+import { OnNeckDetector } from '#shared/utils/detectors/candle/onNeck';
 import { RedMarubozuDetector } from '#shared/utils/detectors/candle/redMarubozu';
 import { RisingThreeMethodsDetector } from '#shared/utils/detectors/candle/risingThreeMethods';
 import { RunawayGapDownDetector } from '#shared/utils/detectors/candle/runawayGapDown';
@@ -19,6 +21,7 @@ import { RunawayGapUpDetector } from '#shared/utils/detectors/candle/runawayGapU
 import { SpinningTopDetector } from '#shared/utils/detectors/candle/spinningTop';
 import { ThreeBlackCrowsDetector } from '#shared/utils/detectors/candle/threeBlackCrows';
 import { ThreeWhiteSoldiersDetector } from '#shared/utils/detectors/candle/threeWhiteSoldiers';
+import { ThrustingDetector } from '#shared/utils/detectors/candle/thrusting';
 
 export function createExpandedCandleDetectors(): PatternDetector[] {
   return [
@@ -42,5 +45,8 @@ export function createExpandedCandleDetectors(): PatternDetector[] {
     new RunawayGapDownDetector(),
     new GapFillBullishDetector(),
     new GapFillBearishDetector(),
+    new OnNeckDetector(),
+    new InNeckDetector(),
+    new ThrustingDetector(),
   ];
 }
