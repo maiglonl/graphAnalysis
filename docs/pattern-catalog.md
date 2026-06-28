@@ -73,15 +73,6 @@ Bullish Flag
 Bearish Flag
 Bullish Pennant
 Bearish Pennant
-```
-
-Total ativo aproximado: 66 padrões/sinais.
-
-## Próximos lotes sugeridos
-
-### Lote 5 — Canais, triângulos e ranges
-
-```txt
 Ascending Triangle
 Descending Triangle
 Symmetrical Triangle
@@ -94,7 +85,11 @@ Range Rejection Low
 Channel Breakout
 ```
 
-### Lote 6 — Volume e volatilidade
+Total ativo aproximado: 76 padrões/sinais.
+
+## Próximos lotes sugeridos
+
+### Lote 6 — Volume e volatilidade (próxima prioridade)
 
 ```txt
 Volume Spike Bullish

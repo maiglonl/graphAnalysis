@@ -105,6 +105,9 @@ tests/
         swingReversalDetectors.test.ts
         headAndShouldersDetectors.test.ts
         continuationBreakoutDetectors.test.ts
+        rangeDetectors.test.ts
+        triangleDetectors.test.ts
+        wedgeAndChannelDetectors.test.ts
 ```
 
 ---
@@ -424,6 +427,24 @@ Cobre:
 - Thrusting;
 - Piercing Line;
 - Dark Cloud Cover.
+
+### Range/Rectangle detectors
+
+Arquivo: `tests/utils/detectors/priceAction/rangeDetectors.test.ts`
+
+Cobre: RectangleBreakoutUp, RectangleBreakoutDown, RangeRejectionHigh, RangeRejectionLow.
+
+### Triangle detectors
+
+Arquivo: `tests/utils/detectors/priceAction/triangleDetectors.test.ts`
+
+Cobre: AscendingTriangle, DescendingTriangle, SymmetricalTriangle (bullish e bearish breakout).
+
+### Wedge and Channel Breakout detectors
+
+Arquivo: `tests/utils/detectors/priceAction/wedgeAndChannelDetectors.test.ts`
+
+Cobre: RisingWedge, FallingWedge, ChannelBreakout (bullish e bearish).
 
 ### Detectores de estrutura
 
