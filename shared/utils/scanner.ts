@@ -24,6 +24,7 @@ import { ChochDetector } from '#shared/utils/detectors/structure/choch';
 import { SCANNER, SCORING, VOLUME } from '#shared/utils/detectors/constants';
 import { createExpandedCandleDetectors } from '#shared/utils/expandedCandleDetectors';
 import { createExpandedPriceActionDetectors } from '#shared/utils/expandedPriceActionDetectors';
+import { createExpandedVolumeVolatilityDetectors } from '#shared/utils/expandedVolumeVolatilityDetectors';
 
 const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
   patternScore: 0,
@@ -229,7 +230,13 @@ export class SuggestionBuilder {
       pattern.id === PatternIdEnum.BullishFvg ||
       pattern.id === PatternIdEnum.BearishFvg ||
       pattern.id === PatternIdEnum.BullishEngulfing ||
-      pattern.id === PatternIdEnum.BearishEngulfing
+      pattern.id === PatternIdEnum.BearishEngulfing ||
+      pattern.id === PatternIdEnum.VolumeSpikeBullish ||
+      pattern.id === PatternIdEnum.VolumeSpikeBearish ||
+      pattern.id === PatternIdEnum.ClimaxVolumeTop ||
+      pattern.id === PatternIdEnum.ClimaxVolumeBottom ||
+      pattern.id === PatternIdEnum.AtrExpansionBreakout ||
+      pattern.id === PatternIdEnum.WideRangeCandle
     );
   }
 
@@ -260,6 +267,7 @@ const defaultScanner = new Scanner([
   new DojiDetector(),
   ...createExpandedCandleDetectors(),
   ...createExpandedPriceActionDetectors(),
+  ...createExpandedVolumeVolatilityDetectors(),
   new BullishEngulfingDetector(),
   new BearishEngulfingDetector(),
   new BullishHaramiDetector(),
