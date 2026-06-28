@@ -101,6 +101,8 @@ tests/
         reversalTwoCandleDetectors.test.ts
       structure/
         structureDetectors.test.ts
+      priceAction/
+        swingReversalDetectors.test.ts
 ```
 
 ---

@@ -336,7 +336,23 @@
       "name": "Lower High",
       "reason": "Lower high than the previous one, confirming bearish market structure."
     },
-    "lowerLow": { "name": "Lower Low", "reason": "Lower low than the previous one, sustaining the downtrend." }
+    "lowerLow": { "name": "Lower Low", "reason": "Lower low than the previous one, sustaining the downtrend." },
+    "doubleTop": {
+      "name": "Double Top",
+      "reason": "Two similar highs with a neckline break, suggesting a bearish reversal."
+    },
+    "doubleBottom": {
+      "name": "Double Bottom",
+      "reason": "Two similar lows with a neckline break, suggesting a bullish reversal."
+    },
+    "tripleTop": {
+      "name": "Triple Top",
+      "reason": "Three similar highs with a neckline break, suggesting a stronger bearish reversal."
+    },
+    "tripleBottom": {
+      "name": "Triple Bottom",
+      "reason": "Three similar lows with a neckline break, suggesting a stronger bullish reversal."
+    }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }
 }

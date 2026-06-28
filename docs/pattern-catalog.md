@@ -63,19 +63,19 @@ Higher High
 Higher Low
 Lower High
 Lower Low
-```
-
-Total ativo aproximado: 56 padrões/sinais.
-
-## Próximos lotes sugeridos
-
-### Lote 4 — Estrutura e price action
-
-```txt
 Double Top
 Double Bottom
 Triple Top
 Triple Bottom
+```
+
+Total ativo aproximado: 60 padrões/sinais.
+
+## Próximos lotes sugeridos
+
+### Lote 5 — Estrutura e price action
+
+```txt
 Head and Shoulders
 Inverse Head and Shoulders
 Bullish Flag

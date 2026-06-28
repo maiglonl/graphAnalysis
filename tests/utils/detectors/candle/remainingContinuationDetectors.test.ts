@@ -17,7 +17,7 @@ describe('remaining continuation candle detectors', () => {
       ...bullishTrendCandles(55),
       { time: 56, open: 155, high: 162, low: 154, close: 161, volume: 1000 },
       { time: 57, open: 164, high: 166, low: 163, close: 165, volume: 900 },
-      { time: 58, open: 165, high: 166, low: 162, close: 163, volume: 900 },
+      { time: 58, open: 165, high: 166, low: 162, close: 164, volume: 900 },
       { time: 59, open: 163, high: 165, low: 161, close: 162, volume: 900 },
       { time: 60, open: 162, high: 170, low: 161, close: 169, volume: 1200 },
     ];
@@ -38,7 +38,7 @@ describe('remaining continuation candle detectors', () => {
       ...bearishTrendCandles(57),
       { time: 58, open: 160, high: 161, low: 154, close: 155, volume: 1000 },
       { time: 59, open: 149, high: 150, low: 143, close: 144, volume: 1000 },
-      { time: 60, open: 145, high: 153, low: 144, close: 153, volume: 1000 },
+      { time: 60, open: 145, high: 153, low: 144, close: 151, volume: 1000 },
     ]));
 
     expect(upsideSignals[0]).toMatchObject({ id: PatternIdEnum.UpsideTasukiGap, direction: PatternDirectionEnum.Bullish });
@@ -58,8 +58,8 @@ describe('remaining continuation candle detectors', () => {
     ]));
     const thrustingSignals = new ThrustingDetector().detect(new ScanContext([
       ...bearishTrendCandles(58),
-      { time: 59, open: 160, high: 161, low: 149, close: 150, volume: 1000 },
-      { time: 60, open: 148, high: 157, low: 147, close: 156, volume: 1000 },
+      { time: 59, open: 153, high: 154, low: 146, close: 147, volume: 1000 },
+      { time: 60, open: 146, high: 151, low: 145, close: 149, volume: 1000 },
     ]));
 
     expect(onNeckSignals[0]).toMatchObject({ id: PatternIdEnum.OnNeck, direction: PatternDirectionEnum.Bearish });

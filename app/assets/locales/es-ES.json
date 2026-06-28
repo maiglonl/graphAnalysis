@@ -345,6 +345,22 @@
     "lowerLow": {
       "name": "Mínimo Menor",
       "reason": "Mínimo más bajo que el anterior, sosteniendo la tendencia bajista."
+    },
+    "doubleTop": {
+      "name": "Doble Techo",
+      "reason": "Dos máximos similares con ruptura del neckline, sugiriendo reversión bajista."
+    },
+    "doubleBottom": {
+      "name": "Doble Suelo",
+      "reason": "Dos mínimos similares con ruptura del neckline, sugiriendo reversión alcista."
+    },
+    "tripleTop": {
+      "name": "Triple Techo",
+      "reason": "Tres máximos similares con ruptura del neckline, sugiriendo reversión bajista más fuerte."
+    },
+    "tripleBottom": {
+      "name": "Triple Suelo",
+      "reason": "Tres mínimos similares con ruptura del neckline, sugiriendo reversión alcista más fuerte."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }

@@ -333,7 +333,23 @@
     "higherHigh": { "name": "Higher High", "reason": "Topo mais alto que o anterior, confirmando estrutura de alta." },
     "higherLow": { "name": "Higher Low", "reason": "Fundo mais alto que o anterior, sustentando a tendência de alta." },
     "lowerHigh": { "name": "Lower High", "reason": "Topo mais baixo que o anterior, confirmando estrutura de baixa." },
-    "lowerLow": { "name": "Lower Low", "reason": "Fundo mais baixo que o anterior, sustentando a tendência de baixa." }
+    "lowerLow": { "name": "Lower Low", "reason": "Fundo mais baixo que o anterior, sustentando a tendência de baixa." },
+    "doubleTop": {
+      "name": "Double Top",
+      "reason": "Dois topos similares com rompimento do neckline, sugerindo reversão baixista."
+    },
+    "doubleBottom": {
+      "name": "Double Bottom",
+      "reason": "Dois fundos similares com rompimento do neckline, sugerindo reversão altista."
+    },
+    "tripleTop": {
+      "name": "Triple Top",
+      "reason": "Três topos similares com rompimento do neckline, sugerindo reversão baixista mais forte."
+    },
+    "tripleBottom": {
+      "name": "Triple Bottom",
+      "reason": "Três fundos similares com rompimento do neckline, sugerindo reversão altista mais forte."
+    }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }
 }
