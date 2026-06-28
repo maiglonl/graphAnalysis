@@ -27,6 +27,7 @@ import { createExpandedPriceActionDetectors } from '#shared/utils/expandedPriceA
 import { createExpandedVolumeVolatilityDetectors } from '#shared/utils/expandedVolumeVolatilityDetectors';
 import { createExpandedTrendDetectors } from '#shared/utils/expandedTrendDetectors';
 import { createExpandedMomentumDetectors } from '#shared/utils/expandedMomentumDetectors';
+import { createExpandedLiquidityDetectors } from '#shared/utils/expandedLiquidityDetectors';
 
 const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
   patternScore: 0,
@@ -261,6 +262,7 @@ const defaultScanner = new Scanner([
   ...createExpandedVolumeVolatilityDetectors(),
   ...createExpandedTrendDetectors(),
   ...createExpandedMomentumDetectors(),
+  ...createExpandedLiquidityDetectors(),
   new BullishEngulfingDetector(),
   new BearishEngulfingDetector(),
   new BullishHaramiDetector(),
