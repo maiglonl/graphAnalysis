@@ -8,69 +8,334 @@
     "providerUnavailable": "Market data provider is currently unavailable.",
     "analyzeDefault": "Error analyzing asset."
   },
-  "common": { "entry": "Entry", "stop": "Stop", "targets": "Targets", "confidence": "Estimated confidence", "analyzing": "Analyzing...", "disclaimer": "This is not financial advice. It is an automated reading based on technical patterns." },
+  "common": {
+    "entry": "Entry",
+    "stop": "Stop",
+    "targets": "Targets",
+    "confidence": "Estimated confidence",
+    "analyzing": "Analyzing...",
+    "disclaimer": "This is not financial advice. It is an automated reading based on technical patterns."
+  },
   "analysisForm": { "symbolPlaceholder": "Symbol", "analyze": "Analyze" },
-  "opportunities": { "title": "Opportunity ranking", "subtitle": "Analyze multiple assets and select the best result to open it on the chart.", "refresh": "Refresh ranking", "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT", "confidence": "Confidence: {value}%", "minConfidence": "Confidence filter (%)", "empty": "No opportunities loaded yet.", "filters": { "all": "All" } },
-  "timeframes": { "title": "Multi-timeframe confirmation", "subtitle": "Compare the same asset across different timeframes to check reading alignment.", "refresh": "Refresh timeframes", "empty": "No multi-timeframe confirmation loaded yet." },
-  "simulation": { "title": "Historical simulation", "subtitle": "Validate recent signals using the available candles for this asset and timeframe.", "run": "Run simulation", "empty": "No simulation loaded yet.", "totalTrades": "Trades", "wins": "Wins", "losses": "Losses", "expired": "Expired", "winRate": "Win rate", "lossRate": "Loss rate", "averageRiskReward": "Average R/R", "averageReturn": "Average return", "maxDrawdown": "Max drawdown", "averageConfidence": "Average confidence" },
-  "simulationHistory": { "title": "Simulation history", "subtitle": "Simulation summaries saved locally.", "empty": "No simulation history yet.", "open": "Run again" },
-  "calibration": { "title": "Score calibration", "subtitle": "Informational adjustments calculated from historical simulation.", "run": "Calibrate score", "empty": "No calibration loaded yet.", "adjustment": "Adjustment", "sampleSize": "Sample", "reliable": "Reliable", "notReliable": "Small sample" },
-  "history": { "title": "Recent history", "subtitle": "Analyses saved locally in this browser.", "empty": "No analysis history yet.", "open": "Open" },
-  "watchlist": { "title": "Watchlist", "subtitle": "Assets saved locally for quick access.", "placeholder": "BTCUSDT", "add": "Add", "addCurrent": "Save current asset", "remove": "Remove", "empty": "No saved assets yet." },
-  "risk": { "title": "Risk management", "accountSize": "Account size", "riskPercent": "Risk per trade (%)", "riskAmount": "Risk amount", "stopDistance": "Stop distance", "positionSize": "Position size", "quantity": "Quantity", "riskReward": "R/R by target", "unavailable": "Risk plan unavailable without valid entry and stop." },
-  "chart": { "targetLine": "Target {n}", "fvgStart": "FVG start", "fvgEnd": "FVG end", "brokenLevel": "Broken level", "fvgZone": "FVG zone", "swingHigh": "SH", "swingLow": "SL", "higherHigh": "HH", "higherLow": "HL", "lowerHigh": "LH", "lowerLow": "LL" },
-  "scanner": { "title": "Technical Scanner", "subtitle": "Automated suggestions based on technical patterns, structure and price action.", "currentPrice": "Current price: {price}" },
-  "suggestion": { "title": "Trade plan", "reasons": "Reasons", "scoreBreakdown": { "title": "Confidence breakdown", "patternScore": "Patterns", "structureScore": "Structure", "trendScore": "Trend", "volumeScore": "Volume", "confluenceBonus": "Confluence", "conflictPenalty": "Conflict" } },
+  "opportunities": {
+    "title": "Opportunity ranking",
+    "subtitle": "Analyze multiple assets and select the best result to open it on the chart.",
+    "refresh": "Refresh ranking",
+    "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT",
+    "confidence": "Confidence: {value}%",
+    "minConfidence": "Confidence filter (%)",
+    "empty": "No opportunities loaded yet.",
+    "filters": { "all": "All" }
+  },
+  "timeframes": {
+    "title": "Multi-timeframe confirmation",
+    "subtitle": "Compare the same asset across different timeframes to check reading alignment.",
+    "refresh": "Refresh timeframes",
+    "empty": "No multi-timeframe confirmation loaded yet."
+  },
+  "simulation": {
+    "title": "Historical simulation",
+    "subtitle": "Validate recent signals using the available candles for this asset and timeframe.",
+    "run": "Run simulation",
+    "empty": "No simulation loaded yet.",
+    "totalTrades": "Trades",
+    "wins": "Wins",
+    "losses": "Losses",
+    "expired": "Expired",
+    "winRate": "Win rate",
+    "lossRate": "Loss rate",
+    "averageRiskReward": "Average R/R",
+    "averageReturn": "Average return",
+    "maxDrawdown": "Max drawdown",
+    "averageConfidence": "Average confidence"
+  },
+  "simulationHistory": {
+    "title": "Simulation history",
+    "subtitle": "Simulation summaries saved locally.",
+    "empty": "No simulation history yet.",
+    "open": "Run again"
+  },
+  "calibration": {
+    "title": "Score calibration",
+    "subtitle": "Informational adjustments calculated from historical simulation.",
+    "run": "Calibrate score",
+    "empty": "No calibration loaded yet.",
+    "adjustment": "Adjustment",
+    "sampleSize": "Sample",
+    "reliable": "Reliable",
+    "notReliable": "Small sample"
+  },
+  "history": {
+    "title": "Recent history",
+    "subtitle": "Analyses saved locally in this browser.",
+    "empty": "No analysis history yet.",
+    "open": "Open"
+  },
+  "watchlist": {
+    "title": "Watchlist",
+    "subtitle": "Assets saved locally for quick access.",
+    "placeholder": "BTCUSDT",
+    "add": "Add",
+    "addCurrent": "Save current asset",
+    "remove": "Remove",
+    "empty": "No saved assets yet."
+  },
+  "risk": {
+    "title": "Risk management",
+    "accountSize": "Account size",
+    "riskPercent": "Risk per trade (%)",
+    "riskAmount": "Risk amount",
+    "stopDistance": "Stop distance",
+    "positionSize": "Position size",
+    "quantity": "Quantity",
+    "riskReward": "R/R by target",
+    "unavailable": "Risk plan unavailable without valid entry and stop."
+  },
+  "chart": {
+    "targetLine": "Target {n}",
+    "fvgStart": "FVG start",
+    "fvgEnd": "FVG end",
+    "brokenLevel": "Broken level",
+    "fvgZone": "FVG zone",
+    "swingHigh": "SH",
+    "swingLow": "SL",
+    "higherHigh": "HH",
+    "higherLow": "HL",
+    "lowerHigh": "LH",
+    "lowerLow": "LL"
+  },
+  "scanner": {
+    "title": "Technical Scanner",
+    "subtitle": "Automated suggestions based on technical patterns, structure and price action.",
+    "currentPrice": "Current price: {price}"
+  },
+  "suggestion": {
+    "title": "Trade plan",
+    "reasons": "Reasons",
+    "scoreBreakdown": {
+      "title": "Confidence breakdown",
+      "patternScore": "Patterns",
+      "structureScore": "Structure",
+      "trendScore": "Trend",
+      "volumeScore": "Volume",
+      "confluenceBonus": "Confluence",
+      "conflictPenalty": "Conflict"
+    }
+  },
   "patterns": {
-    "title": "Detected patterns", "empty": "No relevant pattern detected on the current candle.",
+    "title": "Detected patterns",
+    "empty": "No relevant pattern detected on the current candle.",
     "hammer": { "name": "Hammer", "reason": "Hammer after a downtrend, with long lower shadow and seller rejection." },
-    "invertedHammer": { "name": "Inverted Hammer", "reason": "Inverted hammer after a decline, with long upper shadow and a possible reversal attempt." },
-    "hangingMan": { "name": "Hanging Man", "reason": "Hanging man after an advance, with long lower shadow and possible buyer exhaustion." },
-    "shootingStar": { "name": "Shooting Star", "reason": "Shooting star after an uptrend, with buyer rejection at the top." },
+    "invertedHammer": {
+      "name": "Inverted Hammer",
+      "reason": "Inverted hammer after a decline, with long upper shadow and a possible reversal attempt."
+    },
+    "hangingMan": {
+      "name": "Hanging Man",
+      "reason": "Hanging man after an advance, with long lower shadow and possible buyer exhaustion."
+    },
+    "shootingStar": {
+      "name": "Shooting Star",
+      "reason": "Shooting star after an uptrend, with buyer rejection at the top."
+    },
     "doji": { "name": "Doji", "reason": "Opening and closing nearly equal, indicating indecision." },
-    "longLeggedDoji": { "name": "Long-Legged Doji", "reason": "Doji with long shadows on both sides, indicating strong indecision and volatility." },
-    "dragonflyDoji": { "name": "Dragonfly Doji", "reason": "Doji with a long lower shadow, suggesting seller rejection and possible bullish reversal." },
-    "gravestoneDoji": { "name": "Gravestone Doji", "reason": "Doji with a long upper shadow, suggesting buyer rejection and possible bearish reversal." },
-    "spinningTop": { "name": "Spinning Top", "reason": "Small-body candle with relevant shadows, indicating balance and indecision." },
-    "bullishMarubozu": { "name": "Bullish Marubozu", "reason": "Wide bullish candle with minimal shadows, indicating strong buyer pressure." },
-    "bearishMarubozu": { "name": "Bearish Marubozu", "reason": "Wide bearish candle with minimal shadows, indicating strong seller pressure." },
-    "bullishKicker": { "name": "Bullish Kicker", "reason": "Sharp bullish shift with a gap and strong buyer candle after a seller candle." },
-    "bearishKicker": { "name": "Bearish Kicker", "reason": "Sharp bearish shift with a gap and strong seller candle after a buyer candle." },
-    "threeWhiteSoldiers": { "name": "Three White Soldiers", "reason": "Sequence of three strong bullish candles, suggesting renewed bullish strength." },
-    "threeBlackCrows": { "name": "Three Black Crows", "reason": "Sequence of three strong bearish candles, suggesting renewed bearish strength." },
-    "risingThreeMethods": { "name": "Rising Three Methods", "reason": "Bullish continuation with a short pause inside the range followed by renewed buyer pressure." },
-    "fallingThreeMethods": { "name": "Falling Three Methods", "reason": "Bearish continuation with a short pause inside the range followed by renewed seller pressure." },
-    "bullishSeparatingLines": { "name": "Bullish Separating Lines", "reason": "Bullish continuation with a buyer candle opening near the previous one and resuming trend direction." },
-    "bearishSeparatingLines": { "name": "Bearish Separating Lines", "reason": "Bearish continuation with a seller candle opening near the previous one and resuming trend direction." },
-    "bullishBreakawayGap": { "name": "Bullish Breakaway Gap", "reason": "Bullish gap after a bearish trend, suggesting breakout and a pressure shift." },
-    "bearishBreakawayGap": { "name": "Bearish Breakaway Gap", "reason": "Bearish gap after a bullish trend, suggesting breakout and a pressure shift." },
-    "runawayGapUp": { "name": "Runaway Gap Up", "reason": "Bullish continuation gap in trend direction, indicating buyer acceleration." },
-    "runawayGapDown": { "name": "Runaway Gap Down", "reason": "Bearish continuation gap in trend direction, indicating seller acceleration." },
-    "gapFillBullish": { "name": "Bullish Gap Fill", "reason": "Bearish gap filled by price recovery, suggesting buyer reaction." },
-    "gapFillBearish": { "name": "Bearish Gap Fill", "reason": "Bullish gap filled by price rejection, suggesting seller reaction." },
-    "onNeck": { "name": "On Neck", "reason": "Bearish continuation — bullish candle closes at the bottom of the prior bearish body, showing bulls failed to push higher." },
-    "inNeck": { "name": "In Neck", "reason": "Bearish continuation — bullish candle closes slightly into the prior bearish body but well below the midpoint." },
-    "thrusting": { "name": "Thrusting", "reason": "Bearish continuation — bullish candle penetrates the prior bearish body up to 50% without reaching the midpoint." },
-    "bullishEngulfing": { "name": "Bullish Engulfing", "reason": "Bullish engulfing after a decline, with buyer candle engulfing the previous body." },
-    "bearishEngulfing": { "name": "Bearish Engulfing", "reason": "Bearish engulfing after a rally, with seller candle engulfing the previous body." },
-    "bullishHarami": { "name": "Bullish Harami", "reason": "Small bullish candle contained inside the previous body after a decline, suggesting seller slowdown." },
-    "bearishHarami": { "name": "Bearish Harami", "reason": "Small bearish candle contained inside the previous body after an advance, suggesting buyer slowdown." },
-    "piercingLine": { "name": "Piercing Line", "reason": "Two-candle bullish reversal with close above the midpoint of the previous bearish candle." },
-    "darkCloudCover": { "name": "Dark Cloud Cover", "reason": "Two-candle bearish reversal with close below the midpoint of the previous bullish candle." },
-    "morningStar": { "name": "Morning Star", "reason": "Three-candle bullish reversal with indecision followed by buyer recovery." },
-    "eveningStar": { "name": "Evening Star", "reason": "Three-candle bearish reversal with indecision followed by seller recovery." },
-    "tweezerBottom": { "name": "Tweezer Bottom", "reason": "Similar lows after a decline, indicating price defense and possible reversal." },
-    "tweezerTop": { "name": "Tweezer Top", "reason": "Similar highs after an advance, indicating rejection and possible reversal." },
-    "insideBar": { "name": "Inside Bar", "reason": "Current candle contained within the previous, indicating compression before a breakout." },
-    "bullishFvg": { "name": "Bullish FVG", "reason": "Bullish inefficiency across three candles: third candle low above first candle high." },
-    "bearishFvg": { "name": "Bearish FVG", "reason": "Bearish inefficiency across three candles: third candle high below first candle low." },
-    "bullishBos": { "name": "Bullish BOS", "reason": "Close broke the last confirmed swing high, indicating a bullish structure break." },
-    "bearishBos": { "name": "Bearish BOS", "reason": "Close broke the last confirmed swing low, indicating a bearish structure break." },
-    "bullishChoch": { "name": "Bullish CHOCH", "reason": "Change of character: bearish structure reversed by breaking a relevant swing high." },
-    "bearishChoch": { "name": "Bearish CHOCH", "reason": "Change of character: bullish structure reversed by breaking a relevant swing low." },
-    "higherHigh": { "name": "Higher High", "reason": "Higher high than the previous one, confirming bullish market structure." },
+    "longLeggedDoji": {
+      "name": "Long-Legged Doji",
+      "reason": "Doji with long shadows on both sides, indicating strong indecision and volatility."
+    },
+    "dragonflyDoji": {
+      "name": "Dragonfly Doji",
+      "reason": "Doji with a long lower shadow, suggesting seller rejection and possible bullish reversal."
+    },
+    "gravestoneDoji": {
+      "name": "Gravestone Doji",
+      "reason": "Doji with a long upper shadow, suggesting buyer rejection and possible bearish reversal."
+    },
+    "spinningTop": {
+      "name": "Spinning Top",
+      "reason": "Small-body candle with relevant shadows, indicating balance and indecision."
+    },
+    "bullishMarubozu": {
+      "name": "Bullish Marubozu",
+      "reason": "Wide bullish candle with minimal shadows, indicating strong buyer pressure."
+    },
+    "bearishMarubozu": {
+      "name": "Bearish Marubozu",
+      "reason": "Wide bearish candle with minimal shadows, indicating strong seller pressure."
+    },
+    "bullishKicker": {
+      "name": "Bullish Kicker",
+      "reason": "Sharp bullish shift with a gap and strong buyer candle after a seller candle."
+    },
+    "bearishKicker": {
+      "name": "Bearish Kicker",
+      "reason": "Sharp bearish shift with a gap and strong seller candle after a buyer candle."
+    },
+    "threeWhiteSoldiers": {
+      "name": "Three White Soldiers",
+      "reason": "Sequence of three strong bullish candles, suggesting renewed bullish strength."
+    },
+    "threeBlackCrows": {
+      "name": "Three Black Crows",
+      "reason": "Sequence of three strong bearish candles, suggesting renewed bearish strength."
+    },
+    "risingThreeMethods": {
+      "name": "Rising Three Methods",
+      "reason": "Bullish continuation with a short pause inside the range followed by renewed buyer pressure."
+    },
+    "fallingThreeMethods": {
+      "name": "Falling Three Methods",
+      "reason": "Bearish continuation with a short pause inside the range followed by renewed seller pressure."
+    },
+    "matHold": {
+      "name": "Mat Hold",
+      "reason": "Bullish continuation with a gap, controlled pause above the first candle and buyer recovery."
+    },
+    "bullishSeparatingLines": {
+      "name": "Bullish Separating Lines",
+      "reason": "Bullish continuation with a buyer candle opening near the previous one and resuming trend direction."
+    },
+    "bearishSeparatingLines": {
+      "name": "Bearish Separating Lines",
+      "reason": "Bearish continuation with a seller candle opening near the previous one and resuming trend direction."
+    },
+    "upsideTasukiGap": {
+      "name": "Upside Tasuki Gap",
+      "reason": "Bullish continuation gap partially tested by a seller candle without closing the window."
+    },
+    "downsideTasukiGap": {
+      "name": "Downside Tasuki Gap",
+      "reason": "Bearish continuation gap partially tested by a buyer candle without closing the window."
+    },
+    "onNeck": {
+      "name": "On Neck",
+      "reason": "Bearish continuation with weak buyer reaction closing near the previous seller close."
+    },
+    "inNeck": {
+      "name": "In Neck",
+      "reason": "Bearish continuation with a short buyer reaction still below the midpoint of the seller candle."
+    },
+    "thrusting": {
+      "name": "Thrusting",
+      "reason": "Bearish continuation with partial recovery into the previous body without invalidating seller pressure."
+    },
+    "bullishBreakawayGap": {
+      "name": "Bullish Breakaway Gap",
+      "reason": "Bullish gap after a bearish trend, suggesting breakout and a pressure shift."
+    },
+    "bearishBreakawayGap": {
+      "name": "Bearish Breakaway Gap",
+      "reason": "Bearish gap after a bullish trend, suggesting breakout and a pressure shift."
+    },
+    "runawayGapUp": {
+      "name": "Runaway Gap Up",
+      "reason": "Bullish continuation gap in trend direction, indicating buyer acceleration."
+    },
+    "runawayGapDown": {
+      "name": "Runaway Gap Down",
+      "reason": "Bearish continuation gap in trend direction, indicating seller acceleration."
+    },
+    "exhaustionGapUp": {
+      "name": "Exhaustion Gap Up",
+      "reason": "Upside gap in an extended trend with rejection, suggesting possible buyer exhaustion."
+    },
+    "exhaustionGapDown": {
+      "name": "Exhaustion Gap Down",
+      "reason": "Downside gap in an extended trend with rejection, suggesting possible seller exhaustion."
+    },
+    "gapFillBullish": {
+      "name": "Bullish Gap Fill",
+      "reason": "Bearish gap filled by price recovery, suggesting buyer reaction."
+    },
+    "gapFillBearish": {
+      "name": "Bearish Gap Fill",
+      "reason": "Bullish gap filled by price rejection, suggesting seller reaction."
+    },
+    "islandReversalBottom": {
+      "name": "Island Reversal Bottom",
+      "reason": "Bottom island reversal with an entry gap and an exit gap to the upside."
+    },
+    "islandReversalTop": {
+      "name": "Island Reversal Top",
+      "reason": "Top island reversal with an entry gap and an exit gap to the downside."
+    },
+    "bullishEngulfing": {
+      "name": "Bullish Engulfing",
+      "reason": "Bullish engulfing after a decline, with buyer candle engulfing the previous body."
+    },
+    "bearishEngulfing": {
+      "name": "Bearish Engulfing",
+      "reason": "Bearish engulfing after a rally, with seller candle engulfing the previous body."
+    },
+    "bullishHarami": {
+      "name": "Bullish Harami",
+      "reason": "Small bullish candle contained inside the previous body after a decline, suggesting seller slowdown."
+    },
+    "bearishHarami": {
+      "name": "Bearish Harami",
+      "reason": "Small bearish candle contained inside the previous body after an advance, suggesting buyer slowdown."
+    },
+    "piercingLine": {
+      "name": "Piercing Line",
+      "reason": "Two-candle bullish reversal with close above the midpoint of the previous bearish candle."
+    },
+    "darkCloudCover": {
+      "name": "Dark Cloud Cover",
+      "reason": "Two-candle bearish reversal with close below the midpoint of the previous bullish candle."
+    },
+    "morningStar": {
+      "name": "Morning Star",
+      "reason": "Three-candle bullish reversal with indecision followed by buyer recovery."
+    },
+    "eveningStar": {
+      "name": "Evening Star",
+      "reason": "Three-candle bearish reversal with indecision followed by seller recovery."
+    },
+    "tweezerBottom": {
+      "name": "Tweezer Bottom",
+      "reason": "Similar lows after a decline, indicating price defense and possible reversal."
+    },
+    "tweezerTop": {
+      "name": "Tweezer Top",
+      "reason": "Similar highs after an advance, indicating rejection and possible reversal."
+    },
+    "insideBar": {
+      "name": "Inside Bar",
+      "reason": "Current candle contained within the previous, indicating compression before a breakout."
+    },
+    "bullishFvg": {
+      "name": "Bullish FVG",
+      "reason": "Bullish inefficiency across three candles: third candle low above first candle high."
+    },
+    "bearishFvg": {
+      "name": "Bearish FVG",
+      "reason": "Bearish inefficiency across three candles: third candle high below first candle low."
+    },
+    "bullishBos": {
+      "name": "Bullish BOS",
+      "reason": "Close broke the last confirmed swing high, indicating a bullish structure break."
+    },
+    "bearishBos": {
+      "name": "Bearish BOS",
+      "reason": "Close broke the last confirmed swing low, indicating a bearish structure break."
+    },
+    "bullishChoch": {
+      "name": "Bullish CHOCH",
+      "reason": "Change of character: bearish structure reversed by breaking a relevant swing high."
+    },
+    "bearishChoch": {
+      "name": "Bearish CHOCH",
+      "reason": "Change of character: bullish structure reversed by breaking a relevant swing low."
+    },
+    "higherHigh": {
+      "name": "Higher High",
+      "reason": "Higher high than the previous one, confirming bullish market structure."
+    },
     "higherLow": { "name": "Higher Low", "reason": "Higher low than the previous one, sustaining the uptrend." },
-    "lowerHigh": { "name": "Lower High", "reason": "Lower high than the previous one, confirming bearish market structure." },
+    "lowerHigh": {
+      "name": "Lower High",
+      "reason": "Lower high than the previous one, confirming bearish market structure."
+    },
     "lowerLow": { "name": "Lower Low", "reason": "Lower low than the previous one, sustaining the downtrend." }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }

@@ -8,70 +8,344 @@
     "providerUnavailable": "El proveedor de mercado no está disponible en este momento.",
     "analyzeDefault": "Error al analizar el activo."
   },
-  "common": { "entry": "Entrada", "stop": "Stop", "targets": "Objetivos", "confidence": "Confianza estimada", "analyzing": "Analizando...", "disclaimer": "Esto no es asesoramiento financiero. Es una lectura automatizada basada en patrones técnicos." },
+  "common": {
+    "entry": "Entrada",
+    "stop": "Stop",
+    "targets": "Objetivos",
+    "confidence": "Confianza estimada",
+    "analyzing": "Analizando...",
+    "disclaimer": "Esto no es asesoramiento financiero. Es una lectura automatizada basada en patrones técnicos."
+  },
   "analysisForm": { "symbolPlaceholder": "Símbolo", "analyze": "Analizar" },
-  "opportunities": { "title": "Ranking de oportunidades", "subtitle": "Analiza varios activos y selecciona el mejor resultado para abrirlo en el gráfico.", "refresh": "Actualizar ranking", "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT", "confidence": "Confianza: {value}%", "minConfidence": "Filtro de confianza (%)", "empty": "Ninguna oportunidad cargada todavía.", "filters": { "all": "Todos" } },
-  "timeframes": { "title": "Confirmación multi-timeframe", "subtitle": "Compara el mismo activo en diferentes timeframes para verificar la alineación de la lectura.", "refresh": "Actualizar timeframes", "empty": "Ninguna confirmación multi-timeframe cargada todavía." },
-  "simulation": { "title": "Simulación histórica", "subtitle": "Valida señales recientes usando las velas disponibles para este activo y timeframe.", "run": "Ejecutar simulación", "empty": "Ninguna simulación cargada todavía.", "totalTrades": "Trades", "wins": "Ganadas", "losses": "Perdidas", "expired": "Expiradas", "winRate": "Tasa de acierto", "lossRate": "Tasa de pérdida", "averageRiskReward": "R/R medio", "averageReturn": "Retorno medio", "maxDrawdown": "Drawdown máx.", "averageConfidence": "Confianza media" },
-  "simulationHistory": { "title": "Historial de simulaciones", "subtitle": "Resúmenes de simulaciones guardados localmente.", "empty": "Ninguna simulación en el historial todavía.", "open": "Ejecutar de nuevo" },
-  "calibration": { "title": "Calibración del score", "subtitle": "Ajustes informativos calculados desde la simulación histórica.", "run": "Calibrar score", "empty": "Ninguna calibración cargada todavía.", "adjustment": "Ajuste", "sampleSize": "Muestra", "reliable": "Confiable", "notReliable": "Muestra baja" },
-  "history": { "title": "Historial reciente", "subtitle": "Análisis guardados localmente en este navegador.", "empty": "Ningún análisis en el historial todavía.", "open": "Abrir" },
-  "watchlist": { "title": "Watchlist", "subtitle": "Activos guardados localmente para acceso rápido.", "placeholder": "BTCUSDT", "add": "Añadir", "addCurrent": "Guardar activo actual", "remove": "Eliminar", "empty": "Ningún activo guardado todavía." },
-  "risk": { "title": "Gestión de riesgo", "accountSize": "Capital total", "riskPercent": "Riesgo por operación (%)", "riskAmount": "Valor en riesgo", "stopDistance": "Distancia hasta el stop", "positionSize": "Tamaño de la posición", "quantity": "Cantidad", "riskReward": "R/R por objetivo", "unavailable": "Plan de riesgo no disponible sin entrada y stop válidos." },
-  "chart": { "targetLine": "Objetivo {n}", "fvgStart": "Inicio FVG", "fvgEnd": "Fin FVG", "brokenLevel": "Nivel roto", "fvgZone": "Zona FVG", "swingHigh": "SH", "swingLow": "SL", "higherHigh": "HH", "higherLow": "HL", "lowerHigh": "LH", "lowerLow": "LL" },
-  "scanner": { "title": "Escáner Técnico", "subtitle": "Sugerencias automáticas basadas en patrones técnicos, estructura y price action.", "currentPrice": "Precio actual: {price}" },
-  "suggestion": { "title": "Plan de operación", "reasons": "Motivos", "scoreBreakdown": { "title": "Composición de la confianza", "patternScore": "Patrones", "structureScore": "Estructura", "trendScore": "Tendencia", "volumeScore": "Volumen", "confluenceBonus": "Confluencia", "conflictPenalty": "Conflicto" } },
+  "opportunities": {
+    "title": "Ranking de oportunidades",
+    "subtitle": "Analiza varios activos y selecciona el mejor resultado para abrirlo en el gráfico.",
+    "refresh": "Actualizar ranking",
+    "symbolsPlaceholder": "BTCUSDT,ETHUSDT,SOLUSDT",
+    "confidence": "Confianza: {value}%",
+    "minConfidence": "Filtro de confianza (%)",
+    "empty": "Ninguna oportunidad cargada todavía.",
+    "filters": { "all": "Todos" }
+  },
+  "timeframes": {
+    "title": "Confirmación multi-timeframe",
+    "subtitle": "Compara el mismo activo en diferentes timeframes para verificar la alineación de la lectura.",
+    "refresh": "Actualizar timeframes",
+    "empty": "Ninguna confirmación multi-timeframe cargada todavía."
+  },
+  "simulation": {
+    "title": "Simulación histórica",
+    "subtitle": "Valida señales recientes usando las velas disponibles para este activo y timeframe.",
+    "run": "Ejecutar simulación",
+    "empty": "Ninguna simulación cargada todavía.",
+    "totalTrades": "Trades",
+    "wins": "Ganadas",
+    "losses": "Perdidas",
+    "expired": "Expiradas",
+    "winRate": "Tasa de acierto",
+    "lossRate": "Tasa de pérdida",
+    "averageRiskReward": "R/R medio",
+    "averageReturn": "Retorno medio",
+    "maxDrawdown": "Drawdown máx.",
+    "averageConfidence": "Confianza media"
+  },
+  "simulationHistory": {
+    "title": "Historial de simulaciones",
+    "subtitle": "Resúmenes de simulaciones guardados localmente.",
+    "empty": "Ninguna simulación en el historial todavía.",
+    "open": "Ejecutar de nuevo"
+  },
+  "calibration": {
+    "title": "Calibración del score",
+    "subtitle": "Ajustes informativos calculados desde la simulación histórica.",
+    "run": "Calibrar score",
+    "empty": "Ninguna calibración cargada todavía.",
+    "adjustment": "Ajuste",
+    "sampleSize": "Muestra",
+    "reliable": "Confiable",
+    "notReliable": "Muestra baja"
+  },
+  "history": {
+    "title": "Historial reciente",
+    "subtitle": "Análisis guardados localmente en este navegador.",
+    "empty": "Ningún análisis en el historial todavía.",
+    "open": "Abrir"
+  },
+  "watchlist": {
+    "title": "Watchlist",
+    "subtitle": "Activos guardados localmente para acceso rápido.",
+    "placeholder": "BTCUSDT",
+    "add": "Añadir",
+    "addCurrent": "Guardar activo actual",
+    "remove": "Eliminar",
+    "empty": "Ningún activo guardado todavía."
+  },
+  "risk": {
+    "title": "Gestión de riesgo",
+    "accountSize": "Capital total",
+    "riskPercent": "Riesgo por operación (%)",
+    "riskAmount": "Valor en riesgo",
+    "stopDistance": "Distancia hasta el stop",
+    "positionSize": "Tamaño de la posición",
+    "quantity": "Cantidad",
+    "riskReward": "R/R por objetivo",
+    "unavailable": "Plan de riesgo no disponible sin entrada y stop válidos."
+  },
+  "chart": {
+    "targetLine": "Objetivo {n}",
+    "fvgStart": "Inicio FVG",
+    "fvgEnd": "Fin FVG",
+    "brokenLevel": "Nivel roto",
+    "fvgZone": "Zona FVG",
+    "swingHigh": "SH",
+    "swingLow": "SL",
+    "higherHigh": "HH",
+    "higherLow": "HL",
+    "lowerHigh": "LH",
+    "lowerLow": "LL"
+  },
+  "scanner": {
+    "title": "Escáner Técnico",
+    "subtitle": "Sugerencias automáticas basadas en patrones técnicos, estructura y price action.",
+    "currentPrice": "Precio actual: {price}"
+  },
+  "suggestion": {
+    "title": "Plan de operación",
+    "reasons": "Motivos",
+    "scoreBreakdown": {
+      "title": "Composición de la confianza",
+      "patternScore": "Patrones",
+      "structureScore": "Estructura",
+      "trendScore": "Tendencia",
+      "volumeScore": "Volumen",
+      "confluenceBonus": "Confluencia",
+      "conflictPenalty": "Conflicto"
+    }
+  },
   "patterns": {
-    "title": "Patrones detectados", "empty": "Ningún patrón relevante detectado en el candle actual.",
-    "hammer": { "name": "Martillo", "reason": "Martillo tras tendencia bajista, con sombra inferior larga y rechazo vendedor." },
-    "invertedHammer": { "name": "Martillo Invertido", "reason": "Martillo invertido tras caída, con sombra superior larga y posible intento de reversión." },
-    "hangingMan": { "name": "Hombre Colgado", "reason": "Hanging Man tras subida, con sombra inferior larga y posible agotamiento comprador." },
-    "shootingStar": { "name": "Estrella Fugaz", "reason": "Estrella fugaz tras tendencia alcista, con rechazo comprador en el techo." },
+    "title": "Patrones detectados",
+    "empty": "Ningún patrón relevante detectado en el candle actual.",
+    "hammer": {
+      "name": "Martillo",
+      "reason": "Martillo tras tendencia bajista, con sombra inferior larga y rechazo vendedor."
+    },
+    "invertedHammer": {
+      "name": "Martillo Invertido",
+      "reason": "Martillo invertido tras caída, con sombra superior larga y posible intento de reversión."
+    },
+    "hangingMan": {
+      "name": "Hombre Colgado",
+      "reason": "Hanging Man tras subida, con sombra inferior larga y posible agotamiento comprador."
+    },
+    "shootingStar": {
+      "name": "Estrella Fugaz",
+      "reason": "Estrella fugaz tras tendencia alcista, con rechazo comprador en el techo."
+    },
     "doji": { "name": "Doji", "reason": "Apertura y cierre prácticamente iguales, indicando indecisión." },
-    "longLeggedDoji": { "name": "Doji de Piernas Largas", "reason": "Doji con sombras largas en ambos lados, indicando fuerte indecisión y volatilidad." },
-    "dragonflyDoji": { "name": "Dragonfly Doji", "reason": "Doji con larga sombra inferior, sugiriendo rechazo vendedor y posible reversión alcista." },
-    "gravestoneDoji": { "name": "Gravestone Doji", "reason": "Doji con larga sombra superior, sugiriendo rechazo comprador y posible reversión bajista." },
-    "spinningTop": { "name": "Spinning Top", "reason": "Vela de cuerpo pequeño con sombras relevantes, indicando equilibrio e indecisión." },
-    "bullishMarubozu": { "name": "Marubozu Alcista", "reason": "Vela compradora de cuerpo amplio y sombras mínimas, indicando fuerte presión compradora." },
-    "bearishMarubozu": { "name": "Marubozu Bajista", "reason": "Vela vendedora de cuerpo amplio y sombras mínimas, indicando fuerte presión vendedora." },
-    "bullishKicker": { "name": "Kicker Alcista", "reason": "Cambio brusco hacia alta con gap y vela compradora fuerte después de vela vendedora." },
-    "bearishKicker": { "name": "Kicker Bajista", "reason": "Cambio brusco hacia baja con gap y vela vendedora fuerte después de vela compradora." },
-    "threeWhiteSoldiers": { "name": "Tres Soldados Blancos", "reason": "Secuencia de tres velas compradoras fuertes, sugiriendo retomada de fuerza alcista." },
-    "threeBlackCrows": { "name": "Tres Cuervos Negros", "reason": "Secuencia de tres velas vendedoras fuertes, sugiriendo retomada de fuerza bajista." },
-    "risingThreeMethods": { "name": "Rising Three Methods", "reason": "Continuación alcista con pausa corta dentro del rango y recuperación compradora." },
-    "fallingThreeMethods": { "name": "Falling Three Methods", "reason": "Continuación bajista con pausa corta dentro del rango y recuperación vendedora." },
-    "bullishSeparatingLines": { "name": "Separating Lines Alcista", "reason": "Continuación alcista con vela compradora abriendo cerca de la anterior y retomando la tendencia." },
-    "bearishSeparatingLines": { "name": "Separating Lines Bajista", "reason": "Continuación bajista con vela vendedora abriendo cerca de la anterior y retomando la tendencia." },
-    "bullishBreakawayGap": { "name": "Breakaway Gap Alcista", "reason": "Gap de alta tras tendencia bajista, sugiriendo ruptura y cambio de presión." },
-    "bearishBreakawayGap": { "name": "Breakaway Gap Bajista", "reason": "Gap de baja tras tendencia alcista, sugiriendo ruptura y cambio de presión." },
-    "runawayGapUp": { "name": "Runaway Gap Alcista", "reason": "Gap de continuación alcista a favor de la tendencia, indicando aceleración compradora." },
-    "runawayGapDown": { "name": "Runaway Gap Bajista", "reason": "Gap de continuación bajista a favor de la tendencia, indicando aceleración vendedora." },
-    "gapFillBullish": { "name": "Relleno de Gap Alcista", "reason": "Gap bajista rellenado por recuperación de precio, sugiriendo reacción compradora." },
-    "gapFillBearish": { "name": "Relleno de Gap Bajista", "reason": "Gap alcista rellenado por devolución de precio, sugiriendo reacción vendedora." },
-    "onNeck": { "name": "On Neck", "reason": "Continuación bajista — vela compradora cierra en la base del cuerpo bajista anterior, indicando que los compradores no lograron avanzar." },
-    "inNeck": { "name": "In Neck", "reason": "Continuación bajista — vela compradora cierra ligeramente dentro del cuerpo bajista anterior, pero bien por debajo del punto medio." },
-    "thrusting": { "name": "Thrusting", "reason": "Continuación bajista — vela compradora penetra el cuerpo bajista anterior hasta un 50% sin alcanzar el punto medio." },
-    "bullishEngulfing": { "name": "Envolvente Alcista", "reason": "Envolvente alcista tras caída, con vela compradora que engloba el cuerpo anterior." },
-    "bearishEngulfing": { "name": "Envolvente Bajista", "reason": "Envolvente bajista tras subida, con vela vendedora que engloba el cuerpo anterior." },
-    "bullishHarami": { "name": "Harami Alcista", "reason": "Vela compradora pequeña contenida en el cuerpo anterior tras caída, sugiriendo desaceleración vendedora." },
-    "bearishHarami": { "name": "Harami Bajista", "reason": "Vela vendedora pequeña contenida en el cuerpo anterior tras subida, sugiriendo desaceleración compradora." },
-    "piercingLine": { "name": "Piercing Line", "reason": "Reversión alcista de dos velas con cierre por encima del punto medio de la vela bajista anterior." },
-    "darkCloudCover": { "name": "Dark Cloud Cover", "reason": "Reversión bajista de dos velas con cierre por debajo del punto medio de la vela alcista anterior." },
-    "morningStar": { "name": "Morning Star", "reason": "Reversión alcista de tres velas con indecisión seguida de recuperación compradora." },
-    "eveningStar": { "name": "Evening Star", "reason": "Reversión bajista de tres velas con indecisión seguida de recuperación vendedora." },
-    "tweezerBottom": { "name": "Tweezer Bottom", "reason": "Mínimos similares tras caída, indicando defensa de precio y posible reversión." },
-    "tweezerTop": { "name": "Tweezer Top", "reason": "Máximos similares tras subida, indicando rechazo de precio y posible reversión." },
-    "insideBar": { "name": "Barra Interior", "reason": "Vela actual contenida dentro de la anterior, indicando compresión antes de ruptura." },
-    "bullishFvg": { "name": "FVG Alcista", "reason": "Ineficiencia alcista entre tres velas: mínimo de la tercera por encima del máximo de la primera." },
-    "bearishFvg": { "name": "FVG Bajista", "reason": "Ineficiencia bajista entre tres velas: máximo de la tercera por debajo del mínimo de la primera." },
-    "bullishBos": { "name": "BOS Alcista", "reason": "El cierre rompió el último swing high confirmado, indicando ruptura de estructura alcista." },
-    "bearishBos": { "name": "BOS Bajista", "reason": "El cierre rompió el último swing low confirmado, indicando ruptura de estructura bajista." },
-    "bullishChoch": { "name": "CHOCH Alcista", "reason": "Cambio de carácter: la estructura bajista revirtió al romper un máximo relevante." },
-    "bearishChoch": { "name": "CHOCH Bajista", "reason": "Cambio de carácter: la estructura alcista revirtió al romper un mínimo relevante." },
-    "higherHigh": { "name": "Máximo Mayor", "reason": "Máximo más alto que el anterior, confirmando estructura alcista de mercado." },
-    "higherLow": { "name": "Mínimo Mayor", "reason": "Mínimo más alto que el anterior, sosteniendo la tendencia alcista." },
-    "lowerHigh": { "name": "Máximo Menor", "reason": "Máximo más bajo que el anterior, confirmando estructura bajista de mercado." },
-    "lowerLow": { "name": "Mínimo Menor", "reason": "Mínimo más bajo que el anterior, sosteniendo la tendencia bajista." }
+    "longLeggedDoji": {
+      "name": "Doji de Piernas Largas",
+      "reason": "Doji con sombras largas en ambos lados, indicando fuerte indecisión y volatilidad."
+    },
+    "dragonflyDoji": {
+      "name": "Dragonfly Doji",
+      "reason": "Doji con larga sombra inferior, sugiriendo rechazo vendedor y posible reversión alcista."
+    },
+    "gravestoneDoji": {
+      "name": "Gravestone Doji",
+      "reason": "Doji con larga sombra superior, sugiriendo rechazo comprador y posible reversión bajista."
+    },
+    "spinningTop": {
+      "name": "Spinning Top",
+      "reason": "Vela de cuerpo pequeño con sombras relevantes, indicando equilibrio e indecisión."
+    },
+    "bullishMarubozu": {
+      "name": "Marubozu Alcista",
+      "reason": "Vela compradora de cuerpo amplio y sombras mínimas, indicando fuerte presión compradora."
+    },
+    "bearishMarubozu": {
+      "name": "Marubozu Bajista",
+      "reason": "Vela vendedora de cuerpo amplio y sombras mínimas, indicando fuerte presión vendedora."
+    },
+    "bullishKicker": {
+      "name": "Kicker Alcista",
+      "reason": "Cambio brusco hacia alta con gap y vela compradora fuerte después de vela vendedora."
+    },
+    "bearishKicker": {
+      "name": "Kicker Bajista",
+      "reason": "Cambio brusco hacia baja con gap y vela vendedora fuerte después de vela compradora."
+    },
+    "threeWhiteSoldiers": {
+      "name": "Tres Soldados Blancos",
+      "reason": "Secuencia de tres velas compradoras fuertes, sugiriendo retomada de fuerza alcista."
+    },
+    "threeBlackCrows": {
+      "name": "Tres Cuervos Negros",
+      "reason": "Secuencia de tres velas vendedoras fuertes, sugiriendo retomada de fuerza bajista."
+    },
+    "risingThreeMethods": {
+      "name": "Rising Three Methods",
+      "reason": "Continuación alcista con pausa corta dentro del rango y recuperación compradora."
+    },
+    "fallingThreeMethods": {
+      "name": "Falling Three Methods",
+      "reason": "Continuación bajista con pausa corta dentro del rango y recuperación vendedora."
+    },
+    "matHold": {
+      "name": "Mat Hold",
+      "reason": "Continuación alcista con gap, pausa controlada por encima de la primera vela y recuperación compradora."
+    },
+    "bullishSeparatingLines": {
+      "name": "Separating Lines Alcista",
+      "reason": "Continuación alcista con vela compradora abriendo cerca de la anterior y retomando la tendencia."
+    },
+    "bearishSeparatingLines": {
+      "name": "Separating Lines Bajista",
+      "reason": "Continuación bajista con vela vendedora abriendo cerca de la anterior y retomando la tendencia."
+    },
+    "upsideTasukiGap": {
+      "name": "Upside Tasuki Gap",
+      "reason": "Gap alcista de continuación parcialmente probado por una vela vendedora sin cerrar la ventana."
+    },
+    "downsideTasukiGap": {
+      "name": "Downside Tasuki Gap",
+      "reason": "Gap bajista de continuación parcialmente probado por una vela compradora sin cerrar la ventana."
+    },
+    "onNeck": {
+      "name": "On Neck",
+      "reason": "Continuación bajista con reacción compradora débil cerrando cerca del cierre vendedor anterior."
+    },
+    "inNeck": {
+      "name": "In Neck",
+      "reason": "Continuación bajista con reacción compradora corta, aún por debajo del punto medio de la vela vendedora."
+    },
+    "thrusting": {
+      "name": "Thrusting",
+      "reason": "Continuación bajista con recuperación parcial dentro del cuerpo anterior, sin invalidar la presión vendedora."
+    },
+    "bullishBreakawayGap": {
+      "name": "Breakaway Gap Alcista",
+      "reason": "Gap de alta tras tendencia bajista, sugiriendo ruptura y cambio de presión."
+    },
+    "bearishBreakawayGap": {
+      "name": "Breakaway Gap Bajista",
+      "reason": "Gap de baja tras tendencia alcista, sugiriendo ruptura y cambio de presión."
+    },
+    "runawayGapUp": {
+      "name": "Runaway Gap Alcista",
+      "reason": "Gap de continuación alcista a favor de la tendencia, indicando aceleración compradora."
+    },
+    "runawayGapDown": {
+      "name": "Runaway Gap Bajista",
+      "reason": "Gap de continuación bajista a favor de la tendencia, indicando aceleración vendedora."
+    },
+    "exhaustionGapUp": {
+      "name": "Exhaustion Gap Alcista",
+      "reason": "Gap de alta en tendencia extendida con rechazo, sugiriendo posible agotamiento comprador."
+    },
+    "exhaustionGapDown": {
+      "name": "Exhaustion Gap Bajista",
+      "reason": "Gap de baja en tendencia extendida com rechazo, sugerindo posible agotamiento vendedor."
+    },
+    "gapFillBullish": {
+      "name": "Relleno de Gap Alcista",
+      "reason": "Gap bajista rellenado por recuperación de precio, sugiriendo reacción compradora."
+    },
+    "gapFillBearish": {
+      "name": "Relleno de Gap Bajista",
+      "reason": "Gap alcista rellenado por devolución de precio, sugiriendo reacción vendedora."
+    },
+    "islandReversalBottom": {
+      "name": "Island Reversal Bottom",
+      "reason": "Isla de reversión en fondo, con gap de entrada y gap de salida hacia arriba."
+    },
+    "islandReversalTop": {
+      "name": "Island Reversal Top",
+      "reason": "Isla de reversión en techo, con gap de entrada y gap de salida hacia abajo."
+    },
+    "bullishEngulfing": {
+      "name": "Envolvente Alcista",
+      "reason": "Envolvente alcista tras caída, con vela compradora que engloba el cuerpo anterior."
+    },
+    "bearishEngulfing": {
+      "name": "Envolvente Bajista",
+      "reason": "Envolvente bajista tras subida, con vela vendedora que engloba el cuerpo anterior."
+    },
+    "bullishHarami": {
+      "name": "Harami Alcista",
+      "reason": "Vela compradora pequeña contenida en el cuerpo anterior tras caída, sugiriendo desaceleración vendedora."
+    },
+    "bearishHarami": {
+      "name": "Harami Bajista",
+      "reason": "Vela vendedora pequeña contenida en el cuerpo anterior tras subida, sugiriendo desaceleración compradora."
+    },
+    "piercingLine": {
+      "name": "Piercing Line",
+      "reason": "Reversión alcista de dos velas con cierre por encima del punto medio de la vela bajista anterior."
+    },
+    "darkCloudCover": {
+      "name": "Dark Cloud Cover",
+      "reason": "Reversión bajista de dos velas con cierre por debajo del punto medio de la vela alcista anterior."
+    },
+    "morningStar": {
+      "name": "Morning Star",
+      "reason": "Reversión alcista de tres velas con indecisión seguida de recuperación compradora."
+    },
+    "eveningStar": {
+      "name": "Evening Star",
+      "reason": "Reversión bajista de tres velas con indecisión seguida de recuperación vendedora."
+    },
+    "tweezerBottom": {
+      "name": "Tweezer Bottom",
+      "reason": "Mínimos similares tras caída, indicando defensa de precio y posible reversión."
+    },
+    "tweezerTop": {
+      "name": "Tweezer Top",
+      "reason": "Máximos similares tras subida, indicando rechazo de precio y posible reversión."
+    },
+    "insideBar": {
+      "name": "Barra Interior",
+      "reason": "Vela actual contenida dentro de la anterior, indicando compresión antes de ruptura."
+    },
+    "bullishFvg": {
+      "name": "FVG Alcista",
+      "reason": "Ineficiencia alcista entre tres velas: mínimo de la tercera por encima del máximo de la primera."
+    },
+    "bearishFvg": {
+      "name": "FVG Bajista",
+      "reason": "Ineficiencia bajista entre tres velas: máximo de la tercera por debajo del mínimo de la primera."
+    },
+    "bullishBos": {
+      "name": "BOS Alcista",
+      "reason": "El cierre rompió el último swing high confirmado, indicando ruptura de estructura alcista."
+    },
+    "bearishBos": {
+      "name": "BOS Bajista",
+      "reason": "El cierre rompió el último swing low confirmado, indicando ruptura de estructura bajista."
+    },
+    "bullishChoch": {
+      "name": "CHOCH Alcista",
+      "reason": "Cambio de carácter: la estructura bajista revirtió al romper un máximo relevante."
+    },
+    "bearishChoch": {
+      "name": "CHOCH Bajista",
+      "reason": "Cambio de carácter: la estructura alcista revirtió al romper un mínimo relevante."
+    },
+    "higherHigh": {
+      "name": "Máximo Mayor",
+      "reason": "Máximo más alto que el anterior, confirmando estructura alcista de mercado."
+    },
+    "higherLow": {
+      "name": "Mínimo Mayor",
+      "reason": "Mínimo más alto que el anterior, sosteniendo la tendencia alcista."
+    },
+    "lowerHigh": {
+      "name": "Máximo Menor",
+      "reason": "Máximo más bajo que el anterior, confirmando estructura bajista de mercado."
+    },
+    "lowerLow": {
+      "name": "Mínimo Menor",
+      "reason": "Mínimo más bajo que el anterior, sosteniendo la tendencia bajista."
+    }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }
 }
