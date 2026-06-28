@@ -4,7 +4,7 @@ import type { ScanContext } from '#shared/utils/scanContext';
 import { PatternDetector } from '../PatternDetector';
 import { calculateTargets } from '../helpers';
 
-export abstract class TrendSignalDetector extends PatternDetector {
+export abstract class TrendPatternDetector extends PatternDetector {
   protected abstract readonly id: PatternSignal['id'];
   protected abstract readonly direction: PatternDirectionEnum;
   protected abstract readonly baseConfidence: number;
