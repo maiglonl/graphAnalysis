@@ -94,6 +94,8 @@ export const SCORE_CALIBRATION = {
 export const HISTORICAL_SIMULATION = {
   maxLookaheadCandles: 24,
   minConfidence: 50,
+  trainValidationSplitRatio: 0.6,
+  minValidationCandles: 50,
 } as const;
 
 export const API = {
