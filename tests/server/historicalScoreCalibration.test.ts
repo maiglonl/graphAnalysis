@@ -31,6 +31,7 @@ function makeSimulation(): HistoricalSimulationResult {
         averageConfidence: 70,
       },
     ],
+    familyStats: [],
   };
 }
 

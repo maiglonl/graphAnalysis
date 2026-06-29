@@ -578,5 +578,38 @@
       "reason": "Broken level retested as resistance with bearish reaction, confirming polarity flip."
     }
   },
-  "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }
+  "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" },
+  "signalQuality": {
+    "title": "Signal Quality",
+    "byFamily": "By Family",
+    "byRole": "By Role",
+    "total": "Total",
+    "bullish": "Bullish",
+    "bearish": "Bearish",
+    "neutral": "Neutral",
+    "averageConfidence": "Avg Confidence",
+    "families": {
+      "candle": "Candle",
+      "structure": "Structure",
+      "priceAction": "Price Action",
+      "volume": "Volume",
+      "volatility": "Volatility",
+      "trend": "Trend",
+      "momentum": "Momentum",
+      "liquidity": "Liquidity"
+    },
+    "roles": {
+      "actionable": "Actionable",
+      "context": "Context",
+      "warning": "Warning"
+    }
+  },
+  "familyStats": {
+    "title": "Performance by Family",
+    "family": "Family",
+    "totalTrades": "Trades",
+    "winRate": "Win Rate",
+    "averageReturn": "Avg Return",
+    "averageConfidence": "Avg Confidence"
+  }
 }

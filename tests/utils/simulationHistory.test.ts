@@ -12,6 +12,7 @@ function simulation(symbol = 'BTCUSDT'): HistoricalSimulationResult {
     interval: IntervalEnum.OneHour,
     trades: [],
     patternStats: [],
+    familyStats: [],
     metrics: {
       totalTrades: 10,
       wins: 6,

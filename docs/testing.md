@@ -92,6 +92,7 @@ tests/
     signalQualityCalibration.test.ts
     scoreCalibration.test.ts
     calibratedSuggestion.test.ts
+    signalQualitySummary.test.ts
     scanner/
       scanner.test.ts
       suggestionBuilder.test.ts
@@ -508,6 +509,32 @@ tests/utils/detectors/liquidity/breakerBlockDetectors.test.ts
 ```
 
 Cobre: Liquidity Sweep High, Liquidity Sweep Low, Equal Highs, Equal Lows, Order Block Bullish, Order Block Bearish, Breaker Block Bullish, Breaker Block Bearish.
+
+### Resumo de qualidade dos sinais
+
+Arquivo:
+
+```txt
+tests/utils/signalQualitySummary.test.ts
+```
+
+Cobre:
+- `summarizeSignalsByQuality()`: agrupamento por família e papel;
+- contagem bullish/bearish/neutral;
+- `averageConfidence` por grupo;
+- ordenação por total decrescente.
+
+### Performance por família (histórico)
+
+Arquivo:
+
+```txt
+tests/server/utils/historicalSimulationFamilyStats.test.ts
+```
+
+Cobre:
+- `runHistoricalSimulation()` inclui `familyStats: HistoricalPatternFamilyStat[]`;
+- retorno é array (pode ser vazio se sem trades suficientes).
 
 ### Calibração de score
 

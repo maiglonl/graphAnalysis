@@ -24,6 +24,10 @@ function makeItem(
       trend: StructureTrendEnum.Neutral,
     },
     disclaimer: '',
+    signalQualitySummary: {
+      byFamily: [],
+      byRole: [],
+    },
     suggestion: {
       action,
       confidence,

@@ -110,6 +110,11 @@ const {
       {{ error }}
     </p>
 
+    <SignalQualitySummaryPanel
+      v-if="result"
+      :summary="result.signalQualitySummary"
+    />
+
     <section v-if="result" class="flex gap-5 items-start max-lg:flex-col">
       <div class="flex-1 min-w-0 grid gap-5 max-lg:w-full">
         <ChartPanel :result="result" />

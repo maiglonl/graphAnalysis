@@ -575,5 +575,38 @@
       "reason": "Nível rompido retestado como resistência com reação de baixa, confirmando inversão de polaridade."
     }
   },
-  "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }
+  "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" },
+  "signalQuality": {
+    "title": "Qualidade dos sinais",
+    "byFamily": "Por família",
+    "byRole": "Por papel",
+    "total": "Total",
+    "bullish": "Altistas",
+    "bearish": "Baixistas",
+    "neutral": "Neutros",
+    "averageConfidence": "Confiança média",
+    "families": {
+      "candle": "Candle",
+      "structure": "Estrutura",
+      "priceAction": "Price Action",
+      "volume": "Volume",
+      "volatility": "Volatilidade",
+      "trend": "Tendência",
+      "momentum": "Momentum",
+      "liquidity": "Liquidez"
+    },
+    "roles": {
+      "actionable": "Acionável",
+      "context": "Contexto",
+      "warning": "Alerta"
+    }
+  },
+  "familyStats": {
+    "title": "Performance por família",
+    "family": "Família",
+    "totalTrades": "Trades",
+    "winRate": "Acerto",
+    "averageReturn": "Retorno médio",
+    "averageConfidence": "Confiança média"
+  }
 }

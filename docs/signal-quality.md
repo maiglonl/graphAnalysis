@@ -50,6 +50,23 @@ familyWeight: { liquidity: 8, structure: 7, priceAction: 6, trend: 5,
 | `shared/utils/patternNoiseReduction.ts` | `reducePatternNoise()`, `filterSuggestionEligiblePatterns()`, `hasActionableSignal()` |
 | `shared/utils/patternFamilyStats.ts` | `PatternFamilyStat`, `aggregatePatternStatsByFamily()` |
 
+## Resumo em tempo real
+
+`summarizeSignalsByQuality(patterns)` em `shared/utils/signalQualitySummary.ts` retorna `SignalQualitySummary`:
+
+```ts
+{
+  byFamily: SignalQualitySummaryItem[];  // ordenado por total
+  byRole:   SignalQualitySummaryItem[];
+}
+```
+
+Cada item: `{ key: string, total, bullish, bearish, neutral, averageConfidence }`.
+
+O campo `key` é o valor do enum (ex.: `'liquidity'`, `'actionable'`). A UI faz lookup via `$t('signalQuality.families.liquidity')` para traduzir.
+
+Ambos os endpoints (`/api/analyze` e `/api/analyze-calibrated`) incluem `signalQualitySummary` em `AnalyzeResponse`. O componente `SignalQualitySummaryPanel.vue` exibe o resumo.
+
 ## Integração no scanner
 
 `Scanner.scan()` aplica `reducePatternNoise()` após deduplicação de BOS/CHOCH:

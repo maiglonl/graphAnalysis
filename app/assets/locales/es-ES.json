@@ -587,5 +587,38 @@
       "reason": "Nivel roto retestado como resistencia con reacción bajista, confirmando inversión de polaridad."
     }
   },
-  "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }
+  "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" },
+  "signalQuality": {
+    "title": "Calidad de señales",
+    "byFamily": "Por familia",
+    "byRole": "Por rol",
+    "total": "Total",
+    "bullish": "Alcistas",
+    "bearish": "Bajistas",
+    "neutral": "Neutros",
+    "averageConfidence": "Confianza media",
+    "families": {
+      "candle": "Vela",
+      "structure": "Estructura",
+      "priceAction": "Price Action",
+      "volume": "Volumen",
+      "volatility": "Volatilidad",
+      "trend": "Tendencia",
+      "momentum": "Momentum",
+      "liquidity": "Liquidez"
+    },
+    "roles": {
+      "actionable": "Accionable",
+      "context": "Contexto",
+      "warning": "Alerta"
+    }
+  },
+  "familyStats": {
+    "title": "Rendimiento por familia",
+    "family": "Familia",
+    "totalTrades": "Operaciones",
+    "winRate": "Tasa de acierto",
+    "averageReturn": "Retorno medio",
+    "averageConfidence": "Confianza media"
+  }
 }

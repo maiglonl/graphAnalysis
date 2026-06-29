@@ -19,14 +19,29 @@ WatchlistPanel
 AnalysisHistoryPanel
 OpportunityRanking
 TimeframeSummaryPanel
-HistoricalSimulationPanel
+HistoricalSimulationPanel      — inclui seção familyStats (performance por família)
 SimulationHistoryPanel
 HistoricalTimeframeSummaryPanel
 ScoreCalibrationPanel
+SignalQualitySummaryPanel      — resumo de qualidade dos sinais por família e papel
 ChartPanel
 DetectedPatterns
 SuggestionCard
 ```
+
+### SignalQualitySummaryPanel
+
+Exibe `signalQualitySummary` de `AnalyzeResponse`. Aparece logo abaixo dos erros, antes da área de gráfico/sugestão.
+
+Mostra duas tabelas: **Por família** e **Por papel**. Colunas: família/papel, total, altistas, baixistas, confiança média.
+
+Os nomes de família/papel são traduzidos via `$t('signalQuality.families.<key>')` e `$t('signalQuality.roles.<key>')`.
+
+### familyStats em HistoricalSimulationPanel
+
+Quando `result.familyStats` tem dados, exibe uma tabela compacta de performance por família com: família, trades, taxa de acerto, retorno médio, confiança média.
+
+Os nomes de família reutilizam `$t('signalQuality.families.<key>')` para consistência visual.
 
 ## Responsabilidade atual dos painéis
 

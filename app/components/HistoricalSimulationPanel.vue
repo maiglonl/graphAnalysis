@@ -85,7 +85,39 @@ const emit = defineEmits<{
       </div>
     </dl>
 
-    <p v-else class="text-slate-500 mb-0">
+    <div v-if="result?.familyStats?.length" class="mt-4">
+      <h3 class="mt-0 mb-2 text-base font-semibold text-slate-600">
+        {{ $t('familyStats.title') }}
+      </h3>
+
+      <table class="w-full text-sm border-collapse">
+        <thead>
+          <tr class="text-left text-slate-500">
+            <th class="pb-1 pr-2 font-medium">{{ $t('familyStats.family') }}</th>
+            <th class="pb-1 pr-2 font-medium text-right">{{ $t('familyStats.totalTrades') }}</th>
+            <th class="pb-1 pr-2 font-medium text-right">{{ $t('familyStats.winRate') }}</th>
+            <th class="pb-1 pr-2 font-medium text-right">{{ $t('familyStats.averageReturn') }}</th>
+            <th class="pb-1 font-medium text-right">{{ $t('familyStats.averageConfidence') }}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr
+            v-for="stat in result.familyStats"
+            :key="stat.family"
+            class="border-t border-slate-100"
+          >
+            <td class="py-1 pr-2">{{ $t(`signalQuality.families.${stat.family}`, stat.family) }}</td>
+            <td class="py-1 pr-2 text-right">{{ stat.totalTrades }}</td>
+            <td class="py-1 pr-2 text-right">{{ stat.winRate }}%</td>
+            <td class="py-1 pr-2 text-right">{{ stat.averageReturn }}%</td>
+            <td class="py-1 text-right text-slate-600">{{ stat.averageConfidence }}%</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p v-else-if="!result" class="text-slate-500 mb-0">
       {{ $t('simulation.empty') }}
     </p>
   </section>

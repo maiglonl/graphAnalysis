@@ -1,20 +1,6 @@
-import type { PatternSignal } from '#shared/types/market';
+import type { PatternSignal, SignalQualitySummary } from '#shared/types/market';
 import { PatternDirectionEnum } from '#shared/types/market';
 import { PatternFamilyEnum, PatternSignalRoleEnum, getPatternFamily, getPatternSignalRole } from '#shared/utils/patternFamilies';
-
-export type SignalQualitySummaryItem = {
-  key: PatternFamilyEnum | PatternSignalRoleEnum;
-  total: number;
-  bullish: number;
-  bearish: number;
-  neutral: number;
-  averageConfidence: number;
-};
-
-export type SignalQualitySummary = {
-  byFamily: SignalQualitySummaryItem[];
-  byRole: SignalQualitySummaryItem[];
-};
 
 export function summarizeSignalsByQuality(patterns: PatternSignal[]): SignalQualitySummary {
   return {
@@ -26,7 +12,7 @@ export function summarizeSignalsByQuality(patterns: PatternSignal[]): SignalQual
 function summarize<T extends PatternFamilyEnum | PatternSignalRoleEnum>(
   patterns: PatternSignal[],
   getKey: (pattern: PatternSignal) => T,
-): SignalQualitySummaryItem[] {
+) {
   const grouped = new Map<T, PatternSignal[]>();
 
   patterns.forEach((pattern) => {
