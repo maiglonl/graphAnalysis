@@ -5,6 +5,7 @@ import { buildScoreCalibration } from '#shared/utils/scoreCalibration';
 import { getMarketStructure } from '#shared/utils/marketStructure';
 import { buildSuggestion, scanPatterns } from '#shared/utils/scanner';
 import { ScanContext } from '#shared/utils/scanContext';
+import { summarizeSignalsByQuality } from '#shared/utils/signalQualitySummary';
 import { runHistoricalSimulation } from './historicalSimulation';
 
 export type AnalyzeMarketWithCalibrationParams = {
@@ -49,6 +50,7 @@ export async function analyzeMarketWithCalibration(
     candles,
     suggestion: calibrated.suggestion,
     patterns,
+    signalQualitySummary: summarizeSignalsByQuality(patterns),
     structure,
     disclaimer: 'common.disclaimer',
     calibrationAdjustment: calibrated.calibrationAdjustment,
