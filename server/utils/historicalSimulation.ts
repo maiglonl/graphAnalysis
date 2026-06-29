@@ -8,6 +8,7 @@ import {
   type PatternIdEnum,
 } from '#shared/types/market';
 import { HISTORICAL_SIMULATION, SCANNER } from '#shared/utils/detectors/constants';
+import { aggregatePatternStatsByFamily } from '#shared/utils/patternFamilyStats';
 import { buildSuggestion, scanPatterns } from '#shared/utils/scanner';
 
 export type RunHistoricalSimulationParams = {
@@ -41,12 +42,15 @@ export function runHistoricalSimulation(params: RunHistoricalSimulationParams): 
     }));
   }
 
+  const patternStats = buildPatternStats(trades);
+
   return {
     symbol: params.symbol,
     interval: params.interval,
     trades,
     metrics: buildMetrics(trades),
-    patternStats: buildPatternStats(trades),
+    patternStats,
+    familyStats: aggregatePatternStatsByFamily(patternStats),
   };
 }
 
