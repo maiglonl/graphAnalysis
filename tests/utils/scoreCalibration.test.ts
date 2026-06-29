@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { PatternIdEnum, type HistoricalPatternStat } from '#shared/types/market';
 import { buildScoreCalibration, getPatternScoreAdjustment } from '#shared/utils/scoreCalibration';
+import { PatternFamilyEnum, PatternSignalRoleEnum } from '#shared/utils/patternFamilies';
 
 function makeStat(overrides: Partial<HistoricalPatternStat>): HistoricalPatternStat {
   return {
@@ -54,12 +55,30 @@ describe('buildScoreCalibration', () => {
     expect(result.patternAdjustments[0]?.adjustment).toBe(8);
   });
 
-  it('returns adjustment by pattern id', () => {
+  it('adds signal quality adjustments by family and role', () => {
     const result = buildScoreCalibration([
       makeStat({ patternId: PatternIdEnum.BullishEngulfing, winRate: 70, averageReturn: 4 }),
     ]);
 
-    expect(getPatternScoreAdjustment(result, PatternIdEnum.BullishEngulfing)).toBe(4);
-    expect(getPatternScoreAdjustment(result, PatternIdEnum.Doji)).toBe(0);
+    expect(result.signalQualityAdjustments.familyAdjustments[0]).toMatchObject({
+      key: PatternFamilyEnum.Candle,
+      isReliable: true,
+      adjustment: 4,
+    });
+    expect(result.signalQualityAdjustments.roleAdjustments[0]).toMatchObject({
+      key: PatternSignalRoleEnum.Actionable,
+      isReliable: true,
+      adjustment: 4,
+    });
+    expect(getPatternScoreAdjustment(result, PatternIdEnum.BullishEngulfing)).toBe(12);
+  });
+
+  it('uses family and role adjustments as fallback for related patterns', () => {
+    const result = buildScoreCalibration([
+      makeStat({ patternId: PatternIdEnum.BullishEngulfing, winRate: 70, averageReturn: 4 }),
+    ]);
+
+    expect(getPatternScoreAdjustment(result, PatternIdEnum.BullishHarami)).toBeGreaterThan(0);
+    expect(getPatternScoreAdjustment(result, PatternIdEnum.MacdBullishCross)).toBe(4);
   });
 });
