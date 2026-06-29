@@ -1,5 +1,10 @@
 import type { HistoricalPatternStat, PatternIdEnum } from '#shared/types/market';
 import { SCORE_CALIBRATION } from '#shared/utils/detectors/constants';
+import type { SignalQualityCalibrationResult } from '#shared/utils/signalQualityCalibration';
+import {
+  buildSignalQualityCalibration,
+  getSignalQualityScoreAdjustment,
+} from '#shared/utils/signalQualityCalibration';
 
 export type PatternScoreCalibration = {
   patternId: PatternIdEnum;
@@ -13,6 +18,7 @@ export type PatternScoreCalibration = {
 
 export type ScoreCalibrationResult = {
   patternAdjustments: PatternScoreCalibration[];
+  signalQualityAdjustments: SignalQualityCalibrationResult;
 };
 
 export function buildScoreCalibration(patternStats: HistoricalPatternStat[]): ScoreCalibrationResult {
@@ -20,6 +26,7 @@ export function buildScoreCalibration(patternStats: HistoricalPatternStat[]): Sc
     patternAdjustments: patternStats
       .map((stat) => buildPatternCalibration(stat))
       .sort((a, b) => Math.abs(b.adjustment) - Math.abs(a.adjustment)),
+    signalQualityAdjustments: buildSignalQualityCalibration(patternStats),
   };
 }
 
@@ -57,5 +64,10 @@ export function getPatternScoreAdjustment(
   calibration: ScoreCalibrationResult,
   patternId: PatternIdEnum,
 ): number {
-  return calibration.patternAdjustments.find((item) => item.patternId === patternId)?.adjustment ?? 0;
+  const patternAdjustment = calibration.patternAdjustments.find((item) => item.patternId === patternId)?.adjustment ?? 0;
+  const signalQualityAdjustment = getSignalQualityScoreAdjustment(calibration.signalQualityAdjustments, patternId);
+  return Math.min(
+    SCORE_CALIBRATION.maxTotalAdjustment,
+    Math.max(-SCORE_CALIBRATION.maxTotalAdjustment, patternAdjustment + signalQualityAdjustment),
+  );
 }
