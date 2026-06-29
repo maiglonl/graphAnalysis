@@ -12,6 +12,7 @@ const {
   historicalTimeframeSummary,
   scoreCalibration,
   calibratedHistoricalSimulation,
+  walkForwardValidation,
   timeframeSummary,
   analysisHistory,
   simulationHistory,
@@ -23,6 +24,7 @@ const {
   historicalTimeframeLoading,
   scoreCalibrationLoading,
   calibratedSimulationLoading,
+  walkForwardValidationLoading,
   timeframeLoading,
   error,
   scanItems,
@@ -32,6 +34,7 @@ const {
   loadHistoricalTimeframeSummary,
   loadScoreCalibration,
   loadCalibratedHistoricalSimulation,
+  loadWalkForwardValidation,
   loadTimeframeSummary,
   addSymbolToWatchlist,
   addCurrentSymbolToWatchlist,
@@ -113,6 +116,12 @@ const {
       :result="calibratedHistoricalSimulation"
       :loading="calibratedSimulationLoading"
       @refresh="loadCalibratedHistoricalSimulation"
+    />
+
+    <WalkForwardValidationPanel
+      :result="walkForwardValidation"
+      :loading="walkForwardValidationLoading"
+      @refresh="loadWalkForwardValidation"
     />
 
     <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">

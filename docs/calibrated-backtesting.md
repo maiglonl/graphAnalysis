@@ -82,7 +82,12 @@ Tanto `historicalSimulation.ts` quanto `calibratedHistoricalSimulation.ts` impor
 
 A calibração ainda usa os próprios candles simulados como base de ajuste, o que pode causar overfitting. Uma próxima melhoria é separar janela de treino e janela de validação.
 
+## Relação com walk-forward
+
+`/api/historical-calibrated-simulation` usa todos os candles para calibrar e comparar — menos robusto para detectar overfitting.
+
+`/api/historical-walk-forward` usa janelas separadas de treino e validação — ver `docs/walk-forward-validation.md`.
+
 ## Próximos passos
 
-1. Adicionar opção de janela de treino/validação.
-2. Documentar claramente que o resultado é pesquisa/avaliação técnica, não recomendação financeira.
+1. Documentar claramente que o resultado é pesquisa/avaliação técnica, não recomendação financeira.

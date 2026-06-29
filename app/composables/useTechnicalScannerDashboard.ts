@@ -48,6 +48,26 @@ export type CalibratedHistoricalSimulationResult = {
   comparison: HistoricalSimulationMetricsComparison;
 };
 
+export type TrainValidationWindow = {
+  trainStartIndex: number;
+  trainEndIndex: number;
+  validationStartIndex: number;
+  validationEndIndex: number;
+  trainCandles: number;
+  validationCandles: number;
+};
+
+export type TrainValidationHistoricalSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  window: TrainValidationWindow;
+  train: HistoricalSimulationResult;
+  rawValidation: HistoricalSimulationResult;
+  calibratedValidation: HistoricalSimulationResult;
+  calibration: ScoreCalibrationResult;
+  comparison: HistoricalSimulationMetricsComparison;
+};
+
 export type AnalysisHistorySnapshot = {
   symbol: string;
   interval: IntervalEnum;
@@ -81,6 +101,7 @@ export function useTechnicalScannerDashboard() {
   const historicalTimeframeSummary = ref<HistoricalTimeframeSummaryResponse | null>(null);
   const scoreCalibration = ref<HistoricalScoreCalibrationResult | null>(null);
   const calibratedHistoricalSimulation = ref<CalibratedHistoricalSimulationResult | null>(null);
+  const walkForwardValidation = ref<TrainValidationHistoricalSimulationResult | null>(null);
   const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
   const loading = ref(false);
   const scanLoading = ref(false);
@@ -88,6 +109,7 @@ export function useTechnicalScannerDashboard() {
   const historicalTimeframeLoading = ref(false);
   const scoreCalibrationLoading = ref(false);
   const calibratedSimulationLoading = ref(false);
+  const walkForwardValidationLoading = ref(false);
   const timeframeLoading = ref(false);
   const error = ref('');
 
@@ -187,6 +209,27 @@ export function useTechnicalScannerDashboard() {
       error.value = resolveApiErrorMessage(err, t);
     } finally {
       scoreCalibrationLoading.value = false;
+    }
+  }
+
+  async function loadWalkForwardValidation() {
+    walkForwardValidationLoading.value = true;
+    error.value = '';
+
+    try {
+      walkForwardValidation.value = await $fetch<TrainValidationHistoricalSimulationResult>(
+        '/api/historical-walk-forward',
+        {
+          query: {
+            symbol: symbol.value,
+            interval: interval.value,
+          },
+        }
+      );
+    } catch (err: unknown) {
+      error.value = resolveApiErrorMessage(err, t);
+    } finally {
+      walkForwardValidationLoading.value = false;
     }
   }
 
@@ -306,6 +349,7 @@ export function useTechnicalScannerDashboard() {
     historicalTimeframeSummary.value = null;
     scoreCalibration.value = null;
     calibratedHistoricalSimulation.value = null;
+    walkForwardValidation.value = null;
     timeframeSummary.value = null;
   }
 
@@ -327,6 +371,7 @@ export function useTechnicalScannerDashboard() {
     historicalTimeframeSummary,
     scoreCalibration,
     calibratedHistoricalSimulation,
+    walkForwardValidation,
     timeframeSummary,
     analysisHistory,
     simulationHistory,
@@ -338,6 +383,7 @@ export function useTechnicalScannerDashboard() {
     historicalTimeframeLoading,
     scoreCalibrationLoading,
     calibratedSimulationLoading,
+    walkForwardValidationLoading,
     timeframeLoading,
     error,
     scanItems,
@@ -348,6 +394,7 @@ export function useTechnicalScannerDashboard() {
     loadHistoricalTimeframeSummary,
     loadScoreCalibration,
     loadCalibratedHistoricalSimulation,
+    loadWalkForwardValidation,
     loadTimeframeSummary,
     addSymbolToWatchlist,
     addCurrentSymbolToWatchlist,

@@ -94,6 +94,16 @@
     "averageConfidenceDelta": "Avg Confidence Delta",
     "disclaimer": "Informational result. Calibration uses the same candles as the raw simulation, which may cause overfitting."
   },
+  "walkForward": {
+    "title": "Walk-Forward Validation",
+    "subtitle": "Calibrates using the training window and compares raw validation against calibrated validation.",
+    "run": "Run walk-forward",
+    "empty": "No walk-forward validation loaded yet.",
+    "trainCandles": "Training candles",
+    "validationCandles": "Validation candles",
+    "rawValidation": "Raw validation",
+    "calibratedValidation": "Calibrated validation"
+  },
   "history": {
     "title": "Recent history",
     "subtitle": "Analyses saved locally in this browser.",

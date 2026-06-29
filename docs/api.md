@@ -385,6 +385,48 @@ type CalibratedHistoricalSimulationResult = {
 
 ---
 
+## `GET /api/historical-walk-forward`
+
+Divide os candles em treino e validação, calibra com a janela de treino e compara validação bruta vs calibrada.
+
+### Query params
+
+| Param | Padrão |
+| --- | --- |
+| `symbol` | `BTCUSDT` |
+| `interval` | `1h` |
+
+### Retorno
+
+```ts
+type TrainValidationHistoricalSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  window: {
+    trainStartIndex: number;
+    trainEndIndex: number;
+    validationStartIndex: number;
+    validationEndIndex: number;
+    trainCandles: number;
+    validationCandles: number;
+  };
+  train: HistoricalSimulationResult;
+  rawValidation: HistoricalSimulationResult;
+  calibratedValidation: HistoricalSimulationResult;
+  calibration: ScoreCalibrationResult;
+  comparison: HistoricalSimulationMetricsComparison;
+};
+```
+
+### Observações
+
+- A divisão treino/validação usa `HISTORICAL_SIMULATION.trainValidationSplitRatio` (60%).
+- Calibração é construída apenas com `train.patternStats`.
+- `comparison` compara `rawValidation.metrics` vs `calibratedValidation.metrics`.
+- Menos otimista que `/api/historical-calibrated-simulation`; resultado mais representativo de overfitting.
+
+---
+
 ## Erros conhecidos
 
 | Chave | Significado |

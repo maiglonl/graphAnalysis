@@ -94,6 +94,16 @@
     "averageConfidenceDelta": "Delta da confiança média",
     "disclaimer": "Resultado informativo. A calibração usa os mesmos candles da simulação bruta, o que pode causar overfitting."
   },
+  "walkForward": {
+    "title": "Validação walk-forward",
+    "subtitle": "Calibra usando a janela de treino e compara a validação bruta contra a validação calibrada.",
+    "run": "Rodar walk-forward",
+    "empty": "Nenhuma validação walk-forward carregada ainda.",
+    "trainCandles": "Candles de treino",
+    "validationCandles": "Candles de validação",
+    "rawValidation": "Validação bruta",
+    "calibratedValidation": "Validação calibrada"
+  },
   "history": {
     "title": "Histórico recente",
     "subtitle": "Análises salvas localmente neste navegador.",

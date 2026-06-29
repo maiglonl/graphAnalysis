@@ -24,11 +24,16 @@ SimulationHistoryPanel
 HistoricalTimeframeSummaryPanel
 ScoreCalibrationPanel
 CalibratedBacktestingPanel     — compara métricas brutas vs calibradas
+WalkForwardValidationPanel     — treino/validação separados, métricas da janela de validação
 SignalQualitySummaryPanel      — resumo de qualidade dos sinais por família e papel
 ChartPanel
 DetectedPatterns
 SuggestionCard
 ```
+
+### WalkForwardValidationPanel
+
+Exibe `TrainValidationHistoricalSimulationResult`. Mostra dois cards com `trainCandles` e `validationCandles`, depois tabela comparativa raw vs calibrado para a janela de validação (mesmas métricas do `CalibratedBacktestingPanel`, mas comparando apenas a janela de validação).
 
 ### CalibratedBacktestingPanel
 

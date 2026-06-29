@@ -70,9 +70,14 @@ type TrainValidationHistoricalSimulationResult = {
 
 A divisão é fixa e simples. Uma evolução natural é permitir múltiplas janelas walk-forward ou configurar a divisão por query param.
 
+## Helpers compartilhados
+
+`historicalWindowTrades.ts` usa `isActionableSuggestion()` e `resolveHistoricalTrade()` de `historicalSimulationCore.ts`, evitando divergência com a lógica de simulação bruta.
+
+`historicalMetricsComparison.ts` centraliza o cálculo de deltas entre duas `HistoricalSimulationResult`, reutilizado tanto em `calibratedHistoricalSimulation.ts` quanto aqui.
+
 ## Próximos passos
 
-1. Adicionar UI para comparar treino, validação bruta e validação calibrada.
-2. Permitir query params para split ratio.
-3. Implementar múltiplas janelas walk-forward.
-4. Documentar o impacto de amostras pequenas.
+1. Permitir query params para split ratio.
+2. Implementar múltiplas janelas walk-forward.
+3. Documentar o impacto de amostras pequenas.

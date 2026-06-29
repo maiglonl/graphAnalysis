@@ -94,6 +94,16 @@
     "averageConfidenceDelta": "Delta de la confianza media",
     "disclaimer": "Resultado informativo. La calibración usa los mismos velas que la simulación bruta, lo que puede causar sobreajuste."
   },
+  "walkForward": {
+    "title": "Validación walk-forward",
+    "subtitle": "Calibra usando la ventana de entrenamiento y compara la validación bruta contra la calibrada.",
+    "run": "Ejecutar walk-forward",
+    "empty": "Ninguna validación walk-forward cargada todavía.",
+    "trainCandles": "Velas de entrenamiento",
+    "validationCandles": "Velas de validación",
+    "rawValidation": "Validación bruta",
+    "calibratedValidation": "Validación calibrada"
+  },
   "history": {
     "title": "Historial reciente",
     "subtitle": "Análisis guardados localmente en este navegador.",
