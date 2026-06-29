@@ -318,6 +318,22 @@ type HistoricalScoreCalibrationResult = {
     familyAdjustments: SignalQualityScoreCalibration[]
     roleAdjustments: SignalQualityScoreCalibration[]
   }
+  calibrationImpact: CalibrationImpactSummary
+}
+
+type CalibrationImpactSummary = {
+  totalTrades: number
+  adjustedTrades: number
+  positiveAdjustments: number
+  negativeAdjustments: number
+  neutralAdjustments: number
+  averageAdjustment: number
+  averageRawConfidence: number
+  averageCalibratedConfidence: number
+  confidenceDelta: number
+  maxPositiveAdjustment: number
+  maxNegativeAdjustment: number
+  trades: CalibrationImpactTrade[]
 }
 ```
 
@@ -326,6 +342,7 @@ type HistoricalScoreCalibrationResult = {
 - A calibração atual é informativa.
 - Padrões com amostra baixa recebem ajuste neutro.
 - Família e papel complementam a calibração individual para reduzir dependência de padrões raros com pouca amostra.
+- `calibrationImpact` compara a confiança original dos trades simulados com a confiança calibrada.
 
 ---
 
