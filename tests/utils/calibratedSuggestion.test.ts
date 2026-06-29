@@ -33,6 +33,10 @@ function calibration(adjustment: number): ScoreCalibrationResult {
         isReliable: true,
       },
     ],
+    signalQualityAdjustments: {
+      familyAdjustments: [],
+      roleAdjustments: [],
+    },
   };
 }
 
