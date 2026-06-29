@@ -203,6 +203,20 @@ export type TradeSuggestion = {
   scoreBreakdown: SuggestionScoreBreakdown;
 };
 
+export type SignalQualitySummaryItem = {
+  key: string;
+  total: number;
+  bullish: number;
+  bearish: number;
+  neutral: number;
+  averageConfidence: number;
+};
+
+export type SignalQualitySummary = {
+  byFamily: SignalQualitySummaryItem[];
+  byRole: SignalQualitySummaryItem[];
+};
+
 export type AnalyzeResponse = {
   symbol: string;
   interval: IntervalEnum;
@@ -211,6 +225,7 @@ export type AnalyzeResponse = {
   candles: Candle[];
   suggestion: TradeSuggestion;
   patterns: PatternSignal[];
+  signalQualitySummary: SignalQualitySummary;
   structure: MarketStructure;
   disclaimer: string;
 };
