@@ -1,10 +1,11 @@
 # Score Calibration
 
-Este documento descreve a camada inicial de calibração do score com base em resultados históricos.
+Este documento descreve a camada de calibração do score com base em resultados históricos.
 
 ## Arquivos principais
 
 ```txt
+shared/utils/signalQualityCalibration.ts
 shared/utils/scoreCalibration.ts
 shared/utils/calibratedSuggestion.ts
 server/utils/historicalScoreCalibration.ts
@@ -26,13 +27,16 @@ averageConfidence
 
 ## Saída
 
-O resultado contém:
+O resultado (`ScoreCalibrationResult`) contém:
 
 ```txt
-patternAdjustments
+patternAdjustments       — ajuste individual por padrão
+signalQualityAdjustments
+  familyAdjustments      — ajuste agregado por família (PatternFamilyEnum)
+  roleAdjustments        — ajuste agregado por papel (PatternSignalRoleEnum)
 ```
 
-Cada item informa:
+Cada item em `patternAdjustments`:
 
 ```txt
 patternId
@@ -44,50 +48,37 @@ averageConfidence
 isReliable
 ```
 
-## Regras atuais
+Cada item em `familyAdjustments` tem `key: PatternFamilyEnum`. Em `roleAdjustments`, `key: PatternSignalRoleEnum`.
 
-1. Padrões com amostra menor que `SCORE_CALIBRATION.minTrades` não recebem ajuste.
-2. O ajuste compara `winRate` contra `SCORE_CALIBRATION.baselineWinRate`.
-3. O retorno médio também contribui para o ajuste.
-4. O ajuste por padrão é limitado por `SCORE_CALIBRATION.maxAdjustment`.
-5. A soma aplicada à sugestão é limitada por `SCORE_CALIBRATION.maxTotalAdjustment`.
+## Regras de ajuste
 
-## Aplicação opcional
+1. **Ajuste individual por padrão** — calcula a partir de `stat.winRate` e `stat.averageReturn` do padrão diretamente.
+2. **Ajuste por família** — agrega `wins/totalTrades` de todos os padrões da mesma família; usa `SCORE_CALIBRATION.minTrades` para decidir se é confiável.
+3. **Ajuste por papel** — agrega os padrões pelo `PatternSignalRoleEnum`; mesma lógica.
+4. **Clamp individual** — cada ajuste de padrão, família ou papel é limitado por `±SCORE_CALIBRATION.maxAdjustment` (8).
+5. **Clamp total por padrão** — `getPatternScoreAdjustment()` soma padrão + família + papel e clamp em `±SCORE_CALIBRATION.maxTotalAdjustment` (12).
+6. **Clamp total por sugestão** — `getSuggestionScoreAdjustment()` soma todos os `patternAdjustments` das reasons, mais **uma vez** por família presente e **uma vez** por papel presente. Total limitado pelo mesmo clamp.
 
-Arquivo:
+### Por que família/papel é aplicado uma vez por sugestão
 
-```txt
-shared/utils/calibratedSuggestion.ts
-```
+Quando uma sugestão tem múltiplos sinais da mesma família (ex.: dois Liquidity), somar o ajuste da família duas vezes duplicaria o mesmo efeito histórico agregado. O ajuste por família/papel é uma propriedade do sinal coletivo, não de cada reason individualmente.
 
-Função:
+## Aplicação
 
-```txt
-applyScoreCalibration()
-```
+Arquivo: `shared/utils/calibratedSuggestion.ts`
 
-Essa função recebe uma `TradeSuggestion` já calculada e um `ScoreCalibrationResult`, retornando:
+Função: `applyScoreCalibration(suggestion, calibration)`
 
-```txt
-suggestion
-calibrationAdjustment
-```
-
-A função só ajusta sugestões operacionais (`buy`/`sell`). Sugestões `wait` e `none` são preservadas.
+Retorna `{ suggestion, calibrationAdjustment }`. Só ajusta sugestões `buy`/`sell` — `wait` é preservado intacto.
 
 ## Endpoint
 
 ```txt
-/api/historical-score-calibration
+GET /api/historical-score-calibration?symbol=BTCUSDT&interval=1h
 ```
 
-Parâmetros:
-
-```txt
-symbol
-interval
-```
+O resultado (`HistoricalScoreCalibrationResult`) estende `ScoreCalibrationResult` com `symbol` e `interval`. Contém `patternAdjustments` + `signalQualityAdjustments`.
 
 ## Observação
 
-A calibração já pode ser calculada e aplicada de forma explícita por utilitário. O scanner padrão ainda não aplica esses ajustes automaticamente.
+O scanner padrão ainda não aplica esses ajustes. A calibração é aplicada pelo endpoint `analyze-calibrated`.

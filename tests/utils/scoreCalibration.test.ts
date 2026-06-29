@@ -7,14 +7,17 @@ import {
 } from '#shared/utils/scoreCalibration';
 import { PatternFamilyEnum, PatternSignalRoleEnum } from '#shared/utils/patternFamilies';
 
-function makeStat(overrides: Partial<HistoricalPatternStat>): HistoricalPatternStat {
+function makeStat(overrides: Partial<HistoricalPatternStat> = {}): HistoricalPatternStat {
+  const totalTrades = overrides.totalTrades ?? 10;
+  const winRate = overrides.winRate ?? 60;
+  const wins = overrides.wins ?? Math.round(totalTrades * winRate / 100);
   return {
     patternId: PatternIdEnum.Hammer,
-    totalTrades: 10,
-    wins: 6,
-    losses: 4,
+    totalTrades,
+    wins,
+    losses: totalTrades - wins,
     expired: 0,
-    winRate: 60,
+    winRate,
     averageReturn: 2,
     averageConfidence: 70,
     ...overrides,

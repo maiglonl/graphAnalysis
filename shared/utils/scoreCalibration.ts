@@ -81,12 +81,13 @@ export function getSuggestionScoreAdjustment(
 
   const families = new Set(patternIds.map((patternId) => getPatternFamily(patternId)));
   const roles = new Set(patternIds.map((patternId) => getPatternSignalRole(patternId)));
+
   const familyAdjustment = calibration.signalQualityAdjustments.familyAdjustments.reduce(
-    (sum, item) => sum + (families.has(item.key as ReturnType<typeof getPatternFamily>) ? item.adjustment : 0),
+    (sum, item) => families.has(item.key) ? sum + item.adjustment : sum,
     0,
   );
   const roleAdjustment = calibration.signalQualityAdjustments.roleAdjustments.reduce(
-    (sum, item) => sum + (roles.has(item.key as ReturnType<typeof getPatternSignalRole>) ? item.adjustment : 0),
+    (sum, item) => roles.has(item.key) ? sum + item.adjustment : sum,
     0,
   );
 

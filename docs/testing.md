@@ -89,6 +89,9 @@ tests/
     patternSignalQuality.test.ts
     patternNoiseReduction.test.ts
     patternFamilyStats.test.ts
+    signalQualityCalibration.test.ts
+    scoreCalibration.test.ts
+    calibratedSuggestion.test.ts
     scanner/
       scanner.test.ts
       suggestionBuilder.test.ts
@@ -505,6 +508,24 @@ tests/utils/detectors/liquidity/breakerBlockDetectors.test.ts
 ```
 
 Cobre: Liquidity Sweep High, Liquidity Sweep Low, Equal Highs, Equal Lows, Order Block Bullish, Order Block Bearish, Breaker Block Bullish, Breaker Block Bearish.
+
+### Calibração de score
+
+Arquivos:
+
+```txt
+tests/utils/signalQualityCalibration.test.ts
+tests/utils/scoreCalibration.test.ts
+tests/utils/calibratedSuggestion.test.ts
+```
+
+Cobre:
+- `buildSignalQualityCalibration()`: ajuste por família e por papel do sinal;
+- `getSignalQualityScoreAdjustment()`: combina família+papel com clamp;
+- `buildScoreCalibration()`: ajuste individual por padrão + signalQualityAdjustments;
+- `getPatternScoreAdjustment()`: soma padrão + família + papel com clamp total;
+- `getSuggestionScoreAdjustment()`: soma por reason + família (1×) + papel (1×) com clamp total;
+- `applyScoreCalibration()`: aplica calibração em `TradeSuggestion`, não ajusta Wait.
 
 ### Qualidade e famílias de padrões
 

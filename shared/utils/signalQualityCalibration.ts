@@ -3,8 +3,7 @@ import { SCORE_CALIBRATION } from '#shared/utils/detectors/constants';
 import { PatternFamilyEnum, PatternSignalRoleEnum, getPatternFamily, getPatternSignalRole } from '#shared/utils/patternFamilies';
 import { aggregatePatternStatsByFamily } from '#shared/utils/patternFamilyStats';
 
-export type SignalQualityScoreCalibration = {
-  key: PatternFamilyEnum | PatternSignalRoleEnum;
+type BaseSignalQualityCalibration = {
   sampleSize: number;
   adjustment: number;
   winRate: number;
@@ -13,9 +12,12 @@ export type SignalQualityScoreCalibration = {
   isReliable: boolean;
 };
 
+export type FamilySignalQualityCalibration = BaseSignalQualityCalibration & { key: PatternFamilyEnum };
+export type RoleSignalQualityCalibration = BaseSignalQualityCalibration & { key: PatternSignalRoleEnum };
+
 export type SignalQualityCalibrationResult = {
-  familyAdjustments: SignalQualityScoreCalibration[];
-  roleAdjustments: SignalQualityScoreCalibration[];
+  familyAdjustments: FamilySignalQualityCalibration[];
+  roleAdjustments: RoleSignalQualityCalibration[];
 };
 
 type AggregatedStat = {
@@ -28,10 +30,10 @@ type AggregatedStat = {
 export function buildSignalQualityCalibration(patternStats: HistoricalPatternStat[]): SignalQualityCalibrationResult {
   return {
     familyAdjustments: aggregatePatternStatsByFamily(patternStats)
-      .map((stat) => buildCalibrationItem(stat.family, stat))
+      .map((stat) => buildFamilyCalibration(stat.family, stat))
       .sort((a, b) => Math.abs(b.adjustment) - Math.abs(a.adjustment)),
     roleAdjustments: aggregatePatternStatsByRole(patternStats)
-      .map(([role, stat]) => buildCalibrationItem(role, stat))
+      .map(([role, stat]) => buildRoleCalibration(role, stat))
       .sort((a, b) => Math.abs(b.adjustment) - Math.abs(a.adjustment)),
   };
 }
@@ -69,14 +71,10 @@ function aggregatePatternStatsByRole(stats: HistoricalPatternStat[]): [PatternSi
   });
 }
 
-function buildCalibrationItem(
-  key: PatternFamilyEnum | PatternSignalRoleEnum,
-  stat: AggregatedStat,
-): SignalQualityScoreCalibration {
+function buildCalibrationBase(stat: AggregatedStat): BaseSignalQualityCalibration {
   const winRate = stat.totalTrades > 0 ? (stat.wins / stat.totalTrades) * 100 : 0;
   const isReliable = stat.totalTrades >= SCORE_CALIBRATION.minTrades;
   return {
-    key,
     sampleSize: stat.totalTrades,
     adjustment: isReliable ? calculateAdjustment(winRate, stat.averageReturn) : 0,
     winRate,
@@ -84,6 +82,14 @@ function buildCalibrationItem(
     averageConfidence: stat.averageConfidence,
     isReliable,
   };
+}
+
+function buildFamilyCalibration(key: PatternFamilyEnum, stat: AggregatedStat): FamilySignalQualityCalibration {
+  return { key, ...buildCalibrationBase(stat) };
+}
+
+function buildRoleCalibration(key: PatternSignalRoleEnum, stat: AggregatedStat): RoleSignalQualityCalibration {
+  return { key, ...buildCalibrationBase(stat) };
 }
 
 function calculateAdjustment(winRate: number, averageReturn: number): number {
