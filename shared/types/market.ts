@@ -250,11 +250,23 @@ export type HistoricalPatternStat = {
   averageConfidence: number;
 };
 
+export type HistoricalPatternFamilyStat = {
+  family: string;
+  totalTrades: number;
+  wins: number;
+  losses: number;
+  expired: number;
+  winRate: number;
+  averageReturn: number;
+  averageConfidence: number;
+};
+
 export type HistoricalSimulationResult = {
   symbol: string;
   interval: IntervalEnum;
   trades: HistoricalTrade[];
   patternStats: HistoricalPatternStat[];
+  familyStats: HistoricalPatternFamilyStat[];
   metrics: {
     totalTrades: number;
     wins: number;
