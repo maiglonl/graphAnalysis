@@ -1,7 +1,7 @@
 import { TradeActionEnum, type TradeSuggestion } from '#shared/types/market';
 import { SCORE_CALIBRATION, SCANNER } from '#shared/utils/detectors/constants';
 import {
-  getPatternScoreAdjustment,
+  getSuggestionScoreAdjustment,
   type ScoreCalibrationResult,
 } from '#shared/utils/scoreCalibration';
 
@@ -22,10 +22,7 @@ export function applyScoreCalibration(
   }
 
   const calibrationAdjustment = clampTotalAdjustment(
-    suggestion.reasons.reduce(
-      (sum, patternId) => sum + getPatternScoreAdjustment(calibration, patternId),
-      0,
-    ),
+    getSuggestionScoreAdjustment(calibration, suggestion.reasons),
   );
 
   return {
