@@ -29,6 +29,15 @@ DetectedPatterns
 SuggestionCard
 ```
 
+### ScoreCalibrationPanel
+
+Exibe `HistoricalScoreCalibrationResult` em 4 seções:
+
+1. **Impacto da calibração** — 4 cards (confiança original, confiança calibrada, delta, trades ajustados) + linha de resumo (positivos / negativos / sem ajuste / max positivo / max negativo).
+2. **Ajustes por família** — tabela com `signalQualityAdjustments.familyAdjustments`: família, amostra, winRate, retorno médio, ajuste.
+3. **Ajustes por papel** — mesma estrutura para `signalQualityAdjustments.roleAdjustments`.
+4. **Ajustes por padrão** — cards com `patternAdjustments`: padrão, amostra, winRate, retorno, confiança, reliable/notReliable.
+
 ### SignalQualitySummaryPanel
 
 Exibe `signalQualitySummary` de `AnalyzeResponse`. Aparece logo abaixo dos erros, antes da área de gráfico/sugestão.

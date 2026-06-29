@@ -544,10 +544,14 @@ Arquivos:
 tests/utils/signalQualityCalibration.test.ts
 tests/utils/scoreCalibration.test.ts
 tests/utils/calibratedSuggestion.test.ts
+tests/utils/calibrationImpact.test.ts
+tests/server/utils/historicalScoreCalibration.test.ts
 ```
 
 Cobre:
 - `buildSignalQualityCalibration()`: ajuste por família e por papel do sinal;
+- `summarizeCalibrationImpact()`: delta de confiança por trade, estatísticas de ajuste positivo/negativo/neutro;
+- `buildHistoricalScoreCalibration()`: integração completa retornando patternAdjustments + signalQualityAdjustments + calibrationImpact;
 - `getSignalQualityScoreAdjustment()`: combina família+papel com clamp;
 - `buildScoreCalibration()`: ajuste individual por padrão + signalQualityAdjustments;
 - `getPatternScoreAdjustment()`: soma padrão + família + papel com clamp total;

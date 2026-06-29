@@ -4,7 +4,8 @@ import type {
   MultiTimeframeResponse,
   ScanListResponse,
 } from '#shared/types/market';
-import type { PatternScoreCalibration } from '#shared/utils/scoreCalibration';
+import type { ScoreCalibrationResult } from '#shared/utils/scoreCalibration';
+import type { CalibrationImpactSummary } from '#shared/utils/calibrationImpact';
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, TradeActionEnum } from '#shared/types/market';
 import { resolveApiErrorMessage } from '~/utils/apiErrors';
 import {
@@ -24,10 +25,10 @@ export type HistoricalTimeframeSummaryResponse = {
   items: HistoricalSimulationResult[];
 };
 
-export type HistoricalScoreCalibrationResult = {
+export type HistoricalScoreCalibrationResult = ScoreCalibrationResult & {
   symbol: string;
   interval: IntervalEnum;
-  patternAdjustments: PatternScoreCalibration[];
+  calibrationImpact: CalibrationImpactSummary;
 };
 
 export type AnalysisHistorySnapshot = {

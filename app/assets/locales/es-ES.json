@@ -63,7 +63,21 @@
     "adjustment": "Ajuste",
     "sampleSize": "Muestra",
     "reliable": "Confiable",
-    "notReliable": "Muestra baja"
+    "notReliable": "Muestra baja",
+    "impactTitle": "Impacto de la calibración",
+    "rawConfidence": "Confianza original",
+    "calibratedConfidence": "Confianza calibrada",
+    "confidenceDelta": "Delta de confianza",
+    "adjustedTrades": "Operaciones ajustadas",
+    "positiveAdjustments": "positivos",
+    "negativeAdjustments": "negativos",
+    "neutralAdjustments": "sin ajuste",
+    "maxPositiveAdjustment": "máx. positivo",
+    "maxNegativeAdjustment": "máx. negativo",
+    "familyAdjustments": "Ajustes por familia",
+    "roleAdjustments": "Ajustes por rol",
+    "patternAdjustments": "Ajustes por patrón",
+    "key": "Grupo"
   },
   "history": {
     "title": "Historial reciente",
