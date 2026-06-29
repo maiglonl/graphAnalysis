@@ -40,6 +40,8 @@ export const SCANNER = {
   maxConfidence: 95,
   maxConfluenceBonus: 15,
   confluenceBonusStep: 5,
+  maxContextSignalsPerFamily: 1,
+  minActionableConfidenceForSuggestion: 50,
 } as const;
 
 export const VOLUME = {
