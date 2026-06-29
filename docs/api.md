@@ -70,8 +70,27 @@ type AnalyzeResponse = {
   candles: Candle[]
   suggestion: TradeSuggestion
   patterns: PatternSignal[]
+  signalQualitySummary: SignalQualitySummary
   structure: MarketStructure
   disclaimer: string
+}
+```
+
+`signalQualitySummary` agrupa os sinais detectados por família e por papel:
+
+```ts
+type SignalQualitySummary = {
+  byFamily: SignalQualitySummaryItem[]
+  byRole: SignalQualitySummaryItem[]
+}
+
+type SignalQualitySummaryItem = {
+  key: string
+  total: number
+  bullish: number
+  bearish: number
+  neutral: number
+  averageConfidence: number
 }
 ```
 
@@ -82,7 +101,8 @@ type AnalyzeResponse = {
 3. Executa `scanPatterns()`.
 4. Executa `buildSuggestion()`.
 5. Calcula `getMarketStructure()`.
-6. Retorna `AnalyzeResponse`.
+6. Calcula `summarizeSignalsByQuality()`.
+7. Retorna `AnalyzeResponse`.
 
 ---
 
@@ -116,6 +136,7 @@ type AnalyzeMarketWithCalibrationResponse = AnalyzeResponse & {
 - Endpoint experimental separado de `/api/analyze`.
 - Usa a simulação histórica do mesmo ativo/timeframe para gerar `patternStats`.
 - Aplica o ajuste com `applyScoreCalibration()`.
+- Retorna também `signalQualitySummary`, herdado de `AnalyzeResponse`.
 
 ---
 
@@ -214,6 +235,7 @@ type HistoricalSimulationResult = {
   interval: IntervalEnum
   trades: HistoricalTrade[]
   patternStats: HistoricalPatternStat[]
+  familyStats: HistoricalPatternFamilyStat[]
   metrics: {
     totalTrades: number
     wins: number
@@ -228,6 +250,8 @@ type HistoricalSimulationResult = {
   }
 }
 ```
+
+`familyStats` agrega os resultados por família de padrão para facilitar comparação entre candles, estrutura, liquidez, momentum e outras famílias.
 
 ### Observações
 
@@ -268,7 +292,7 @@ type HistoricalTimeframeSummaryResponse = {
 
 ## `GET /api/historical-score-calibration`
 
-Calcula ajustes informativos de score por padrão usando a simulação histórica.
+Calcula ajustes informativos de score por padrão, família e papel do sinal usando a simulação histórica.
 
 ### Query params
 
@@ -290,14 +314,18 @@ type HistoricalScoreCalibrationResult = {
   symbol: string
   interval: IntervalEnum
   patternAdjustments: PatternScoreCalibration[]
+  signalQualityAdjustments: {
+    familyAdjustments: SignalQualityScoreCalibration[]
+    roleAdjustments: SignalQualityScoreCalibration[]
+  }
 }
 ```
 
 ### Observações
 
 - A calibração atual é informativa.
-- A confiança operacional do scanner padrão ainda não é alterada automaticamente.
 - Padrões com amostra baixa recebem ajuste neutro.
+- Família e papel complementam a calibração individual para reduzir dependência de padrões raros com pouca amostra.
 
 ---
 
