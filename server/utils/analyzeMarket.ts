@@ -3,6 +3,7 @@ import { API } from '#shared/utils/detectors/constants';
 import { getMarketStructure } from '#shared/utils/marketStructure';
 import { buildSuggestion, scanPatterns } from '#shared/utils/scanner';
 import { ScanContext } from '#shared/utils/scanContext';
+import { summarizeSignalsByQuality } from '#shared/utils/signalQualitySummary';
 
 export type AnalyzeMarketParams = {
   symbol: string;
@@ -34,6 +35,7 @@ export async function analyzeMarket(params: AnalyzeMarketParams): Promise<Analyz
     candles,
     suggestion,
     patterns,
+    signalQualitySummary: summarizeSignalsByQuality(patterns),
     structure,
     disclaimer: 'common.disclaimer',
   };
