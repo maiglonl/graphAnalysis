@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { PatternIdEnum, type HistoricalPatternStat } from '#shared/types/market';
-import { buildScoreCalibration, getPatternScoreAdjustment } from '#shared/utils/scoreCalibration';
+import {
+  buildScoreCalibration,
+  getPatternScoreAdjustment,
+  getSuggestionScoreAdjustment,
+} from '#shared/utils/scoreCalibration';
 import { PatternFamilyEnum, PatternSignalRoleEnum } from '#shared/utils/patternFamilies';
 
 function makeStat(overrides: Partial<HistoricalPatternStat>): HistoricalPatternStat {
@@ -80,5 +84,16 @@ describe('buildScoreCalibration', () => {
 
     expect(getPatternScoreAdjustment(result, PatternIdEnum.BullishHarami)).toBeGreaterThan(0);
     expect(getPatternScoreAdjustment(result, PatternIdEnum.MacdBullishCross)).toBe(4);
+  });
+
+  it('applies family and role adjustments once per suggestion', () => {
+    const result = buildScoreCalibration([
+      makeStat({ patternId: PatternIdEnum.BullishEngulfing, winRate: 60, averageReturn: 0 }),
+    ]);
+
+    expect(getSuggestionScoreAdjustment(result, [
+      PatternIdEnum.BullishEngulfing,
+      PatternIdEnum.Hammer,
+    ])).toBe(3);
   });
 });
