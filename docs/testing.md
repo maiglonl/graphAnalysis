@@ -549,6 +549,7 @@ tests/server/utils/historicalScoreCalibration.test.ts
 tests/server/utils/calibratedHistoricalSimulation.test.ts
 tests/server/utils/historicalSimulationWindow.test.ts
 tests/server/utils/trainValidationHistoricalSimulation.test.ts
+tests/server/utils/multiWindowWalkForwardSimulation.test.ts
 ```
 
 Cobre:
@@ -558,6 +559,7 @@ Cobre:
 - `runCalibratedHistoricalSimulation()`: shape completo (raw, calibrated, calibration, comparison), deltas consistentes com métricas, zero-trades sem erro;
 - `buildHistoricalSimulationWindow()`: split 60/40, clamp de minValidationCandles, validationEndIndex com lookahead, invariante trainEndIndex = validationStartIndex - 1;
 - `runTrainValidationHistoricalSimulation()`: shape completo (window, train, rawValidation, calibratedValidation, comparison), deltas consistentes com validação, zero-trades sem erro;
+- `runMultiWindowWalkForwardSimulation()`: shape completo, `walkForwardWindowCount` janelas com candles suficientes, 1 janela com candles insuficientes, counts de improved/reduced em [0, n], respeit de `windowCount` override, clamp ao máximo, deltas zero sem trades;
 - `getSignalQualityScoreAdjustment()`: combina família+papel com clamp;
 - `buildScoreCalibration()`: ajuste individual por padrão + signalQualityAdjustments;
 - `getPatternScoreAdjustment()`: soma padrão + família + papel com clamp total;

@@ -1,5 +1,5 @@
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle } from '#shared/types/market';
-import { API } from '#shared/utils/detectors/constants';
+import { API, HISTORICAL_SIMULATION } from '#shared/utils/detectors/constants';
 import { runMultiWindowWalkForwardSimulation } from '../utils/multiWindowWalkForwardSimulation';
 
 export default defineEventHandler(async (event) => {
@@ -10,6 +10,11 @@ export default defineEventHandler(async (event) => {
   const interval: IntervalEnum = validIntervals.includes(String(query.interval))
     ? (query.interval as IntervalEnum)
     : DEFAULT_INTERVAL;
+
+  const windowCountRaw = Number(query.windowCount);
+  const windowCount = Number.isFinite(windowCountRaw) && windowCountRaw >= HISTORICAL_SIMULATION.minWalkForwardWindowCount
+    ? windowCountRaw
+    : HISTORICAL_SIMULATION.walkForwardWindowCount;
 
   const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
     query: {
@@ -23,5 +28,6 @@ export default defineEventHandler(async (event) => {
     symbol: response.symbol,
     interval: response.interval,
     candles: response.candles,
+    windowCount,
   });
 });

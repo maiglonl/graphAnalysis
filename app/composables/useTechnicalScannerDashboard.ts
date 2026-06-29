@@ -68,6 +68,20 @@ export type TrainValidationHistoricalSimulationResult = {
   comparison: HistoricalSimulationMetricsComparison;
 };
 
+export type MultiWindowWalkForwardSummary = HistoricalSimulationMetricsComparison & {
+  windows: number;
+  improvedWinRateWindows: number;
+  improvedReturnWindows: number;
+  reducedDrawdownWindows: number;
+};
+
+export type MultiWindowWalkForwardSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  windows: TrainValidationHistoricalSimulationResult[];
+  summary: MultiWindowWalkForwardSummary;
+};
+
 export type AnalysisHistorySnapshot = {
   symbol: string;
   interval: IntervalEnum;
@@ -102,6 +116,7 @@ export function useTechnicalScannerDashboard() {
   const scoreCalibration = ref<HistoricalScoreCalibrationResult | null>(null);
   const calibratedHistoricalSimulation = ref<CalibratedHistoricalSimulationResult | null>(null);
   const walkForwardValidation = ref<TrainValidationHistoricalSimulationResult | null>(null);
+  const multiWindowWalkForward = ref<MultiWindowWalkForwardSimulationResult | null>(null);
   const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
   const loading = ref(false);
   const scanLoading = ref(false);
@@ -110,6 +125,7 @@ export function useTechnicalScannerDashboard() {
   const scoreCalibrationLoading = ref(false);
   const calibratedSimulationLoading = ref(false);
   const walkForwardValidationLoading = ref(false);
+  const multiWindowWalkForwardLoading = ref(false);
   const timeframeLoading = ref(false);
   const error = ref('');
 
@@ -209,6 +225,27 @@ export function useTechnicalScannerDashboard() {
       error.value = resolveApiErrorMessage(err, t);
     } finally {
       scoreCalibrationLoading.value = false;
+    }
+  }
+
+  async function loadMultiWindowWalkForward() {
+    multiWindowWalkForwardLoading.value = true;
+    error.value = '';
+
+    try {
+      multiWindowWalkForward.value = await $fetch<MultiWindowWalkForwardSimulationResult>(
+        '/api/historical-walk-forward-multi',
+        {
+          query: {
+            symbol: symbol.value,
+            interval: interval.value,
+          },
+        }
+      );
+    } catch (err: unknown) {
+      error.value = resolveApiErrorMessage(err, t);
+    } finally {
+      multiWindowWalkForwardLoading.value = false;
     }
   }
 
@@ -350,6 +387,7 @@ export function useTechnicalScannerDashboard() {
     scoreCalibration.value = null;
     calibratedHistoricalSimulation.value = null;
     walkForwardValidation.value = null;
+    multiWindowWalkForward.value = null;
     timeframeSummary.value = null;
   }
 
@@ -372,6 +410,7 @@ export function useTechnicalScannerDashboard() {
     scoreCalibration,
     calibratedHistoricalSimulation,
     walkForwardValidation,
+    multiWindowWalkForward,
     timeframeSummary,
     analysisHistory,
     simulationHistory,
@@ -384,6 +423,7 @@ export function useTechnicalScannerDashboard() {
     scoreCalibrationLoading,
     calibratedSimulationLoading,
     walkForwardValidationLoading,
+    multiWindowWalkForwardLoading,
     timeframeLoading,
     error,
     scanItems,
@@ -395,6 +435,7 @@ export function useTechnicalScannerDashboard() {
     loadScoreCalibration,
     loadCalibratedHistoricalSimulation,
     loadWalkForwardValidation,
+    loadMultiWindowWalkForward,
     loadTimeframeSummary,
     addSymbolToWatchlist,
     addCurrentSymbolToWatchlist,

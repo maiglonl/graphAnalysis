@@ -104,6 +104,22 @@
     "rawValidation": "Validação bruta",
     "calibratedValidation": "Validação calibrada"
   },
+  "multiWindowWalkForward": {
+    "title": "Walk-forward multi-janelas",
+    "subtitle": "Avalia a calibração em várias fatias do histórico para reduzir dependência de um único split.",
+    "run": "Rodar multi-janelas",
+    "empty": "Nenhum resultado multi-janelas carregado ainda.",
+    "windows": "Janelas",
+    "averageDeltas": "Deltas médios",
+    "improvedWinRateWindows": "janelas com taxa de acerto melhor",
+    "improvedReturnWindows": "janelas com retorno melhor",
+    "reducedDrawdownWindows": "janelas com drawdown menor",
+    "totalTradesDelta": "Delta médio de trades",
+    "winRateDelta": "Delta médio da taxa de acerto",
+    "averageReturnDelta": "Delta médio do retorno",
+    "maxDrawdownDelta": "Delta médio do drawdown",
+    "averageConfidenceDelta": "Delta médio da confiança"
+  },
   "history": {
     "title": "Histórico recente",
     "subtitle": "Análises salvas localmente neste navegador.",

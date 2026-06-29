@@ -97,6 +97,8 @@ export const HISTORICAL_SIMULATION = {
   trainValidationSplitRatio: 0.6,
   minValidationCandles: 50,
   walkForwardWindowCount: 3,
+  minWalkForwardWindowCount: 1,
+  maxWalkForwardWindowCount: 10,
 } as const;
 
 export const API = {

@@ -10,6 +10,7 @@ export type RunMultiWindowWalkForwardSimulationParams = {
   symbol: string;
   interval: IntervalEnum;
   candles: Candle[];
+  windowCount?: number;
 };
 
 export type MultiWindowWalkForwardSummary = HistoricalSimulationMetricsComparison & {
@@ -29,7 +30,8 @@ export type MultiWindowWalkForwardSimulationResult = {
 export function runMultiWindowWalkForwardSimulation(
   params: RunMultiWindowWalkForwardSimulationParams,
 ): MultiWindowWalkForwardSimulationResult {
-  const slices = buildWindowSlices(params.candles);
+  const windowCount = clampWindowCount(params.windowCount ?? HISTORICAL_SIMULATION.walkForwardWindowCount);
+  const slices = buildWindowSlices(params.candles, windowCount);
   const windows = slices.map((candles) => runTrainValidationHistoricalSimulation({
     symbol: params.symbol,
     interval: params.interval,
@@ -44,11 +46,10 @@ export function runMultiWindowWalkForwardSimulation(
   };
 }
 
-function buildWindowSlices(candles: Candle[]): Candle[][] {
+function buildWindowSlices(candles: Candle[], windowCount: number): Candle[][] {
   const minWindowSize = SCANNER.minCandles + HISTORICAL_SIMULATION.minValidationCandles;
   if (candles.length <= minWindowSize) return [candles];
 
-  const windowCount = HISTORICAL_SIMULATION.walkForwardWindowCount;
   const windowSize = Math.max(minWindowSize, Math.floor(candles.length / windowCount));
   const step = Math.max(1, Math.floor((candles.length - windowSize) / Math.max(1, windowCount - 1)));
 
@@ -56,6 +57,13 @@ function buildWindowSlices(candles: Candle[]): Candle[][] {
     const start = Math.min(index * step, Math.max(0, candles.length - windowSize));
     return candles.slice(start, start + windowSize);
   });
+}
+
+function clampWindowCount(count: number): number {
+  return Math.min(
+    HISTORICAL_SIMULATION.maxWalkForwardWindowCount,
+    Math.max(HISTORICAL_SIMULATION.minWalkForwardWindowCount, Math.round(count)),
+  );
 }
 
 function summarizeWindows(windows: TrainValidationHistoricalSimulationResult[]): MultiWindowWalkForwardSummary {

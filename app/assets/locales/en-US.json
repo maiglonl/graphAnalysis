@@ -104,6 +104,22 @@
     "rawValidation": "Raw validation",
     "calibratedValidation": "Calibrated validation"
   },
+  "multiWindowWalkForward": {
+    "title": "Multi-window walk-forward",
+    "subtitle": "Evaluates calibration across multiple historical slices to reduce single-split dependency.",
+    "run": "Run multi-window",
+    "empty": "No multi-window results loaded yet.",
+    "windows": "Windows",
+    "averageDeltas": "Average deltas",
+    "improvedWinRateWindows": "windows with better win rate",
+    "improvedReturnWindows": "windows with better return",
+    "reducedDrawdownWindows": "windows with lower drawdown",
+    "totalTradesDelta": "Avg trades delta",
+    "winRateDelta": "Avg win rate delta",
+    "averageReturnDelta": "Avg return delta",
+    "maxDrawdownDelta": "Avg drawdown delta",
+    "averageConfidenceDelta": "Avg confidence delta"
+  },
   "history": {
     "title": "Recent history",
     "subtitle": "Analyses saved locally in this browser.",

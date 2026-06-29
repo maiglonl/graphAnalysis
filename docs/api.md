@@ -427,6 +427,45 @@ type TrainValidationHistoricalSimulationResult = {
 
 ---
 
+## `GET /api/historical-walk-forward-multi`
+
+Executa walk-forward em **múltiplas fatias** do histórico para reduzir dependência de um único split.
+
+### Query params
+
+| Param | Tipo | Default | Descrição |
+|-------|------|---------|-----------|
+| `symbol` | string | `BTCUSDT` | Par de trading |
+| `interval` | string | `1h` | Timeframe |
+| `windowCount` | number | `3` | Número de janelas (clamped entre `minWalkForwardWindowCount` e `maxWalkForwardWindowCount`) |
+
+### Retorno
+
+```ts
+type MultiWindowWalkForwardSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  windows: TrainValidationHistoricalSimulationResult[];
+  summary: MultiWindowWalkForwardSummary;
+};
+
+type MultiWindowWalkForwardSummary = HistoricalSimulationMetricsComparison & {
+  windows: number;
+  improvedWinRateWindows: number;
+  improvedReturnWindows: number;
+  reducedDrawdownWindows: number;
+};
+```
+
+### Observações
+
+- Cada fatia tem o mesmo tamanho e cada uma gera um `TrainValidationHistoricalSimulationResult`.
+- `summary` é a média dos deltas de `comparison` de todas as janelas.
+- `reducedDrawdownWindows` conta janelas onde `maxDrawdownDelta < 0` (calibração reduziu o drawdown).
+- Se os candles forem insuficientes (`< SCANNER.minCandles + HISTORICAL_SIMULATION.minValidationCandles`), retorna 1 janela.
+
+---
+
 ## Erros conhecidos
 
 | Chave | Significado |

@@ -104,6 +104,22 @@
     "rawValidation": "Validación bruta",
     "calibratedValidation": "Validación calibrada"
   },
+  "multiWindowWalkForward": {
+    "title": "Walk-forward multi-ventana",
+    "subtitle": "Evalúa la calibración en varias franjas del historial para reducir la dependencia de un único split.",
+    "run": "Ejecutar multi-ventana",
+    "empty": "Ningún resultado multi-ventana cargado todavía.",
+    "windows": "Ventanas",
+    "averageDeltas": "Deltas promedio",
+    "improvedWinRateWindows": "ventanas con mejor tasa de acierto",
+    "improvedReturnWindows": "ventanas con mejor retorno",
+    "reducedDrawdownWindows": "ventanas con menor drawdown",
+    "totalTradesDelta": "Delta promedio de operaciones",
+    "winRateDelta": "Delta promedio de la tasa de acierto",
+    "averageReturnDelta": "Delta promedio del retorno",
+    "maxDrawdownDelta": "Delta promedio del drawdown",
+    "averageConfidenceDelta": "Delta promedio de la confianza"
+  },
   "history": {
     "title": "Historial reciente",
     "subtitle": "Análisis guardados localmente en este navegador.",

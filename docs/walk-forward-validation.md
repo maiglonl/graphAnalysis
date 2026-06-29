@@ -79,5 +79,5 @@ A divisão é fixa e simples. Uma evolução natural é permitir múltiplas jane
 ## Próximos passos
 
 1. Permitir query params para split ratio.
-2. Implementar múltiplas janelas walk-forward.
+2. ~~Implementar múltiplas janelas walk-forward.~~ — implementado em `historical-walk-forward-multi`. Ver `docs/multi-window-walk-forward.md`.
 3. Documentar o impacto de amostras pequenas.

@@ -25,6 +25,7 @@ HistoricalTimeframeSummaryPanel
 ScoreCalibrationPanel
 CalibratedBacktestingPanel     — compara métricas brutas vs calibradas
 WalkForwardValidationPanel     — treino/validação separados, métricas da janela de validação
+MultiWindowWalkForwardPanel    — walk-forward em múltiplas fatias, summary dos deltas agregados
 SignalQualitySummaryPanel      — resumo de qualidade dos sinais por família e papel
 ChartPanel
 DetectedPatterns
@@ -34,6 +35,10 @@ SuggestionCard
 ### WalkForwardValidationPanel
 
 Exibe `TrainValidationHistoricalSimulationResult`. Mostra dois cards com `trainCandles` e `validationCandles`, depois tabela comparativa raw vs calibrado para a janela de validação (mesmas métricas do `CalibratedBacktestingPanel`, mas comparando apenas a janela de validação).
+
+### MultiWindowWalkForwardPanel
+
+Exibe `MultiWindowWalkForwardSimulationResult`. Mostra o número de janelas, uma grade com os 5 deltas médios (coloridos: verde para melhoria, vermelho para piora, exceto drawdown que é invertido), e uma linha de texto com a contagem de janelas onde cada métrica melhorou.
 
 ### CalibratedBacktestingPanel
 

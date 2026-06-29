@@ -7,6 +7,7 @@ A validação walk-forward com uma única divisão reduz overfitting em relaçã
 ```txt
 server/utils/multiWindowWalkForwardSimulation.ts
 server/api/historical-walk-forward-multi.get.ts
+app/components/MultiWindowWalkForwardPanel.vue
 tests/server/utils/multiWindowWalkForwardSimulation.test.ts
 ```
 
@@ -19,8 +20,9 @@ GET /api/historical-walk-forward-multi
 ### Query params
 
 ```txt
-symbol — opcional, default BTCUSDT
-interval — opcional, default 1h
+symbol     — opcional, default BTCUSDT
+interval   — opcional, default 1h
+windowCount — opcional, default walkForwardWindowCount (3), clamped entre minWalkForwardWindowCount (1) e maxWalkForwardWindowCount (10)
 ```
 
 ## Retorno
@@ -46,22 +48,29 @@ type MultiWindowWalkForwardSimulationResult = {
 
 ## Como funciona
 
-1. Divide os candles em múltiplas fatias usando `HISTORICAL_SIMULATION.walkForwardWindowCount`.
-2. Em cada fatia, roda a validação treino/validação existente.
-3. Agrega os deltas médios de métricas.
-4. Conta quantas janelas melhoraram win rate, retorno médio e drawdown.
+1. Clamp o `windowCount` entre `minWalkForwardWindowCount` e `maxWalkForwardWindowCount`.
+2. Divide os candles em `windowCount` fatias sequenciais de tamanho igual.
+3. Se os candles forem insuficientes (`<= SCANNER.minCandles + HISTORICAL_SIMULATION.minValidationCandles`), retorna 1 janela com todos os candles.
+4. Em cada fatia, roda a validação treino/validação (`runTrainValidationHistoricalSimulation`).
+5. Agrega os deltas médios (arredondados a 2 casas decimais) de métricas via `summarizeWindows`.
+6. Conta janelas onde `winRateDelta > 0`, `averageReturnDelta > 0` e `maxDrawdownDelta < 0`.
+
+## Constantes relevantes
+
+| Constante | Valor | Local |
+|-----------|-------|-------|
+| `HISTORICAL_SIMULATION.walkForwardWindowCount` | 3 | constants.ts |
+| `HISTORICAL_SIMULATION.minWalkForwardWindowCount` | 1 | constants.ts |
+| `HISTORICAL_SIMULATION.maxWalkForwardWindowCount` | 10 | constants.ts |
 
 ## Limitações atuais
 
-- As janelas são fatias sequenciais simples, não necessariamente rolling windows totalmente configuráveis.
-- A quantidade de janelas é fixa em constante.
-- O endpoint ainda não aceita query param para configurar o número de janelas.
-- A UI ainda precisa exibir o resumo multi-janelas.
+- Janelas são fatias sequenciais, não rolling; pode haver sobreposição de candles entre janelas.
+- Com poucos candles o mínimo de trades por janela pode ser 0, zerando os deltas.
+- O resultado de cada janela individual está em `windows[]` mas a UI exibe apenas o `summary`.
 
 ## Próximos passos
 
-1. Permitir `windowCount` via query param com limites seguros.
-2. Exibir resumo multi-janelas no dashboard.
-3. Comparar distribuição de deltas por janela.
-4. Adicionar gráfico simples de deltas por janela.
-5. Documentar risco de baixa amostra por janela.
+1. Comparar distribuição de deltas por janela (gráfico de barras).
+2. Documentar risco de baixa amostra por janela.
+3. Expor seletor de `windowCount` na UI.
