@@ -533,6 +533,46 @@
     "momentumExhaustion": {
       "name": "Momentum Exhaustion",
       "reason": "Momentum extremo com candle de rejeição, sugerindo possível exaustão do movimento."
+    },
+    "liquiditySweepHigh": {
+      "name": "Liquidity Sweep High",
+      "reason": "Preço varreu a máxima do range e fechou abaixo, indicando absorção da liquidez acima."
+    },
+    "liquiditySweepLow": {
+      "name": "Liquidity Sweep Low",
+      "reason": "Preço varreu a mínima do range e fechou acima, indicando absorção da liquidez abaixo."
+    },
+    "stopHuntHigh": {
+      "name": "Stop Hunt High",
+      "reason": "Wick acima da máxima com fechamento abaixo, caracterizando caça aos stops de vendedores."
+    },
+    "stopHuntLow": {
+      "name": "Stop Hunt Low",
+      "reason": "Wick abaixo da mínima com fechamento acima, caracterizando caça aos stops de compradores."
+    },
+    "equalHighs": {
+      "name": "Equal Highs",
+      "reason": "Dupla testa a mesma resistência, acumulando liquidez acima do nível."
+    },
+    "equalLows": {
+      "name": "Equal Lows",
+      "reason": "Dupla testa o mesmo suporte, acumulando liquidez abaixo do nível."
+    },
+    "orderBlockBullish": {
+      "name": "Order Block Bullish",
+      "reason": "Último candle de baixa antes de impulso de alta; zona de demanda institucional potencial."
+    },
+    "orderBlockBearish": {
+      "name": "Order Block Bearish",
+      "reason": "Último candle de alta antes de impulso de baixa; zona de oferta institucional potencial."
+    },
+    "breakerBlockBullish": {
+      "name": "Breaker Block Bullish",
+      "reason": "Nível rompido retestado como suporte com reação de alta, confirmando inversão de polaridade."
+    },
+    "breakerBlockBearish": {
+      "name": "Breaker Block Bearish",
+      "reason": "Nível rompido retestado como resistência com reação de baixa, confirmando inversão de polaridade."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Aguardar", "none": "Neutro" }

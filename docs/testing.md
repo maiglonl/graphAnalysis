@@ -85,6 +85,7 @@ tests/
     indicators.test.ts
     riskPlan.test.ts
     rankingSummary.test.ts
+    patternFamilies.test.ts
     scanner/
       scanner.test.ts
       suggestionBuilder.test.ts
@@ -108,6 +109,11 @@ tests/
         rangeDetectors.test.ts
         triangleDetectors.test.ts
         wedgeAndChannelDetectors.test.ts
+      liquidity/
+        liquiditySweepDetectors.test.ts
+        equalLevelsDetectors.test.ts
+        orderBlockDetectors.test.ts
+        breakerBlockDetectors.test.ts
 ```
 
 ---
@@ -483,6 +489,29 @@ tests/utils/detectors/momentum/momentumBreakoutDetectors.test.ts
 ```
 
 Cobre: MACD Bullish Cross, MACD Bearish Cross, Stochastic Oversold Reversal, Stochastic Overbought Reversal, RSI Bullish Divergence, RSI Bearish Divergence, MACD Bullish Divergence, MACD Bearish Divergence, Momentum Breakout (bullish e bearish), Momentum Exhaustion (bullish e bearish).
+
+### Detectores de liquidez e ordem
+
+Arquivos:
+
+```txt
+tests/utils/detectors/liquidity/liquiditySweepDetectors.test.ts
+tests/utils/detectors/liquidity/equalLevelsDetectors.test.ts
+tests/utils/detectors/liquidity/orderBlockDetectors.test.ts
+tests/utils/detectors/liquidity/breakerBlockDetectors.test.ts
+```
+
+Cobre: Liquidity Sweep High, Liquidity Sweep Low, Equal Highs, Equal Lows, Order Block Bullish, Order Block Bearish, Breaker Block Bullish, Breaker Block Bearish.
+
+### Famílias de padrões
+
+Arquivo:
+
+```txt
+tests/utils/patternFamilies.test.ts
+```
+
+Cobre: `getPatternFamily()` para os 8 grupos (candle, structure, priceAction, volume, volatility, trend, momentum, liquidity); `getPatternSignalRole()` para roles actionable, context e warning; cobertura completa dos 116 PatternIdEnum entries.
 
 ### Detectores de estrutura
 

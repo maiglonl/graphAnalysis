@@ -18,7 +18,7 @@ export class StopHuntLowDetector extends PatternDetector {
       current.low >= range.low ||
       current.close <= range.low ||
       rangeSize <= 0 ||
-      wickSize / rangeSize < EXTRA_THRESHOLDS.continuationPullbackMaxBodyPct
+      wickSize / rangeSize < EXTRA_THRESHOLDS.stopHuntMinWickPct
     ) return [];
 
     const risk = current.close - current.low;

@@ -113,15 +113,6 @@ Stochastic Oversold Reversal
 Stochastic Overbought Reversal
 Momentum Breakout
 Momentum Exhaustion
-```
-
-Total ativo aproximado: 106 padrões/sinais.
-
-## Próximos lotes sugeridos
-
-### Lote 9 — Ordem e liquidez
-
-```txt
 Liquidity Sweep High
 Liquidity Sweep Low
 Stop Hunt High
@@ -133,6 +124,22 @@ Order Block Bearish
 Breaker Block Bullish
 Breaker Block Bearish
 ```
+
+Total ativo: 116 padrões/sinais.
+
+## Roadmap de qualidade e calibração
+
+### Fase A — Calibração por backtesting
+
+Usar `historicalSimulation` para medir taxa de acerto e retorno médio por padrão. Priorizar ajuste de thresholds nos detectores com menor acurácia.
+
+### Fase B — Redução de ruído por família
+
+Ativar filtros por `PatternFamilyEnum` e `PatternSignalRoleEnum` (ver `shared/utils/patternFamilies.ts`) para desativar padrões `Context` em mercados sem tendência clara.
+
+### Fase C — Confluência dirigida
+
+Pontuar apenas sinais `Actionable` que coincidem com pelo menos um sinal de família diferente no mesmo candle (ex.: candle + estrutura, ou momentum + liquidez).
 
 ## Estratégia de implementação
 

@@ -1,6 +1,6 @@
 import type { PatternDetector } from '#shared/utils/detectors/PatternDetector';
-import { BearishBreakerDetector } from '#shared/utils/detectors/liquidity/bearishBreaker';
-import { BullishBreakerDetector } from '#shared/utils/detectors/liquidity/bullishBreaker';
+import { BreakerBlockBearishDetector } from '#shared/utils/detectors/liquidity/breakerBlockBearish';
+import { BreakerBlockBullishDetector } from '#shared/utils/detectors/liquidity/breakerBlockBullish';
 import { EqualHighsDetector } from '#shared/utils/detectors/liquidity/equalHighs';
 import { EqualLowsDetector } from '#shared/utils/detectors/liquidity/equalLows';
 import { LiquiditySweepHighDetector } from '#shared/utils/detectors/liquidity/liquiditySweepHigh';
@@ -20,7 +20,7 @@ export function createExpandedLiquidityDetectors(): PatternDetector[] {
     new EqualLowsDetector(),
     new OrderBlockBullishDetector(),
     new OrderBlockBearishDetector(),
-    new BullishBreakerDetector(),
-    new BearishBreakerDetector(),
+    new BreakerBlockBullishDetector(),
+    new BreakerBlockBearishDetector(),
   ];
 }

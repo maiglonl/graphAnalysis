@@ -536,6 +536,46 @@
     "momentumExhaustion": {
       "name": "Momentum Exhaustion",
       "reason": "Extreme momentum with a rejection candle, suggesting possible exhaustion of the move."
+    },
+    "liquiditySweepHigh": {
+      "name": "Liquidity Sweep High",
+      "reason": "Price swept above the range high and closed back below, absorbing liquidity above."
+    },
+    "liquiditySweepLow": {
+      "name": "Liquidity Sweep Low",
+      "reason": "Price swept below the range low and closed back above, absorbing liquidity below."
+    },
+    "stopHuntHigh": {
+      "name": "Stop Hunt High",
+      "reason": "Wick above the high with a close back below, triggering sell-side stop orders."
+    },
+    "stopHuntLow": {
+      "name": "Stop Hunt Low",
+      "reason": "Wick below the low with a close back above, triggering buy-side stop orders."
+    },
+    "equalHighs": {
+      "name": "Equal Highs",
+      "reason": "Price tests the same resistance twice, accumulating liquidity above the level."
+    },
+    "equalLows": {
+      "name": "Equal Lows",
+      "reason": "Price tests the same support twice, accumulating liquidity below the level."
+    },
+    "orderBlockBullish": {
+      "name": "Order Block Bullish",
+      "reason": "Last bearish candle before a bullish impulse; potential institutional demand zone."
+    },
+    "orderBlockBearish": {
+      "name": "Order Block Bearish",
+      "reason": "Last bullish candle before a bearish impulse; potential institutional supply zone."
+    },
+    "breakerBlockBullish": {
+      "name": "Breaker Block Bullish",
+      "reason": "Broken level retested as support with bullish reaction, confirming polarity flip."
+    },
+    "breakerBlockBearish": {
+      "name": "Breaker Block Bearish",
+      "reason": "Broken level retested as resistance with bearish reaction, confirming polarity flip."
     }
   },
   "actions": { "buy": "Buy", "sell": "Sell", "wait": "Wait", "none": "Neutral" }

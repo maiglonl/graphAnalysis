@@ -160,6 +160,7 @@ export const EXTRA_THRESHOLDS = {
   liquidityLookback: 20,
   liquidityTolerancePct: 0.003,
   sweepCloseBackPct: 0.001,
+  stopHuntMinWickPct: 0.35,
   orderBlockLookback: 10,
   orderBlockMinImpulsePct: 0.012,
   breakerRetestTolerancePct: 0.006,

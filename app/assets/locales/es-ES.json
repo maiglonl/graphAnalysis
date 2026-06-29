@@ -545,6 +545,46 @@
     "momentumExhaustion": {
       "name": "Momentum Exhaustion",
       "reason": "Momentum extremo con vela de rechazo, sugiriendo posible agotamiento del movimiento."
+    },
+    "liquiditySweepHigh": {
+      "name": "Liquidity Sweep High",
+      "reason": "El precio barrió el máximo del rango y cerró debajo, absorbiendo la liquidez superior."
+    },
+    "liquiditySweepLow": {
+      "name": "Liquidity Sweep Low",
+      "reason": "El precio barrió el mínimo del rango y cerró arriba, absorbiendo la liquidez inferior."
+    },
+    "stopHuntHigh": {
+      "name": "Stop Hunt High",
+      "reason": "Mecha por encima del máximo con cierre de vuelta, activando órdenes stop vendedoras."
+    },
+    "stopHuntLow": {
+      "name": "Stop Hunt Low",
+      "reason": "Mecha por debajo del mínimo con cierre de vuelta, activando órdenes stop compradoras."
+    },
+    "equalHighs": {
+      "name": "Equal Highs",
+      "reason": "El precio prueba la misma resistencia dos veces, acumulando liquidez por encima del nivel."
+    },
+    "equalLows": {
+      "name": "Equal Lows",
+      "reason": "El precio prueba el mismo soporte dos veces, acumulando liquidez por debajo del nivel."
+    },
+    "orderBlockBullish": {
+      "name": "Order Block Bullish",
+      "reason": "Última vela bajista antes de un impulso alcista; posible zona de demanda institucional."
+    },
+    "orderBlockBearish": {
+      "name": "Order Block Bearish",
+      "reason": "Última vela alcista antes de un impulso bajista; posible zona de oferta institucional."
+    },
+    "breakerBlockBullish": {
+      "name": "Breaker Block Bullish",
+      "reason": "Nivel roto retestado como soporte con reacción alcista, confirmando inversión de polaridad."
+    },
+    "breakerBlockBearish": {
+      "name": "Breaker Block Bearish",
+      "reason": "Nivel roto retestado como resistencia con reacción bajista, confirmando inversión de polaridad."
     }
   },
   "actions": { "buy": "Comprar", "sell": "Vender", "wait": "Esperar", "none": "Neutro" }

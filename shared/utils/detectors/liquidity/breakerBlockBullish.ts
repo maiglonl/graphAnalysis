@@ -5,7 +5,7 @@ import { PatternDetector } from '../PatternDetector';
 import { calculateTargets } from '../helpers';
 import { EXTRA_CONFIDENCE, EXTRA_THRESHOLDS } from '../extraPatternConstants';
 
-export class BullishBreakerDetector extends PatternDetector {
+export class BreakerBlockBullishDetector extends PatternDetector {
   detect(ctx: ScanContext): PatternSignal[] {
     const current = ctx.currentCandle;
     if (!current || ctx.index < EXTRA_THRESHOLDS.orderBlockLookback) return [];
