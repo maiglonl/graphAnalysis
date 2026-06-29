@@ -86,6 +86,9 @@ tests/
     riskPlan.test.ts
     rankingSummary.test.ts
     patternFamilies.test.ts
+    patternSignalQuality.test.ts
+    patternNoiseReduction.test.ts
+    patternFamilyStats.test.ts
     scanner/
       scanner.test.ts
       suggestionBuilder.test.ts
@@ -503,15 +506,24 @@ tests/utils/detectors/liquidity/breakerBlockDetectors.test.ts
 
 Cobre: Liquidity Sweep High, Liquidity Sweep Low, Equal Highs, Equal Lows, Order Block Bullish, Order Block Bearish, Breaker Block Bullish, Breaker Block Bearish.
 
-### Famílias de padrões
+### Qualidade e famílias de padrões
 
-Arquivo:
+Arquivos:
 
 ```txt
 tests/utils/patternFamilies.test.ts
+tests/utils/patternSignalQuality.test.ts
+tests/utils/patternNoiseReduction.test.ts
+tests/utils/patternFamilyStats.test.ts
 ```
 
-Cobre: `getPatternFamily()` para os 8 grupos (candle, structure, priceAction, volume, volatility, trend, momentum, liquidity); `getPatternSignalRole()` para roles actionable, context e warning; cobertura completa dos 116 PatternIdEnum entries.
+Cobre:
+- `getPatternFamily()` para os 8 grupos (candle, structure, priceAction, volume, volatility, trend, momentum, liquidity);
+- `getPatternSignalRole()` para roles actionable, context e warning; cobertura dos 116 PatternIdEnum entries;
+- `sortPatternsBySignalQuality()`, `getPrimaryActionablePattern()`, `groupPatternsByFamily()`;
+- `reducePatternNoise()`: mantém acionáveis/alertas, limita contextuais por família;
+- `filterSuggestionEligiblePatterns()`, `hasActionableSignal()`;
+- `aggregatePatternStatsByFamily()`: agrega HistoricalPatternStat[] por família.
 
 ### Detectores de estrutura
 

@@ -1,7 +1,7 @@
 import type { HistoricalPatternStat } from '#shared/types/market';
 import { PatternFamilyEnum, getPatternFamily } from '#shared/utils/patternFamilies';
 
-export type PatternGroupStat = {
+export type PatternFamilyStat = {
   family: PatternFamilyEnum;
   totalTrades: number;
   wins: number;
@@ -12,7 +12,7 @@ export type PatternGroupStat = {
   averageConfidence: number;
 };
 
-export function aggregatePatternStatsByFamily(stats: HistoricalPatternStat[]): PatternGroupStat[] {
+export function aggregatePatternStatsByFamily(stats: HistoricalPatternStat[]): PatternFamilyStat[] {
   const grouped = new Map<PatternFamilyEnum, HistoricalPatternStat[]>();
 
   stats.forEach((stat) => {

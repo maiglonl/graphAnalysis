@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { PatternIdEnum } from '#shared/types/market';
 import type { HistoricalPatternStat } from '#shared/types/market';
 import { PatternFamilyEnum } from '#shared/utils/patternFamilies';
-import { aggregatePatternStatsByFamily } from '#shared/utils/patternStatsGroups';
+import { aggregatePatternStatsByFamily } from '#shared/utils/patternFamilyStats';
 
 function stat(patternId: PatternIdEnum, totalTrades: number, wins: number, averageReturn: number): HistoricalPatternStat {
   return {
@@ -17,7 +17,7 @@ function stat(patternId: PatternIdEnum, totalTrades: number, wins: number, avera
   };
 }
 
-describe('pattern stats groups', () => {
+describe('pattern family stats', () => {
   it('aggregates historical stats by pattern family', () => {
     const groups = aggregatePatternStatsByFamily([
       stat(PatternIdEnum.OrderBlockBullish, 10, 7, 2),

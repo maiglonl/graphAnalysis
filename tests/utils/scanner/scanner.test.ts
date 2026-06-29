@@ -65,9 +65,10 @@ describe('Scanner', () => {
       new FakeDetector([signal(PatternIdEnum.BullishFvg, PatternDirectionEnum.Bullish)]),
     ]);
 
+    // BullishFvg (Structure, Actionable, rank=1470) sorts before Hammer (Candle, Actionable, rank=210)
     expect(scanner.scan(makeCandles()).map((item) => item.id)).toEqual([
-      PatternIdEnum.Hammer,
       PatternIdEnum.BullishFvg,
+      PatternIdEnum.Hammer,
     ]);
   });
 

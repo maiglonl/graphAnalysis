@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import { PatternDirectionEnum, PatternIdEnum } from '#shared/types/market';
 import type { PatternSignal } from '#shared/types/market';
-import { filterSuggestionEligiblePatterns, hasActionableSignal, reducePatternList } from '#shared/utils/patternFilters';
+import { filterSuggestionEligiblePatterns, hasActionableSignal, reducePatternNoise } from '#shared/utils/patternNoiseReduction';
 
 function signal(id: PatternIdEnum, confidence = 60, direction = PatternDirectionEnum.Bullish): PatternSignal {
   return { id, confidence, direction };
 }
 
-describe('pattern filters', () => {
+describe('pattern noise reduction', () => {
   it('keeps actionable and warning signals while limiting context per family', () => {
     const patterns = [
       signal(PatternIdEnum.EqualHighs, 90, PatternDirectionEnum.Neutral),
@@ -16,7 +16,7 @@ describe('pattern filters', () => {
       signal(PatternIdEnum.LiquiditySweepLow, 68),
     ];
 
-    const reduced = reducePatternList(patterns);
+    const reduced = reducePatternNoise(patterns);
 
     expect(reduced.some((pattern) => pattern.id === PatternIdEnum.OrderBlockBullish)).toBe(true);
     expect(reduced.some((pattern) => pattern.id === PatternIdEnum.LiquiditySweepLow)).toBe(true);

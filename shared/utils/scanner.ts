@@ -28,6 +28,8 @@ import { createExpandedVolumeVolatilityDetectors } from '#shared/utils/expandedV
 import { createExpandedTrendDetectors } from '#shared/utils/expandedTrendDetectors';
 import { createExpandedMomentumDetectors } from '#shared/utils/expandedMomentumDetectors';
 import { createExpandedLiquidityDetectors } from '#shared/utils/expandedLiquidityDetectors';
+import { reducePatternNoise, filterSuggestionEligiblePatterns } from '#shared/utils/patternNoiseReduction';
+import { getPrimaryActionablePattern, sortPatternsBySignalQuality } from '#shared/utils/patternSignalQuality';
 
 const EMPTY_SCORE_BREAKDOWN: SuggestionScoreBreakdown = {
   patternScore: 0,
@@ -49,7 +51,8 @@ export class Scanner {
     if (!this.isValidInput(candles)) return [];
     const ctx = new ScanContext(candles);
     const raw = this.detectors.flatMap((detector) => detector.detect(ctx));
-    return this.deduplicateStructureBreaks(raw);
+    const deduplicated = this.deduplicateStructureBreaks(raw);
+    return reducePatternNoise(deduplicated);
   }
 
   // CHOCH é uma especialização de BOS: se ambos dispararem na mesma direção,
@@ -84,8 +87,9 @@ export class SuggestionBuilder {
       };
     }
 
-    const bullish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bullish);
-    const bearish = patterns.filter((p) => p.direction === PatternDirectionEnum.Bearish);
+    const eligiblePatterns = filterSuggestionEligiblePatterns(patterns);
+    const bullish = eligiblePatterns.filter((p) => p.direction === PatternDirectionEnum.Bullish);
+    const bearish = eligiblePatterns.filter((p) => p.direction === PatternDirectionEnum.Bearish);
     const bullishScore = bullish.reduce((sum, p) => sum + p.confidence, 0);
     const bearishScore = bearish.reduce((sum, p) => sum + p.confidence, 0);
 
@@ -109,7 +113,9 @@ export class SuggestionBuilder {
     }
 
     const selectedPatterns = direction === PatternDirectionEnum.Bullish ? bullish : bearish;
-    const strongestPattern = [...selectedPatterns].sort((a, b) => b.confidence - a.confidence)[0];
+    const strongestPattern =
+      getPrimaryActionablePattern(selectedPatterns) ??
+      sortPatternsBySignalQuality(selectedPatterns)[0];
 
     if (!strongestPattern) {
       return {
@@ -130,7 +136,7 @@ export class SuggestionBuilder {
       entry: strongestPattern.entry,
       stop: strongestPattern.stop,
       targets: strongestPattern.targets,
-      reasons: selectedPatterns.map((p) => p.id),
+      reasons: sortPatternsBySignalQuality(selectedPatterns).map((p) => p.id),
       scoreBreakdown,
     };
   }

@@ -125,7 +125,7 @@ Breaker Block Bullish
 Breaker Block Bearish
 ```
 
-Total ativo: 116 padrões/sinais.
+Total ativo: 116 padrões/sinais. Fase atual: qualidade e calibração, não expansão.
 
 ## Roadmap de qualidade e calibração
 

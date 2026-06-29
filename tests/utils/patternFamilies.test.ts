@@ -12,7 +12,6 @@ describe('getPatternFamily', () => {
     expect(getPatternFamily(PatternIdEnum.Hammer)).toBe(PatternFamilyEnum.Candle);
     expect(getPatternFamily(PatternIdEnum.BullishEngulfing)).toBe(PatternFamilyEnum.Candle);
     expect(getPatternFamily(PatternIdEnum.Doji)).toBe(PatternFamilyEnum.Candle);
-    expect(getPatternFamily(PatternIdEnum.BullishFvg)).toBe(PatternFamilyEnum.Candle);
     expect(getPatternFamily(PatternIdEnum.InsideBar)).toBe(PatternFamilyEnum.Candle);
   });
 
@@ -21,6 +20,9 @@ describe('getPatternFamily', () => {
     expect(getPatternFamily(PatternIdEnum.BearishChoch)).toBe(PatternFamilyEnum.Structure);
     expect(getPatternFamily(PatternIdEnum.HigherHigh)).toBe(PatternFamilyEnum.Structure);
     expect(getPatternFamily(PatternIdEnum.LowerLow)).toBe(PatternFamilyEnum.Structure);
+    // FVG is a structural imbalance, not a single candle pattern
+    expect(getPatternFamily(PatternIdEnum.BullishFvg)).toBe(PatternFamilyEnum.Structure);
+    expect(getPatternFamily(PatternIdEnum.BearishFvg)).toBe(PatternFamilyEnum.Structure);
   });
 
   it('classifies price action patterns', () => {

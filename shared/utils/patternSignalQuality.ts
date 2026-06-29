@@ -1,23 +1,7 @@
 import type { PatternSignal } from '#shared/types/market';
 import { PatternDirectionEnum } from '#shared/types/market';
+import { SIGNAL_QUALITY } from '#shared/utils/detectors/constants';
 import { PatternFamilyEnum, PatternSignalRoleEnum, getPatternFamily, getPatternSignalRole } from '#shared/utils/patternFamilies';
-
-const ROLE_WEIGHT = {
-  [PatternSignalRoleEnum.Actionable]: 3,
-  [PatternSignalRoleEnum.Warning]: 2,
-  [PatternSignalRoleEnum.Context]: 1,
-} as const;
-
-const FAMILY_WEIGHT = {
-  [PatternFamilyEnum.Liquidity]: 8,
-  [PatternFamilyEnum.Structure]: 7,
-  [PatternFamilyEnum.PriceAction]: 6,
-  [PatternFamilyEnum.Trend]: 5,
-  [PatternFamilyEnum.Momentum]: 4,
-  [PatternFamilyEnum.Volume]: 3,
-  [PatternFamilyEnum.Volatility]: 2,
-  [PatternFamilyEnum.Candle]: 1,
-} as const;
 
 export type PatternQualityMetadata = {
   family: PatternFamilyEnum;
@@ -31,7 +15,7 @@ export function getPatternQualityMetadata(pattern: PatternSignal): PatternQualit
   return {
     family,
     role,
-    rank: ROLE_WEIGHT[role] * FAMILY_WEIGHT[family] * pattern.confidence,
+    rank: SIGNAL_QUALITY.roleWeight[role] * SIGNAL_QUALITY.familyWeight[family] * pattern.confidence,
   };
 }
 

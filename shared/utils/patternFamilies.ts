@@ -65,9 +65,9 @@ const FAMILY_MAP = new Map<PatternIdEnum, PatternFamilyEnum>([
   [PatternIdEnum.TweezerBottom, PatternFamilyEnum.Candle],
   [PatternIdEnum.TweezerTop, PatternFamilyEnum.Candle],
   [PatternIdEnum.InsideBar, PatternFamilyEnum.Candle],
-  [PatternIdEnum.BullishFvg, PatternFamilyEnum.Candle],
-  [PatternIdEnum.BearishFvg, PatternFamilyEnum.Candle],
-  // structure
+  // structure — FVG is a multi-candle structural imbalance, not a single candle pattern
+  [PatternIdEnum.BullishFvg, PatternFamilyEnum.Structure],
+  [PatternIdEnum.BearishFvg, PatternFamilyEnum.Structure],
   [PatternIdEnum.BullishBos, PatternFamilyEnum.Structure],
   [PatternIdEnum.BearishBos, PatternFamilyEnum.Structure],
   [PatternIdEnum.BullishChoch, PatternFamilyEnum.Structure],

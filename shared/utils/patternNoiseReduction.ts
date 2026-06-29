@@ -3,7 +3,7 @@ import { SCANNER } from '#shared/utils/detectors/constants';
 import { PatternSignalRoleEnum, getPatternFamily, getPatternSignalRole } from '#shared/utils/patternFamilies';
 import { sortPatternsBySignalQuality } from '#shared/utils/patternSignalQuality';
 
-export function reducePatternList(patterns: PatternSignal[]): PatternSignal[] {
+export function reducePatternNoise(patterns: PatternSignal[]): PatternSignal[] {
   const sorted = sortPatternsBySignalQuality(patterns);
   const contextCountByFamily = new Map<string, number>();
 

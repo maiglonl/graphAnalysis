@@ -34,9 +34,13 @@ describe('pattern families and signal quality', () => {
       signal(PatternIdEnum.EqualHighs, 90, PatternDirectionEnum.Neutral),
     ];
 
+    // OrderBlockBullish: Liquidity(8) * Actionable(3) * 60 = 1440
+    // EqualHighs:        Liquidity(8) * Context(1)    * 90 = 720
+    // Hammer:            Candle(1)    * Actionable(3) * 90 = 270
     const sorted = sortPatternsBySignalQuality(patterns);
     expect(sorted[0]?.id).toBe(PatternIdEnum.OrderBlockBullish);
-    expect(sorted[2]?.id).toBe(PatternIdEnum.EqualHighs);
+    expect(sorted[1]?.id).toBe(PatternIdEnum.EqualHighs);
+    expect(sorted[2]?.id).toBe(PatternIdEnum.Hammer);
   });
 
   it('returns primary actionable signal and role helpers', () => {

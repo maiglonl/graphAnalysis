@@ -1,3 +1,26 @@
+import { PatternFamilyEnum, PatternSignalRoleEnum } from '#shared/utils/patternFamilies';
+
+export const SIGNAL_QUALITY: {
+  roleWeight: Record<PatternSignalRoleEnum, number>;
+  familyWeight: Record<PatternFamilyEnum, number>;
+} = {
+  roleWeight: {
+    [PatternSignalRoleEnum.Actionable]: 3,
+    [PatternSignalRoleEnum.Warning]: 2,
+    [PatternSignalRoleEnum.Context]: 1,
+  },
+  familyWeight: {
+    [PatternFamilyEnum.Liquidity]: 8,
+    [PatternFamilyEnum.Structure]: 7,
+    [PatternFamilyEnum.PriceAction]: 6,
+    [PatternFamilyEnum.Trend]: 5,
+    [PatternFamilyEnum.Momentum]: 4,
+    [PatternFamilyEnum.Volume]: 3,
+    [PatternFamilyEnum.Volatility]: 2,
+    [PatternFamilyEnum.Candle]: 1,
+  },
+};
+
 export const CONFIDENCE = {
   hammer: 68,
   shootingStar: 68,
