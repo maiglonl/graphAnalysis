@@ -79,6 +79,21 @@
     "patternAdjustments": "Ajustes por patrón",
     "key": "Grupo"
   },
+  "calibratedBacktesting": {
+    "title": "Backtesting calibrado",
+    "subtitle": "Compare métricas brutas y métricas tras aplicar la calibración histórica.",
+    "run": "Ejecutar backtesting calibrado",
+    "empty": "Ningún backtesting calibrado cargado todavía.",
+    "raw": "Bruto",
+    "calibrated": "Calibrado",
+    "delta": "Delta",
+    "totalTradesDelta": "Delta de operaciones",
+    "winRateDelta": "Delta de la tasa de acierto",
+    "averageReturnDelta": "Delta del retorno promedio",
+    "maxDrawdownDelta": "Delta del drawdown máximo",
+    "averageConfidenceDelta": "Delta de la confianza media",
+    "disclaimer": "Resultado informativo. La calibración usa los mismos velas que la simulación bruta, lo que puede causar sobreajuste."
+  },
   "history": {
     "title": "Historial reciente",
     "subtitle": "Análisis guardados localmente en este navegador.",

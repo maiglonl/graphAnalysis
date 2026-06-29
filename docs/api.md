@@ -346,6 +346,45 @@ type CalibrationImpactSummary = {
 
 ---
 
+## `GET /api/historical-calibrated-simulation`
+
+Roda a simulação bruta, calcula calibração e roda uma segunda simulação com confiança calibrada, comparando as métricas.
+
+### Query params
+
+| Param | Padrão |
+| --- | --- |
+| `symbol` | `BTCUSDT` |
+| `interval` | `1h` |
+
+### Retorno
+
+```ts
+type CalibratedHistoricalSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  raw: HistoricalSimulationResult;
+  calibrated: HistoricalSimulationResult;
+  calibration: ScoreCalibrationResult;
+  comparison: {
+    totalTradesDelta: number;
+    winRateDelta: number;
+    averageReturnDelta: number;
+    maxDrawdownDelta: number;
+    averageConfidenceDelta: number;
+  };
+};
+```
+
+### Observações
+
+- `raw` e `calibrated` têm o mesmo shape que `/api/historical-simulation`.
+- A calibração é construída com os `patternStats` da simulação bruta.
+- A segunda simulação aplica `getSuggestionScoreAdjustment()` antes do filtro `minConfidence`.
+- Resultado informativo; calibração usa os mesmos candles, o que pode causar overfitting.
+
+---
+
 ## Erros conhecidos
 
 | Chave | Significado |

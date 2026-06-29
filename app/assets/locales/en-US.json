@@ -79,6 +79,21 @@
     "patternAdjustments": "Adjustments by Pattern",
     "key": "Group"
   },
+  "calibratedBacktesting": {
+    "title": "Calibrated Backtesting",
+    "subtitle": "Compare raw metrics and metrics after applying historical calibration.",
+    "run": "Run calibrated backtesting",
+    "empty": "No calibrated backtesting loaded yet.",
+    "raw": "Raw",
+    "calibrated": "Calibrated",
+    "delta": "Delta",
+    "totalTradesDelta": "Trades Delta",
+    "winRateDelta": "Win Rate Delta",
+    "averageReturnDelta": "Avg Return Delta",
+    "maxDrawdownDelta": "Max Drawdown Delta",
+    "averageConfidenceDelta": "Avg Confidence Delta",
+    "disclaimer": "Informational result. Calibration uses the same candles as the raw simulation, which may cause overfitting."
+  },
   "history": {
     "title": "Recent history",
     "subtitle": "Analyses saved locally in this browser.",

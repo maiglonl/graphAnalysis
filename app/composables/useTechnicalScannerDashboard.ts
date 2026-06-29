@@ -31,6 +31,23 @@ export type HistoricalScoreCalibrationResult = ScoreCalibrationResult & {
   calibrationImpact: CalibrationImpactSummary;
 };
 
+export type HistoricalSimulationMetricsComparison = {
+  totalTradesDelta: number;
+  winRateDelta: number;
+  averageReturnDelta: number;
+  maxDrawdownDelta: number;
+  averageConfidenceDelta: number;
+};
+
+export type CalibratedHistoricalSimulationResult = {
+  symbol: string;
+  interval: IntervalEnum;
+  raw: HistoricalSimulationResult;
+  calibrated: HistoricalSimulationResult;
+  calibration: ScoreCalibrationResult;
+  comparison: HistoricalSimulationMetricsComparison;
+};
+
 export type AnalysisHistorySnapshot = {
   symbol: string;
   interval: IntervalEnum;
@@ -63,12 +80,14 @@ export function useTechnicalScannerDashboard() {
   const historicalSimulation = ref<HistoricalSimulationResult | null>(null);
   const historicalTimeframeSummary = ref<HistoricalTimeframeSummaryResponse | null>(null);
   const scoreCalibration = ref<HistoricalScoreCalibrationResult | null>(null);
+  const calibratedHistoricalSimulation = ref<CalibratedHistoricalSimulationResult | null>(null);
   const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
   const loading = ref(false);
   const scanLoading = ref(false);
   const simulationLoading = ref(false);
   const historicalTimeframeLoading = ref(false);
   const scoreCalibrationLoading = ref(false);
+  const calibratedSimulationLoading = ref(false);
   const timeframeLoading = ref(false);
   const error = ref('');
 
@@ -171,6 +190,27 @@ export function useTechnicalScannerDashboard() {
     }
   }
 
+  async function loadCalibratedHistoricalSimulation() {
+    calibratedSimulationLoading.value = true;
+    error.value = '';
+
+    try {
+      calibratedHistoricalSimulation.value = await $fetch<CalibratedHistoricalSimulationResult>(
+        '/api/historical-calibrated-simulation',
+        {
+          query: {
+            symbol: symbol.value,
+            interval: interval.value,
+          },
+        }
+      );
+    } catch (err: unknown) {
+      error.value = resolveApiErrorMessage(err, t);
+    } finally {
+      calibratedSimulationLoading.value = false;
+    }
+  }
+
   async function loadTimeframeSummary() {
     timeframeLoading.value = true;
     error.value = '';
@@ -265,6 +305,7 @@ export function useTechnicalScannerDashboard() {
     historicalSimulation.value = null;
     historicalTimeframeSummary.value = null;
     scoreCalibration.value = null;
+    calibratedHistoricalSimulation.value = null;
     timeframeSummary.value = null;
   }
 
@@ -285,6 +326,7 @@ export function useTechnicalScannerDashboard() {
     historicalSimulation,
     historicalTimeframeSummary,
     scoreCalibration,
+    calibratedHistoricalSimulation,
     timeframeSummary,
     analysisHistory,
     simulationHistory,
@@ -295,6 +337,7 @@ export function useTechnicalScannerDashboard() {
     simulationLoading,
     historicalTimeframeLoading,
     scoreCalibrationLoading,
+    calibratedSimulationLoading,
     timeframeLoading,
     error,
     scanItems,
@@ -304,6 +347,7 @@ export function useTechnicalScannerDashboard() {
     runSimulation,
     loadHistoricalTimeframeSummary,
     loadScoreCalibration,
+    loadCalibratedHistoricalSimulation,
     loadTimeframeSummary,
     addSymbolToWatchlist,
     addCurrentSymbolToWatchlist,

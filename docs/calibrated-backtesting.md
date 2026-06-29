@@ -64,16 +64,25 @@ type CalibratedHistoricalSimulationResult = {
 - drawdown;
 - confiança média.
 
-## Limitações atuais
+## Helpers compartilhados
 
-A implementação atual duplica alguns helpers de `historicalSimulation.ts`, como cálculo de métricas e resolução de trades. Isso deve ser refatorado para helpers compartilhados antes de evoluir a lógica.
+Os helpers de simulação foram extraídos para `server/utils/historicalSimulationCore.ts`:
+
+```ts
+isActionableSuggestion()
+resolveHistoricalTrade()
+buildHistoricalSimulationMetrics()
+buildHistoricalPatternStats()
+buildHistoricalSimulationResult()
+```
+
+Tanto `historicalSimulation.ts` quanto `calibratedHistoricalSimulation.ts` importam desse módulo, garantindo comportamento idêntico na resolução de trades e cálculo de métricas.
+
+## Limitações atuais
 
 A calibração ainda usa os próprios candles simulados como base de ajuste, o que pode causar overfitting. Uma próxima melhoria é separar janela de treino e janela de validação.
 
 ## Próximos passos
 
-1. Extrair helpers compartilhados de simulação histórica.
-2. Adicionar testes de endpoint para `/api/historical-calibrated-simulation`.
-3. Exibir comparação no dashboard.
-4. Adicionar opção de janela de treino/validação.
-5. Documentar claramente que o resultado é pesquisa/avaliação técnica, não recomendação financeira.
+1. Adicionar opção de janela de treino/validação.
+2. Documentar claramente que o resultado é pesquisa/avaliação técnica, não recomendação financeira.

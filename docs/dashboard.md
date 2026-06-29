@@ -23,11 +23,16 @@ HistoricalSimulationPanel      — inclui seção familyStats (performance por f
 SimulationHistoryPanel
 HistoricalTimeframeSummaryPanel
 ScoreCalibrationPanel
+CalibratedBacktestingPanel     — compara métricas brutas vs calibradas
 SignalQualitySummaryPanel      — resumo de qualidade dos sinais por família e papel
 ChartPanel
 DetectedPatterns
 SuggestionCard
 ```
+
+### CalibratedBacktestingPanel
+
+Exibe `CalibratedHistoricalSimulationResult` com uma tabela comparativa entre simulação bruta e calibrada. Colunas: métrica, valor bruto, valor calibrado, delta. Métricas exibidas: trades, taxa de acerto, retorno médio, drawdown máximo, confiança média. O delta de drawdown usa colorização invertida (redução é positiva). Inclui disclaimer de overfitting.
 
 ### ScoreCalibrationPanel
 

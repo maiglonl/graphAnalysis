@@ -11,6 +11,7 @@ const {
   historicalSimulation,
   historicalTimeframeSummary,
   scoreCalibration,
+  calibratedHistoricalSimulation,
   timeframeSummary,
   analysisHistory,
   simulationHistory,
@@ -21,6 +22,7 @@ const {
   simulationLoading,
   historicalTimeframeLoading,
   scoreCalibrationLoading,
+  calibratedSimulationLoading,
   timeframeLoading,
   error,
   scanItems,
@@ -29,6 +31,7 @@ const {
   runSimulation,
   loadHistoricalTimeframeSummary,
   loadScoreCalibration,
+  loadCalibratedHistoricalSimulation,
   loadTimeframeSummary,
   addSymbolToWatchlist,
   addCurrentSymbolToWatchlist,
@@ -104,6 +107,12 @@ const {
       :result="scoreCalibration"
       :loading="scoreCalibrationLoading"
       @refresh="loadScoreCalibration"
+    />
+
+    <CalibratedBacktestingPanel
+      :result="calibratedHistoricalSimulation"
+      :loading="calibratedSimulationLoading"
+      @refresh="loadCalibratedHistoricalSimulation"
     />
 
     <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
