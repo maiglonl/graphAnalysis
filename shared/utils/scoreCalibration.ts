@@ -1,5 +1,6 @@
 import type { HistoricalPatternStat, PatternIdEnum } from '#shared/types/market';
 import { SCORE_CALIBRATION } from '#shared/utils/detectors/constants';
+import { getPatternFamily, getPatternSignalRole } from '#shared/utils/patternFamilies';
 import type { SignalQualityCalibrationResult } from '#shared/utils/signalQualityCalibration';
 import {
   buildSignalQualityCalibration,
@@ -66,8 +67,35 @@ export function getPatternScoreAdjustment(
 ): number {
   const patternAdjustment = calibration.patternAdjustments.find((item) => item.patternId === patternId)?.adjustment ?? 0;
   const signalQualityAdjustment = getSignalQualityScoreAdjustment(calibration.signalQualityAdjustments, patternId);
+  return clampTotalAdjustment(patternAdjustment + signalQualityAdjustment);
+}
+
+export function getSuggestionScoreAdjustment(
+  calibration: ScoreCalibrationResult,
+  patternIds: PatternIdEnum[],
+): number {
+  const patternAdjustment = patternIds.reduce(
+    (sum, patternId) => sum + (calibration.patternAdjustments.find((item) => item.patternId === patternId)?.adjustment ?? 0),
+    0,
+  );
+
+  const families = new Set(patternIds.map((patternId) => getPatternFamily(patternId)));
+  const roles = new Set(patternIds.map((patternId) => getPatternSignalRole(patternId)));
+  const familyAdjustment = calibration.signalQualityAdjustments.familyAdjustments.reduce(
+    (sum, item) => sum + (families.has(item.key as ReturnType<typeof getPatternFamily>) ? item.adjustment : 0),
+    0,
+  );
+  const roleAdjustment = calibration.signalQualityAdjustments.roleAdjustments.reduce(
+    (sum, item) => sum + (roles.has(item.key as ReturnType<typeof getPatternSignalRole>) ? item.adjustment : 0),
+    0,
+  );
+
+  return clampTotalAdjustment(patternAdjustment + familyAdjustment + roleAdjustment);
+}
+
+function clampTotalAdjustment(value: number): number {
   return Math.min(
     SCORE_CALIBRATION.maxTotalAdjustment,
-    Math.max(-SCORE_CALIBRATION.maxTotalAdjustment, patternAdjustment + signalQualityAdjustment),
+    Math.max(-SCORE_CALIBRATION.maxTotalAdjustment, value),
   );
 }
