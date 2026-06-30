@@ -1,5 +1,10 @@
-import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle } from '#shared/types/market';
+import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle, type HistoricalSimulationResult } from '#shared/types/market';
 import { API } from '#shared/utils/detectors/constants';
+import {
+  createHistoricalResultCacheKey,
+  getCachedHistoricalResult,
+  setCachedHistoricalResult,
+} from '../utils/historicalResultCache';
 import { runHistoricalSimulation } from '../utils/historicalSimulation';
 
 export default defineEventHandler(async (event) => {
@@ -10,6 +15,9 @@ export default defineEventHandler(async (event) => {
   const interval: IntervalEnum = validIntervals.includes(String(query.interval))
     ? (query.interval as IntervalEnum)
     : DEFAULT_INTERVAL;
+  const cacheKey = createHistoricalResultCacheKey('historicalSimulation', symbol, interval, API.candleLimit);
+  const cached = getCachedHistoricalResult<HistoricalSimulationResult>(cacheKey);
+  if (cached) return cached;
 
   const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
     query: {
@@ -19,9 +27,11 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  return runHistoricalSimulation({
+  const result = runHistoricalSimulation({
     symbol: response.symbol,
     interval: response.interval,
     candles: response.candles,
   });
+  setCachedHistoricalResult(cacheKey, result);
+  return result;
 });
