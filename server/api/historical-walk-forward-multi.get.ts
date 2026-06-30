@@ -1,6 +1,14 @@
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle } from '#shared/types/market';
 import { API, HISTORICAL_SIMULATION } from '#shared/utils/detectors/constants';
-import { runMultiWindowWalkForwardSimulation } from '../utils/multiWindowWalkForwardSimulation';
+import {
+  createHistoricalResultCacheKey,
+  getCachedHistoricalResult,
+  setCachedHistoricalResult,
+} from '../utils/historicalResultCache';
+import {
+  runMultiWindowWalkForwardSimulation,
+  type MultiWindowWalkForwardSimulationResult,
+} from '../utils/multiWindowWalkForwardSimulation';
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -13,8 +21,11 @@ export default defineEventHandler(async (event) => {
 
   const windowCountRaw = Number(query.windowCount);
   const windowCount = Number.isFinite(windowCountRaw) && windowCountRaw >= HISTORICAL_SIMULATION.minWalkForwardWindowCount
-    ? windowCountRaw
+    ? Math.min(windowCountRaw, HISTORICAL_SIMULATION.maxWalkForwardWindowCount)
     : HISTORICAL_SIMULATION.walkForwardWindowCount;
+  const cacheKey = createHistoricalResultCacheKey('historicalWalkForwardMulti', symbol, interval, API.candleLimit, windowCount);
+  const cached = getCachedHistoricalResult<MultiWindowWalkForwardSimulationResult>(cacheKey);
+  if (cached) return cached;
 
   const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
     query: {
@@ -24,10 +35,12 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  return runMultiWindowWalkForwardSimulation({
+  const result = runMultiWindowWalkForwardSimulation({
     symbol: response.symbol,
     interval: response.interval,
     candles: response.candles,
     windowCount,
   });
+  setCachedHistoricalResult(cacheKey, result);
+  return result;
 });
