@@ -1,6 +1,13 @@
 import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle } from '#shared/types/market';
 import { API } from '#shared/utils/detectors/constants';
-import { runTrainValidationHistoricalSimulation } from '../utils/trainValidationHistoricalSimulation';
+import {
+  createHistoricalResultCacheKey,
+  getOrSetHistoricalEndpointCache,
+} from '../utils/historicalResultCache';
+import {
+  runTrainValidationHistoricalSimulation,
+  type TrainValidationHistoricalSimulationResult,
+} from '../utils/trainValidationHistoricalSimulation';
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -10,18 +17,17 @@ export default defineEventHandler(async (event) => {
   const interval: IntervalEnum = validIntervals.includes(String(query.interval))
     ? (query.interval as IntervalEnum)
     : DEFAULT_INTERVAL;
+  const refresh = query.refresh === 'true';
+  const cacheKey = createHistoricalResultCacheKey('historicalWalkForward', symbol, interval, API.candleLimit);
 
-  const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
-    query: {
-      symbol,
-      interval,
-      limit: API.candleLimit,
-    },
-  });
-
-  return runTrainValidationHistoricalSimulation({
-    symbol: response.symbol,
-    interval: response.interval,
-    candles: response.candles,
+  return getOrSetHistoricalEndpointCache<TrainValidationHistoricalSimulationResult>(cacheKey, refresh, async () => {
+    const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
+      query: { symbol, interval, limit: API.candleLimit },
+    });
+    return runTrainValidationHistoricalSimulation({
+      symbol: response.symbol,
+      interval: response.interval,
+      candles: response.candles,
+    });
   });
 });

@@ -2,8 +2,7 @@ import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle } from '#sh
 import { API } from '#shared/utils/detectors/constants';
 import {
   createHistoricalResultCacheKey,
-  getCachedHistoricalResult,
-  setCachedHistoricalResult,
+  getOrSetHistoricalEndpointCache,
 } from '../utils/historicalResultCache';
 import { runHistoricalScoreCalibration, type HistoricalScoreCalibrationResult } from '../utils/historicalScoreCalibration';
 
@@ -15,23 +14,17 @@ export default defineEventHandler(async (event) => {
   const interval: IntervalEnum = validIntervals.includes(String(query.interval))
     ? (query.interval as IntervalEnum)
     : DEFAULT_INTERVAL;
+  const refresh = query.refresh === 'true';
   const cacheKey = createHistoricalResultCacheKey('historicalScoreCalibration', symbol, interval, API.candleLimit);
-  const cached = getCachedHistoricalResult<HistoricalScoreCalibrationResult>(cacheKey);
-  if (cached) return cached;
 
-  const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
-    query: {
-      symbol,
-      interval,
-      limit: API.candleLimit,
-    },
+  return getOrSetHistoricalEndpointCache<HistoricalScoreCalibrationResult>(cacheKey, refresh, async () => {
+    const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
+      query: { symbol, interval, limit: API.candleLimit },
+    });
+    return runHistoricalScoreCalibration({
+      symbol: response.symbol,
+      interval: response.interval,
+      candles: response.candles,
+    });
   });
-
-  const result = runHistoricalScoreCalibration({
-    symbol: response.symbol,
-    interval: response.interval,
-    candles: response.candles,
-  });
-  setCachedHistoricalResult(cacheKey, result);
-  return result;
 });

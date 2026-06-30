@@ -2,8 +2,7 @@ import { DEFAULT_INTERVAL, DEFAULT_SYMBOL, IntervalEnum, type Candle } from '#sh
 import { API, HISTORICAL_SIMULATION } from '#shared/utils/detectors/constants';
 import {
   createHistoricalResultCacheKey,
-  getCachedHistoricalResult,
-  setCachedHistoricalResult,
+  getOrSetHistoricalEndpointCache,
 } from '../utils/historicalResultCache';
 import {
   runMultiWindowWalkForwardSimulation,
@@ -21,26 +20,21 @@ export default defineEventHandler(async (event) => {
 
   const windowCountRaw = Number(query.windowCount);
   const windowCount = Number.isFinite(windowCountRaw) && windowCountRaw >= HISTORICAL_SIMULATION.minWalkForwardWindowCount
-    ? Math.min(windowCountRaw, HISTORICAL_SIMULATION.maxWalkForwardWindowCount)
+    ? Math.round(Math.min(windowCountRaw, HISTORICAL_SIMULATION.maxWalkForwardWindowCount))
     : HISTORICAL_SIMULATION.walkForwardWindowCount;
+
+  const refresh = query.refresh === 'true';
   const cacheKey = createHistoricalResultCacheKey('historicalWalkForwardMulti', symbol, interval, API.candleLimit, windowCount);
-  const cached = getCachedHistoricalResult<MultiWindowWalkForwardSimulationResult>(cacheKey);
-  if (cached) return cached;
 
-  const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
-    query: {
-      symbol,
-      interval,
-      limit: API.candleLimit,
-    },
+  return getOrSetHistoricalEndpointCache<MultiWindowWalkForwardSimulationResult>(cacheKey, refresh, async () => {
+    const response = await $fetch<{ symbol: string; interval: IntervalEnum; candles: Candle[] }>('/api/candles', {
+      query: { symbol, interval, limit: API.candleLimit },
+    });
+    return runMultiWindowWalkForwardSimulation({
+      symbol: response.symbol,
+      interval: response.interval,
+      candles: response.candles,
+      windowCount,
+    });
   });
-
-  const result = runMultiWindowWalkForwardSimulation({
-    symbol: response.symbol,
-    interval: response.interval,
-    candles: response.candles,
-    windowCount,
-  });
-  setCachedHistoricalResult(cacheKey, result);
-  return result;
 });

@@ -106,6 +106,12 @@ BacktestTradeList
 SettingsPanel
 ```
 
+## Cache de resultados históricos
+
+Endpoints históricos pesados usam cache em memória (TTL 5 min). Ver `docs/historical-result-cache.md`.
+
+O composable passa `refresh=true` em todas as chamadas disparadas por clique manual nos botões de atualizar, garantindo que o usuário sempre receba dados frescos ao interagir. Carregamentos automáticos futuros podem omitir `refresh=true` para aproveitar o cache.
+
 ## Critérios
 
 1. A página deve continuar apenas orquestrando componentes.

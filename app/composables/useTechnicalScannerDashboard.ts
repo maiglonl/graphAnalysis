@@ -180,6 +180,7 @@ export function useTechnicalScannerDashboard() {
         query: {
           symbol: symbol.value,
           interval: interval.value,
+          refresh: 'true',
         },
       });
       recordSimulation(historicalSimulation.value);
@@ -219,6 +220,7 @@ export function useTechnicalScannerDashboard() {
         query: {
           symbol: symbol.value,
           interval: interval.value,
+          refresh: 'true',
         },
       });
     } catch (err: unknown) {
@@ -239,6 +241,7 @@ export function useTechnicalScannerDashboard() {
           query: {
             symbol: symbol.value,
             interval: interval.value,
+            refresh: 'true',
           },
         }
       );
@@ -260,6 +263,7 @@ export function useTechnicalScannerDashboard() {
           query: {
             symbol: symbol.value,
             interval: interval.value,
+            refresh: 'true',
           },
         }
       );
@@ -281,6 +285,7 @@ export function useTechnicalScannerDashboard() {
           query: {
             symbol: symbol.value,
             interval: interval.value,
+            refresh: 'true',
           },
         }
       );

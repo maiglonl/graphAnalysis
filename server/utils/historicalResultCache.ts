@@ -41,16 +41,31 @@ export function getCachedHistoricalResult<T>(key: HistoricalResultCacheKey): T |
 }
 
 export function setCachedHistoricalResult<T>(key: HistoricalResultCacheKey, value: T): void {
+  const now = Date.now();
   cache.set(key, {
     value,
-    createdAt: Date.now(),
-    expiresAt: Date.now() + HISTORICAL_SIMULATION.resultCacheTtlMs,
+    createdAt: now,
+    expiresAt: now + HISTORICAL_SIMULATION.resultCacheTtlMs,
   });
   pruneHistoricalResultCache();
 }
 
 export function clearHistoricalResultCache(): void {
   cache.clear();
+}
+
+export async function getOrSetHistoricalEndpointCache<T>(
+  key: HistoricalResultCacheKey,
+  refresh: boolean,
+  factory: () => Promise<T> | T,
+): Promise<T> {
+  if (!refresh) {
+    const cached = getCachedHistoricalResult<T>(key);
+    if (cached !== null) return cached;
+  }
+  const result = await factory();
+  setCachedHistoricalResult(key, result);
+  return result;
 }
 
 function pruneHistoricalResultCache(): void {

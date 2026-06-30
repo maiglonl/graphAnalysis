@@ -1,55 +1,74 @@
 # Cache de resultados históricos
 
-Os endpoints históricos e de calibração podem ser pesados porque reprocessam centenas de candles, detectores e simulações. Para reduzir recomputações em refreshes próximos, existe um cache em memória para resultados históricos.
+Endpoints históricos são computacionalmente pesados (backtesting completo, calibração, walk-forward). Um cache em memória evita recomputação para o mesmo símbolo/intervalo dentro da janela de TTL.
 
-## Arquivos principais
+## Arquivos
 
 ```txt
 server/utils/historicalResultCache.ts
+tests/server/utils/historicalResultCache.test.ts
 ```
+
+## Endpoints cacheados
+
+| Endpoint | Kind | Variant |
+|----------|------|---------|
+| `/api/historical-simulation` | `historicalSimulation` | — |
+| `/api/historical-score-calibration` | `historicalScoreCalibration` | — |
+| `/api/historical-calibrated-simulation` | `historicalCalibratedSimulation` | — |
+| `/api/historical-walk-forward` | `historicalWalkForward` | — |
+| `/api/historical-walk-forward-multi` | `historicalWalkForwardMulti` | `windowCount` |
 
 ## Constantes
 
-Configurado em `shared/utils/detectors/constants.ts`:
+| Constante | Valor | Significado |
+|-----------|-------|-------------|
+| `HISTORICAL_SIMULATION.resultCacheTtlMs` | 300 000 ms (5 min) | TTL de cada entrada |
+| `HISTORICAL_SIMULATION.resultCacheMaxEntries` | 25 | Máximo de entradas; excedendo, a mais antiga é removida |
+
+## API do cache
 
 ```ts
-HISTORICAL_SIMULATION.resultCacheTtlMs
-HISTORICAL_SIMULATION.resultCacheMaxEntries
+createHistoricalResultCacheKey(kind, symbol, interval, limit, variant?)
+getCachedHistoricalResult<T>(key)
+setCachedHistoricalResult<T>(key, value)
+clearHistoricalResultCache()
+getOrSetHistoricalEndpointCache<T>(key, refresh, factory)
 ```
 
-## Endpoints usando cache
+`getOrSetHistoricalEndpointCache` é o helper que todos os endpoints usam. Se `refresh=false` e a entrada existe e não expirou, retorna o valor cacheado sem chamar `factory`. Se `refresh=true`, sempre chama `factory` e salva o resultado.
 
-```txt
-GET /api/historical-simulation
-GET /api/historical-score-calibration
-GET /api/historical-calibrated-simulation
-GET /api/historical-walk-forward-multi
+## Bypass via query param
+
+Adicionar `?refresh=true` a qualquer endpoint cacheado força recomputação:
+
 ```
+GET /api/historical-simulation?symbol=BTCUSDT&interval=1h&refresh=true
+```
+
+O dashboard passa `refresh=true` em todas as chamadas disparadas por ação manual (clique no botão de atualizar).
 
 ## Chave do cache
 
-A chave inclui:
-
 ```txt
-kind
-symbol
-interval
-limit
-variant
+kind:symbol:interval:limit:variant
 ```
 
-`variant` é usado para variações do mesmo endpoint, como `windowCount` no walk-forward multi-janelas.
+`variant` diferencia variações do mesmo endpoint — ex: `windowCount` para o walk-forward multi-janelas. Sempre é um inteiro (o endpoint arredonda antes de criar a chave).
+
+## Comportamento de prune
+
+Quando `cache.size > resultCacheMaxEntries` após um `set`, as entradas mais antigas (por `createdAt`) são removidas até `cache.size === resultCacheMaxEntries`.
 
 ## Limitações
 
-- Cache é apenas em memória.
+- Cache é em memória; perdido em restart/deploy.
 - Cache é por instância do servidor.
-- Cache é perdido em restart/deploy.
-- Ainda não existe endpoint administrativo para limpar cache.
+- Não há invalidação por mudança de dados no provider externo; respeitar o TTL.
+- Diferentes `windowCount` para o mesmo símbolo/intervalo ocupam entradas separadas.
 
 ## Próximos passos
 
-1. Adicionar endpoint administrativo seguro para limpar cache.
-2. Expor metadados de cache em logs ou headers.
-3. Considerar Redis/Supabase para cache persistente se a aplicação escalar horizontalmente.
-4. Permitir bypass via query param `refresh=true`.
+1. Endpoint administrativo seguro para limpar cache.
+2. Expor metadados de cache em headers de resposta.
+3. Redis/Supabase para cache persistente em escala horizontal.
