@@ -99,6 +99,8 @@ export const HISTORICAL_SIMULATION = {
   walkForwardWindowCount: 3,
   minWalkForwardWindowCount: 1,
   maxWalkForwardWindowCount: 10,
+  resultCacheTtlMs: 300_000,
+  resultCacheMaxEntries: 25,
 } as const;
 
 export const API = {
