@@ -19,6 +19,41 @@ tests/server/utils/historicalResultCache.test.ts
 | `/api/historical-walk-forward` | `historicalWalkForward` | — |
 | `/api/historical-walk-forward-multi` | `historicalWalkForwardMulti` | `windowCount` |
 
+## Endpoint de status
+
+```txt
+GET /api/historical-cache-status
+```
+
+Retorna um snapshot do cache em memória:
+
+```ts
+type HistoricalResultCacheStatus = {
+  size: number
+  maxEntries: number
+  ttlMs: number
+  entries: HistoricalResultCacheStatusEntry[]
+  entriesByKind: Partial<Record<HistoricalResultCacheKind, number>>
+}
+```
+
+Cada entrada mostra:
+
+```ts
+type HistoricalResultCacheStatusEntry = {
+  key: string
+  kind: HistoricalResultCacheKind
+  symbol: string
+  interval: IntervalEnum
+  limit: number
+  variant: number
+  ageMs: number
+  ttlRemainingMs: number
+}
+```
+
+Esse endpoint é útil para debug e dashboard, mas não expõe o conteúdo cacheado.
+
 ## Constantes
 
 | Constante | Valor | Significado |
@@ -34,6 +69,7 @@ getCachedHistoricalResult<T>(key)
 setCachedHistoricalResult<T>(key, value)
 clearHistoricalResultCache()
 getOrSetHistoricalEndpointCache<T>(key, refresh, factory)
+getHistoricalResultCacheStatus()
 ```
 
 `getOrSetHistoricalEndpointCache` é o helper que todos os endpoints usam. Se `refresh=false` e a entrada existe e não expirou, retorna o valor cacheado sem chamar `factory`. Se `refresh=true`, sempre chama `factory` e salva o resultado.
@@ -66,6 +102,7 @@ Quando `cache.size > resultCacheMaxEntries` após um `set`, as entradas mais ant
 - Cache é por instância do servidor.
 - Não há invalidação por mudança de dados no provider externo; respeitar o TTL.
 - Diferentes `windowCount` para o mesmo símbolo/intervalo ocupam entradas separadas.
+- O endpoint de status não limpa cache por segurança.
 
 ## Próximos passos
 
