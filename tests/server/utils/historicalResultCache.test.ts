@@ -104,6 +104,23 @@ describe('historicalResultCache', () => {
     }));
   });
 
+  it('parses status entry fields correctly', () => {
+    const key = createHistoricalResultCacheKey('historicalWalkForwardMulti', 'ETHUSDT', IntervalEnum.FourHours, 500, 5);
+    setCachedHistoricalResult(key, { ok: true });
+
+    const status = getHistoricalResultCacheStatus();
+    const entry = status.entries.find((e) => e.variant === 5);
+
+    expect(entry).toBeDefined();
+    expect(entry?.kind).toBe('historicalWalkForwardMulti');
+    expect(entry?.symbol).toBe('ETHUSDT');
+    expect(entry?.interval).toBe(IntervalEnum.FourHours);
+    expect(entry?.limit).toBe(500);
+    expect(entry?.variant).toBe(5);
+    expect(entry?.ttlRemainingMs).toBeGreaterThan(0);
+    expect(entry?.ageMs).toBeGreaterThanOrEqual(0);
+  });
+
   it('does not report expired entries in cache status', () => {
     vi.useFakeTimers();
     const key = createHistoricalResultCacheKey('historicalScoreCalibration', 'BTCUSDT', IntervalEnum.OneHour, 500);

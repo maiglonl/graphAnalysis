@@ -82,6 +82,25 @@ export type MultiWindowWalkForwardSimulationResult = {
   summary: MultiWindowWalkForwardSummary;
 };
 
+export type HistoricalResultCacheStatusEntry = {
+  key: string;
+  kind: string;
+  symbol: string;
+  interval: IntervalEnum;
+  limit: number;
+  variant: number;
+  ageMs: number;
+  ttlRemainingMs: number;
+};
+
+export type HistoricalResultCacheStatus = {
+  size: number;
+  maxEntries: number;
+  ttlMs: number;
+  entries: HistoricalResultCacheStatusEntry[];
+  entriesByKind: Record<string, number>;
+};
+
 export type AnalysisHistorySnapshot = {
   symbol: string;
   interval: IntervalEnum;
@@ -117,6 +136,7 @@ export function useTechnicalScannerDashboard() {
   const calibratedHistoricalSimulation = ref<CalibratedHistoricalSimulationResult | null>(null);
   const walkForwardValidation = ref<TrainValidationHistoricalSimulationResult | null>(null);
   const multiWindowWalkForward = ref<MultiWindowWalkForwardSimulationResult | null>(null);
+  const historicalCacheStatus = ref<HistoricalResultCacheStatus | null>(null);
   const timeframeSummary = ref<MultiTimeframeResponse | null>(null);
   const loading = ref(false);
   const scanLoading = ref(false);
@@ -126,6 +146,7 @@ export function useTechnicalScannerDashboard() {
   const calibratedSimulationLoading = ref(false);
   const walkForwardValidationLoading = ref(false);
   const multiWindowWalkForwardLoading = ref(false);
+  const historicalCacheStatusLoading = ref(false);
   const timeframeLoading = ref(false);
   const error = ref('');
 
@@ -227,6 +248,19 @@ export function useTechnicalScannerDashboard() {
       error.value = resolveApiErrorMessage(err, t);
     } finally {
       scoreCalibrationLoading.value = false;
+    }
+  }
+
+  async function loadHistoricalCacheStatus() {
+    historicalCacheStatusLoading.value = true;
+    error.value = '';
+
+    try {
+      historicalCacheStatus.value = await $fetch<HistoricalResultCacheStatus>('/api/historical-cache-status');
+    } catch (err: unknown) {
+      error.value = resolveApiErrorMessage(err, t);
+    } finally {
+      historicalCacheStatusLoading.value = false;
     }
   }
 
@@ -416,6 +450,7 @@ export function useTechnicalScannerDashboard() {
     calibratedHistoricalSimulation,
     walkForwardValidation,
     multiWindowWalkForward,
+    historicalCacheStatus,
     timeframeSummary,
     analysisHistory,
     simulationHistory,
@@ -429,6 +464,7 @@ export function useTechnicalScannerDashboard() {
     calibratedSimulationLoading,
     walkForwardValidationLoading,
     multiWindowWalkForwardLoading,
+    historicalCacheStatusLoading,
     timeframeLoading,
     error,
     scanItems,
@@ -441,6 +477,7 @@ export function useTechnicalScannerDashboard() {
     loadCalibratedHistoricalSimulation,
     loadWalkForwardValidation,
     loadMultiWindowWalkForward,
+    loadHistoricalCacheStatus,
     loadTimeframeSummary,
     addSymbolToWatchlist,
     addCurrentSymbolToWatchlist,

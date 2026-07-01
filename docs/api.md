@@ -481,6 +481,41 @@ type MultiWindowWalkForwardSummary = HistoricalSimulationMetricsComparison & {
 
 ---
 
+## `GET /api/historical-cache-status`
+
+Retorna um snapshot do cache em memória. Útil para debug e monitoramento; não expõe o conteúdo cacheado.
+
+### Retorno
+
+```ts
+type HistoricalResultCacheStatus = {
+  size: number;
+  maxEntries: number;
+  ttlMs: number;
+  entries: HistoricalResultCacheStatusEntry[];
+  entriesByKind: Partial<Record<HistoricalResultCacheKind, number>>;
+};
+
+type HistoricalResultCacheStatusEntry = {
+  key: string;
+  kind: HistoricalResultCacheKind;
+  symbol: string;
+  interval: IntervalEnum;
+  limit: number;
+  variant: number;
+  ageMs: number;
+  ttlRemainingMs: number;
+};
+```
+
+### Observações
+
+- Entradas expiradas são filtradas antes de retornar.
+- Entradas são ordenadas por `ttlRemainingMs` crescente (mais próximas de expirar primeiro).
+- Não requer parâmetros.
+
+---
+
 ## Erros conhecidos
 
 | Chave | Significado |

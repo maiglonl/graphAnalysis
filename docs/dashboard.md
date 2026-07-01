@@ -26,6 +26,7 @@ ScoreCalibrationPanel
 CalibratedBacktestingPanel     — compara métricas brutas vs calibradas
 WalkForwardValidationPanel     — treino/validação separados, métricas da janela de validação
 MultiWindowWalkForwardPanel    — walk-forward em múltiplas fatias, summary dos deltas agregados
+HistoricalCacheStatusPanel     — snapshot do cache em memória (tamanho, TTL, entradas por tipo)
 SignalQualitySummaryPanel      — resumo de qualidade dos sinais por família e papel
 ChartPanel
 DetectedPatterns
@@ -39,6 +40,10 @@ Exibe `TrainValidationHistoricalSimulationResult`. Mostra dois cards com `trainC
 ### MultiWindowWalkForwardPanel
 
 Exibe `MultiWindowWalkForwardSimulationResult`. Mostra o número de janelas, uma grade com os 5 deltas médios (coloridos: verde para melhoria, vermelho para piora, exceto drawdown que é invertido), e uma linha de texto com a contagem de janelas onde cada métrica melhorou.
+
+### HistoricalCacheStatusPanel
+
+Exibe `HistoricalResultCacheStatus`. Mostra tamanho atual vs máximo, TTL configurado, chips de contagem por kind e tabela compacta das entradas (kind, symbol, interval, variant, TTL restante em segundos). Painel de diagnóstico — apenas sob demanda.
 
 ### CalibratedBacktestingPanel
 

@@ -120,6 +120,21 @@
     "maxDrawdownDelta": "Avg drawdown delta",
     "averageConfidenceDelta": "Avg confidence delta"
   },
+  "cacheStatus": {
+    "title": "Historical cache",
+    "subtitle": "In-memory cache status used by backtests and calibrations.",
+    "refresh": "Refresh status",
+    "empty": "No entries in cache.",
+    "entries": "Entries",
+    "maxEntries": "Max entries",
+    "ttl": "TTL",
+    "kind": "Kind",
+    "symbol": "Asset",
+    "interval": "Timeframe",
+    "variant": "Variant",
+    "ttlRemaining": "TTL remaining",
+    "entriesByKind": "Entries by kind"
+  },
   "history": {
     "title": "Recent history",
     "subtitle": "Analyses saved locally in this browser.",

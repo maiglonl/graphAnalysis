@@ -120,6 +120,21 @@
     "maxDrawdownDelta": "Delta médio do drawdown",
     "averageConfidenceDelta": "Delta médio da confiança"
   },
+  "cacheStatus": {
+    "title": "Cache histórico",
+    "subtitle": "Status do cache em memória usado pelos backtests e calibrações.",
+    "refresh": "Atualizar status",
+    "empty": "Nenhuma entrada em cache.",
+    "entries": "Entradas",
+    "maxEntries": "Máximo",
+    "ttl": "TTL",
+    "kind": "Tipo",
+    "symbol": "Ativo",
+    "interval": "Timeframe",
+    "variant": "Variante",
+    "ttlRemaining": "TTL restante",
+    "entriesByKind": "Entradas por tipo"
+  },
   "history": {
     "title": "Histórico recente",
     "subtitle": "Análises salvas localmente neste navegador.",

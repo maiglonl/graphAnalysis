@@ -561,7 +561,7 @@ Cobre:
 - `buildHistoricalSimulationWindow()`: split 60/40, clamp de minValidationCandles, validationEndIndex com lookahead, invariante trainEndIndex = validationStartIndex - 1;
 - `runTrainValidationHistoricalSimulation()`: shape completo (window, train, rawValidation, calibratedValidation, comparison), deltas consistentes com validação, zero-trades sem erro;
 - `runMultiWindowWalkForwardSimulation()`: shape completo, `walkForwardWindowCount` janelas com candles suficientes, 1 janela com candles insuficientes, counts de improved/reduced em [0, n], respeito de `windowCount` override, clamp ao máximo, deltas zero sem trades;
-- `historicalResultCache`: leitura/escrita, TTL com fake timers, prune ao exceder `resultCacheMaxEntries`, variantes produzem chaves distintas, `getOrSetHistoricalEndpointCache` com/sem bypass de cache;
+- `historicalResultCache`: leitura/escrita, TTL com fake timers, prune ao exceder `resultCacheMaxEntries`, variantes produzem chaves distintas, `getOrSetHistoricalEndpointCache` com/sem bypass de cache, `getHistoricalResultCacheStatus` — campos de entrada (kind, symbol, interval, limit, variant), filtragem de expirados, `entriesByKind`;
 - `getSignalQualityScoreAdjustment()`: combina família+papel com clamp;
 - `buildScoreCalibration()`: ajuste individual por padrão + signalQualityAdjustments;
 - `getPatternScoreAdjustment()`: soma padrão + família + papel com clamp total;

@@ -14,6 +14,7 @@ const {
   calibratedHistoricalSimulation,
   walkForwardValidation,
   multiWindowWalkForward,
+  historicalCacheStatus,
   timeframeSummary,
   analysisHistory,
   simulationHistory,
@@ -27,6 +28,7 @@ const {
   calibratedSimulationLoading,
   walkForwardValidationLoading,
   multiWindowWalkForwardLoading,
+  historicalCacheStatusLoading,
   timeframeLoading,
   error,
   scanItems,
@@ -38,6 +40,7 @@ const {
   loadCalibratedHistoricalSimulation,
   loadWalkForwardValidation,
   loadMultiWindowWalkForward,
+  loadHistoricalCacheStatus,
   loadTimeframeSummary,
   addSymbolToWatchlist,
   addCurrentSymbolToWatchlist,
@@ -131,6 +134,12 @@ const {
       :result="multiWindowWalkForward"
       :loading="multiWindowWalkForwardLoading"
       @refresh="loadMultiWindowWalkForward"
+    />
+
+    <HistoricalCacheStatusPanel
+      :status="historicalCacheStatus"
+      :loading="historicalCacheStatusLoading"
+      @refresh="loadHistoricalCacheStatus"
     />
 
     <p v-if="error" class="p-3 rounded-xl bg-red-100 text-red-800">
