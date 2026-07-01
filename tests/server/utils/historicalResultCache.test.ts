@@ -5,6 +5,7 @@ import {
   clearHistoricalResultCache,
   createHistoricalResultCacheKey,
   getCachedHistoricalResult,
+  getHistoricalResultCacheStatus,
   getOrSetHistoricalEndpointCache,
   setCachedHistoricalResult,
 } from '../../../server/utils/historicalResultCache';
@@ -82,6 +83,37 @@ describe('historicalResultCache', () => {
     expect(getCachedHistoricalResult(keyB)).toEqual(valueB);
   });
 
+  it('reports cache status with entries by kind', () => {
+    const keyA = createHistoricalResultCacheKey('historicalSimulation', 'BTCUSDT', IntervalEnum.OneHour, 500);
+    const keyB = createHistoricalResultCacheKey('historicalWalkForwardMulti', 'BTCUSDT', IntervalEnum.FourHours, 500, 3);
+
+    setCachedHistoricalResult(keyA, { ok: true });
+    setCachedHistoricalResult(keyB, { ok: true });
+
+    const status = getHistoricalResultCacheStatus();
+
+    expect(status.size).toBe(2);
+    expect(status.maxEntries).toBe(HISTORICAL_SIMULATION.resultCacheMaxEntries);
+    expect(status.ttlMs).toBe(HISTORICAL_SIMULATION.resultCacheTtlMs);
+    expect(status.entriesByKind.historicalSimulation).toBe(1);
+    expect(status.entriesByKind.historicalWalkForwardMulti).toBe(1);
+    expect(status.entries[0]).toEqual(expect.objectContaining({
+      key: expect.any(String),
+      ttlRemainingMs: expect.any(Number),
+      ageMs: expect.any(Number),
+    }));
+  });
+
+  it('does not report expired entries in cache status', () => {
+    vi.useFakeTimers();
+    const key = createHistoricalResultCacheKey('historicalScoreCalibration', 'BTCUSDT', IntervalEnum.OneHour, 500);
+
+    setCachedHistoricalResult(key, { ok: true });
+    vi.advanceTimersByTime(HISTORICAL_SIMULATION.resultCacheTtlMs + 1);
+
+    expect(getHistoricalResultCacheStatus().size).toBe(0);
+  });
+
   it('clears all cache entries', () => {
     const key = createHistoricalResultCacheKey('historicalScoreCalibration', 'BTCUSDT', IntervalEnum.OneHour, 500);
     setCachedHistoricalResult(key, { ok: true });
@@ -115,7 +147,7 @@ describe('historicalResultCache', () => {
     });
 
     it('calls factory and caches result when key is missing', async () => {
-      const key = createHistoricalResultCacheKey('historicalSimulation', 'BTCUSDT', IntervalEnum.FourHour, 500);
+      const key = createHistoricalResultCacheKey('historicalSimulation', 'BTCUSDT', IntervalEnum.FourHours, 500);
       const factory = vi.fn().mockResolvedValue({ data: 'computed' });
 
       const result = await getOrSetHistoricalEndpointCache(key, false, factory);
@@ -126,7 +158,7 @@ describe('historicalResultCache', () => {
     });
 
     it('stores factory result so subsequent requests use cache', async () => {
-      const key = createHistoricalResultCacheKey('historicalSimulation', 'BTCUSDT', IntervalEnum.FourHour, 500);
+      const key = createHistoricalResultCacheKey('historicalSimulation', 'BTCUSDT', IntervalEnum.FourHours, 500);
       const factory = vi.fn().mockResolvedValue({ data: 'computed' });
 
       await getOrSetHistoricalEndpointCache(key, false, factory);
